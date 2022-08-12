@@ -7,7 +7,8 @@
 void ABottomDwellerPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	if (UUserWidget* HUD = CreateWidget(this, InspectorClass))
+	
+	if (UUserWidget* HUD = CreateWidget(this, HUDClass))
 	{
 		HUD->AddToViewport();
 	}

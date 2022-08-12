@@ -17,5 +17,5 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> InspectorClass;
+	TSubclassOf<UUserWidget> HUDClass;
 };

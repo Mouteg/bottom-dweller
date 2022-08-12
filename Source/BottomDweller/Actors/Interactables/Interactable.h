@@ -8,7 +8,7 @@
 #include "Interactable.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE()
+UINTERFACE(BlueprintType, Blueprintable)
 class UInteractable : public UInterface
 {
 	GENERATED_BODY()
