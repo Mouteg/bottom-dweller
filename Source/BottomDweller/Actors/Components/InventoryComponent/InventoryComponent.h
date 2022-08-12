@@ -7,6 +7,14 @@
 #include "Engine/DataTable.h"
 #include "InventoryComponent.generated.h"
 
+UENUM(BlueprintType)
+enum class EItemType : uint8
+{
+	Item,
+	Armor,
+	Weapon
+};
+
 USTRUCT(BlueprintType)
 struct FInventoryItem : public FTableRowBase
 {
@@ -26,6 +34,9 @@ struct FInventoryItem : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Cost;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EItemType ItemType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsStackable;
@@ -52,6 +63,7 @@ public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnChange OnChange;
 
 	UPROPERTY(BlueprintReadWrite)
