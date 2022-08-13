@@ -13,44 +13,54 @@ UInventoryComponent::UInventoryComponent()
 	// ...
 }
 
-bool UInventoryComponent::AddItem(const FName ItemName, const int32 Quantity)
+int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 {
-	//TODO Add support for stackable
-	if (!CheckItemExists(ItemName))
+	if (Quantity <= 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("No such item with name - %s"), *ItemName.ToString())
-		return false;
+		UE_LOG(LogTemp, Warning, TEXT("Item Quantity <= 0"))
 	}
 
-	if (InventoryContent.Contains(ItemName))
+	int32 AmountToReturn;
+	const bool IsContained = InventoryContent.Contains(Item);
+
+	if (Item->bIsStackable)
 	{
-		InventoryContent[ItemName] += Quantity;
+		const int32 SumQuantity = (IsContained ? InventoryContent[Item] : 0) + Quantity;
+		AmountToReturn = FMath::Max(SumQuantity - Item->MaxStack, 0);
+		if (IsContained)
+		{
+			InventoryContent[Item] = FMath::Min(SumQuantity, Item->MaxStack);
+		}
+		else
+		{
+			InventoryContent.Add(Item, FMath::Min(Quantity, Item->MaxStack));
+		}
 	}
 	else
 	{
-		InventoryContent.Add(ItemName, Quantity);
+		AmountToReturn = IsContained ? Quantity : Quantity - 1;
+		if (!IsContained)
+			InventoryContent.Add(Item, 1);
 	}
+
 	OnChange.Broadcast();
-	return true;
+	UE_LOG(LogTemp, Warning, TEXT("To return %d"), AmountToReturn);
+	return AmountToReturn;
 }
 
-void UInventoryComponent::RemoveItem(const FName ItemName, const int32 Quantity)
+void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Quantity)
 {
-	if (InventoryContent.Contains(ItemName) && InventoryContent[ItemName] > Quantity)
+	if (InventoryContent.Contains(Item) && InventoryContent[Item] > Quantity)
 	{
-		InventoryContent[ItemName] -= Quantity;
+		InventoryContent[Item] -= Quantity;
 	}
 	else
 	{
-		InventoryContent.Remove(ItemName);
+		InventoryContent.Remove(Item);
 	}
 	OnChange.Broadcast();
-	UE_LOG(LogTemp, Warning, TEXT("Item removed %s"), *ItemName.ToString())
-}
 
-bool UInventoryComponent::CheckItemExists(const FName ItemName) const
-{
-	return ItemsTable->FindRow<FInventoryItem>(FName(ItemName), TEXT("")) != nullptr;
+	UE_LOG(LogTemp, Warning, TEXT("Item removed %s"), *Item->DisplayName.ToString())
 }
 
 // Called when the game starts
@@ -58,3 +68,4 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
+

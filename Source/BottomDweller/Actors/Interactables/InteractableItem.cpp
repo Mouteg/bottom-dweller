@@ -5,6 +5,7 @@
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "Engine/AssetManager.h"
 
 
 // Sets default values
@@ -24,9 +25,11 @@ void AInteractableItem::OnInteract(ABottomDwellerCharacter* Interactor)
 {
 	if (
 		UInventoryComponent* InventoryComponent = Interactor->GetInventoryComponent();
-		InventoryComponent &&
-		InventoryComponent->AddItem(InventoryItem.DisplayName, Quantity)
+		InventoryComponent
 	)
+		Quantity = InventoryComponent->AddItem(InventoryItem, Quantity);
+
+	if (Quantity <= 0)
 	{
 		Destroy();
 	}

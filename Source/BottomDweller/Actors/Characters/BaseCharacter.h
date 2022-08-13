@@ -27,8 +27,9 @@ protected:
 
 public:
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	float Heal(float HealAmount);
-	
+
+	UFUNCTION(BlueprintCallable)
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 };

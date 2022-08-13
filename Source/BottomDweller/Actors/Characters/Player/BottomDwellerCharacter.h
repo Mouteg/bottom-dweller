@@ -54,6 +54,7 @@ public:
 		return InventoryComponent;
 	}
 
+	UPROPERTY(BlueprintAssignable)
 	FOnInteract OnInteract;
 
 protected:

@@ -14,7 +14,7 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	FInventoryItem InventoryItem;
+	UItemDataAsset* InventoryItem;
 
 	UPROPERTY(EditAnywhere)
 	int32 Quantity = 1;
