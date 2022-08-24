@@ -4,10 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
+#include "BaseAttributeSet.h"
+#include "BottomDweller/Abilities/BaseAbilitySystemComponent.h"
+#include "BottomDweller/Abilities/BaseGameplayAbility.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS(Abstract)
-class BOTTOMDWELLER_API ABaseCharacter : public ACharacter
+class BOTTOMDWELLER_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -15,21 +19,51 @@ public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
 
+	UFUNCTION(BlueprintCallable)
+	virtual float GetHealth();
+
+	UFUNCTION(BlueprintCallable)
+	virtual float GetMaxHealth();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere)
-	float Health = 100;
 	
-	UPROPERTY(EditAnywhere)
-	float MaxHealth = 100;
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UBaseAttributeSet> AttributeSet;
+
 
 public:
 
-	UFUNCTION(BlueprintCallable)
-	float Heal(float HealAmount);
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDamaged(const float Damage, const FHitResult& HitResult, const struct FGameplayTagContainer& DamageTags,
+	               ABaseCharacter* CharacterInstigator, AActor* DamageCauser);
 
-	UFUNCTION(BlueprintCallable)
-	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnHealthChange(float DeltaValue, const struct FGameplayTagContainer& EventTags);
+
+	virtual void HandleDamage(const float Damage, const FHitResult& HitResult, const struct FGameplayTagContainer& DamageTags,
+				   ABaseCharacter* CharacterInstigator, AActor* DamageCauser);
+
+	virtual void HandleHealthChange(float DeltaValue, const struct FGameplayTagContainer& EventTags);
+
+	friend UBaseAttributeSet;
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	void AddInitialGameplayAbilities();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayEffect>> InitialPassiveGameplayAbilities;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+	TArray<TSubclassOf<UBaseGameplayAbility>> GameplayAbilities;
+
+	UPROPERTY()
+	uint8 bAbilitiesInitialized:1;
 };

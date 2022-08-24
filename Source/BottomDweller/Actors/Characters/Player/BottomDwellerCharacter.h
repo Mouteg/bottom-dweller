@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerAttributeSet.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "GameFramework/Character.h"
 #include "BottomDwellerCharacter.generated.h"
@@ -29,6 +30,9 @@ class ABottomDwellerCharacter : public ABaseCharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+	
+	UPROPERTY()
+	TObjectPtr<UPlayerAttributeSet> PlayerAttributeSet;
 
 	UFUNCTION()
 	void Interact();
