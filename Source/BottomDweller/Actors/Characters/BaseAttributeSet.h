@@ -20,7 +20,6 @@ class BOTTOMDWELLER_API UBaseAttributeSet : public UAttributeSet
 public:
 	UBaseAttributeSet();
 
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
@@ -30,9 +29,4 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, MaxHealth);
-
-	void AdjustAttributeForMaxChange(const FGameplayAttributeData& AffectedAttribute,
-	                                 const FGameplayAttributeData& MaxAttribute,
-	                                 float NewMaxValue,
-	                                 const FGameplayAttribute& AffectedAttributeProperty) const;
 };

@@ -10,16 +10,6 @@ UBaseAttributeSet::UBaseAttributeSet()
 {
 }
 
-void UBaseAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
-{
-	Super::PreAttributeChange(Attribute, NewValue);
-
-	if (Attribute == GetMaxHealthAttribute())
-	{
-		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, Attribute);
-	}
-}
-
 void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -51,21 +41,5 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		{
 			TargetCharacter->HandleHealthChange(DeltaValue, SourceTags);
 		}
-	}
-}
-
-void UBaseAttributeSet::AdjustAttributeForMaxChange(const FGameplayAttributeData& AffectedAttribute, const FGameplayAttributeData& MaxAttribute,
-                                                    float NewMaxValue, const FGameplayAttribute& AffectedAttributeProperty) const
-{
-	UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent();
-	const float CurrentMaxValue = MaxAttribute.GetCurrentValue();
-	//TODO maybe remove !
-	if (!FMath::IsNearlyEqual(CurrentMaxValue, NewMaxValue) && AbilityComp)
-	{
-		const float CurrentValue = AffectedAttribute.GetCurrentValue();
-		const float NewDelta = (CurrentMaxValue > 0.f)
-			                       ? (CurrentValue * NewMaxValue / CurrentMaxValue) - CurrentValue
-			                       : NewMaxValue;
-		AbilityComp->ApplyModToAttributeUnsafe(AffectedAttributeProperty, EGameplayModOp::Additive, NewDelta);
 	}
 }
