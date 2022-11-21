@@ -35,11 +35,11 @@ public:
 	// Sets default values for this component's properties
 	UInteractionComponent();
 
-	
+
 	/** Length of interactor */
 	UPROPERTY(EditAnywhere)
 	float Length = 500.f;
-	
+
 	FOnInspect OnInspect;
 	FOnStopInspecting OnStopInspecting;
 

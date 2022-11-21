@@ -46,9 +46,9 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 	// 	End,
 	// 	FColor::Red,
 	// 	false,
-	// 	0.2,
-	// 	0,
-	// 	2
+	// 	1,
+	// 	1,
+	// 	3
 	// );
 
 	return GetWorld()->LineTraceSingleByChannel(
@@ -60,6 +60,7 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 	);
 }
 
+// Make in timer ?
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

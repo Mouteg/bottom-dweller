@@ -8,7 +8,7 @@ public class BottomDweller : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new [] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UMG" });
+		PublicDependencyModuleNames.AddRange(new [] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UMG", "EnhancedInput" });
 		PublicDependencyModuleNames.AddRange(new [] { "GameplayAbilities", "GameplayTags", "GameplayTasks" });
 	}
 }

@@ -44,7 +44,6 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 	}
 
 	OnChange.Broadcast();
-	UE_LOG(LogTemp, Warning, TEXT("To return %d"), AmountToReturn);
 	return AmountToReturn;
 }
 
@@ -68,4 +67,3 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
-

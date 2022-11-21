@@ -5,6 +5,13 @@
 #include "CoreMinimal.h"
 #include "UBaseDataAsset.generated.h"
 
+UENUM(BlueprintType)
+enum class EAssetId : uint8
+{
+	Stone UMETA(DisplayName = "Stone"),
+	Stick UMETA(DisplayName = "Stick")
+};
+
 UCLASS()
 class BOTTOMDWELLER_API UBaseDataAsset : public UPrimaryDataAsset
 {
@@ -12,5 +19,5 @@ class BOTTOMDWELLER_API UBaseDataAsset : public UPrimaryDataAsset
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FString Id;
+	EAssetId Id;
 };

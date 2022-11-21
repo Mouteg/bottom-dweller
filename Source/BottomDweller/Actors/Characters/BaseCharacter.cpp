@@ -2,6 +2,8 @@
 
 
 #include "BaseCharacter.h"
+#include "EnhancedInputComponent.h"
+#include "InputMappingContext.h"
 
 
 // Sets default values
@@ -61,14 +63,12 @@ UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 	if (InputComponent && AbilitySystemComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("initted binds"))
 		const FGameplayAbilityInputBinds Binds(
 			"Confirm",
 			"Cancel",
-			"EInputAbilityId",
+			FTopLevelAssetPath("/Script/BottomDweller", "EInputAbilityId"),
 			static_cast<int32>(EInputAbilityId::Confirm),
 			static_cast<int32>(EInputAbilityId::Cancel)
 		);
@@ -91,19 +91,19 @@ void ABaseCharacter::AddInitialGameplayAbilities()
 			));
 		}
 
-		for (const TSubclassOf<UGameplayEffect>& GameplayEffect : InitialPassiveGameplayAbilities)
+		for (const TSubclassOf<UGameplayEffect>& Effect : GameplayEffects)
 		{
 			FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
 			EffectContext.AddSourceObject(this);
 
-			FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(
-				GameplayEffect, 1, EffectContext
+			FGameplayEffectSpecHandle EffectHandle = AbilitySystemComponent->MakeOutgoingSpec(
+				Effect, 1, EffectContext
 			);
 
-			if (NewHandle.IsValid())
+			if (EffectHandle.IsValid())
 			{
 				FActiveGameplayEffectHandle ActiveGameplayEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(
-					*NewHandle.Data.Get(),
+					*EffectHandle.Data.Get(),
 					AbilitySystemComponent
 				);
 			}

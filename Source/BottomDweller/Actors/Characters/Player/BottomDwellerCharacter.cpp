@@ -1,5 +1,6 @@
 #include "BottomDwellerCharacter.h"
 
+#include "EnhancedInputComponent.h"
 #include "PlayerAttributeSet.h"
 #include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
@@ -9,12 +10,12 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Internationalization/FastDecimalFormat.h"
 
 ABottomDwellerCharacter::ABottomDwellerCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
@@ -26,7 +27,7 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	InteractionComponent->Length = 500.f;
-	
+
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
@@ -49,26 +50,13 @@ void ABottomDwellerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 
-
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
-	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ABottomDwellerCharacter::Interact);
-
-	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ABottomDwellerCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("Move Right / Left", this, &ABottomDwellerCharacter::MoveRight);
-
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn Right / Left Mouse", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
+	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent, UInputComponent>(PlayerInputComponent);
 }
 
 void ABottomDwellerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	InteractionComponent->OnInspect.AddDynamic(this, &ABottomDwellerCharacter::Inspect);
 	InteractionComponent->OnStopInspecting.AddDynamic(this, &ABottomDwellerCharacter::StopInspecting);
 }

@@ -28,16 +28,16 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<UBaseAttributeSet> AttributeSet;
 
+	friend UBaseAttributeSet;
 
 public:
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnDamaged(const float Damage, const FHitResult& HitResult, const struct FGameplayTagContainer& DamageTags,
 	               ABaseCharacter* CharacterInstigator, AActor* DamageCauser);
@@ -46,11 +46,9 @@ public:
 	void OnHealthChange(float DeltaValue, const struct FGameplayTagContainer& EventTags);
 
 	virtual void HandleDamage(const float Damage, const FHitResult& HitResult, const struct FGameplayTagContainer& DamageTags,
-				   ABaseCharacter* CharacterInstigator, AActor* DamageCauser);
+	                          ABaseCharacter* CharacterInstigator, AActor* DamageCauser);
 
 	virtual void HandleHealthChange(float DeltaValue, const struct FGameplayTagContainer& EventTags);
-
-	friend UBaseAttributeSet;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
@@ -59,7 +57,7 @@ public:
 	void AddInitialGameplayAbilities();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
-	TArray<TSubclassOf<UGameplayEffect>> InitialPassiveGameplayAbilities;
+	TArray<TSubclassOf<UGameplayEffect>> GameplayEffects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
 	TArray<TSubclassOf<UBaseGameplayAbility>> GameplayAbilities;

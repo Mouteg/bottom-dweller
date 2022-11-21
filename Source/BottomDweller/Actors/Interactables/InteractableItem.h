@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "BottomDweller/Actors/Interactables/Interactable.h"
+#include "BottomDweller/DataAssets/Items/UItemDataAsset.h"
 #include "GameFramework/Actor.h"
 #include "InteractableItem.generated.h"
 
@@ -16,6 +16,9 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable
 	UPROPERTY(EditAnywhere)
 	UItemDataAsset* InventoryItem;
 
+	UPROPERTY()
+	UStaticMeshComponent* StaticMesh;
+
 	UPROPERTY(EditAnywhere)
 	int32 Quantity = 1;
 
@@ -26,6 +29,8 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable
 public:
 	// Sets default values for this actor's properties
 	AInteractableItem();
+
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 protected:
 	// Called when the game starts or when spawned

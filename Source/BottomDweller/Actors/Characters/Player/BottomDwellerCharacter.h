@@ -30,11 +30,13 @@ class ABottomDwellerCharacter : public ABaseCharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
-	
+
 	UPROPERTY()
 	TObjectPtr<UPlayerAttributeSet> PlayerAttributeSet;
 
-	UFUNCTION()
+	friend UPlayerAttributeSet;
+
+	UFUNCTION(BlueprintCallable)
 	void Interact();
 
 	UFUNCTION()
@@ -63,9 +65,11 @@ public:
 
 protected:
 	/** Called for forwards/backward input */
+	UFUNCTION(BlueprintCallable)
 	void MoveForward(float Value);
 
 	/** Called for side to side input */
+	UFUNCTION(BlueprintCallable)
 	void MoveRight(float Value);
 
 	virtual void BeginPlay() override;

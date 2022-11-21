@@ -34,4 +34,9 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	// Add / remove
+	// Sort
+	// Transfer between two
+	// Drag & drop
 };

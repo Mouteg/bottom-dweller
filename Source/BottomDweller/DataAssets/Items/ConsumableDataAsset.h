@@ -6,9 +6,7 @@
 #include "UItemDataAsset.h"
 #include "ConsumableDataAsset.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class BOTTOMDWELLER_API UConsumableDataAsset : public UItemDataAsset
 {
@@ -20,6 +18,6 @@ public:
 
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override
 	{
-		return FPrimaryAssetId("Consumable", GetFName());
+		return FPrimaryAssetId(TEXT("Consumable"), GetFName());
 	}
 };

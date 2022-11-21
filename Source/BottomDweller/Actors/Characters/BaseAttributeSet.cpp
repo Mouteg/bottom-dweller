@@ -33,7 +33,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		TargetCharacter = Cast<ABaseCharacter>(TargetActor);
 	}
 
-	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	if (Data.EvaluatedData.Attribute == GetMaxHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
 
@@ -42,4 +42,9 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			TargetCharacter->HandleHealthChange(DeltaValue, SourceTags);
 		}
 	}
+}
+
+void UBaseAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
 }

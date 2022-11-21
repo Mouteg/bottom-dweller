@@ -18,17 +18,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FText Description;
 
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	// TSoftObjectPtr<UTexture2D> Thumbnail;
-	//
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	// TSoftObjectPtr<UStaticMesh> Mesh;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UTexture2D* Thumbnail;
+	TSoftObjectPtr<UTexture2D> Thumbnail;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMesh* Mesh;
+	TSoftObjectPtr<UStaticMesh> Mesh;
+
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	// UTexture2D* Thumbnail;
+	//
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	// UStaticMesh* Mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float Cost;
@@ -36,7 +36,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bIsStackable;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(EditCondition = "bIsStackable == true", EditConditionHides))
 	int32 MaxStack;
 };
 
