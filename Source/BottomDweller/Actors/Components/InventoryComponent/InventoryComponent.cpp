@@ -19,6 +19,12 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item Quantity <= 0"))
 	}
+	
+	if (!Item)
+    {
+    	UE_LOG(LogTemp, Warning, TEXT("No Item"));
+    	return 0;
+    }
 
 	int32 AmountToReturn;
 	const bool IsContained = InventoryContent.Contains(Item);

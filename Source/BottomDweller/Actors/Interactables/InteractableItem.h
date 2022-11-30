@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Interactables/Interactable.h"
-#include "BottomDweller/DataAssets/Items/UItemDataAsset.h"
+#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "GameFramework/Actor.h"
 #include "InteractableItem.generated.h"
 

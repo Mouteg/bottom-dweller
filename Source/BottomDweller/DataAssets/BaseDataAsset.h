@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UBaseDataAsset.generated.h"
+#include "BaseDataAsset.generated.h"
 
 UENUM(BlueprintType)
 enum class EAssetId : uint8

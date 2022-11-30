@@ -13,7 +13,7 @@ enum class EInputAbilityId : uint8
 	None UMETA(DisplayName = "None"),
 	Confirm UMETA(DisplayName = "Confirm"),
 	Cancel UMETA(DisplayName = "Cancel"),
-	Fireball UMETA(DisplayName = "Fireball")
+	Ability1 UMETA(DisplayName = "Ability1")
 };
 
 UCLASS()

@@ -6,8 +6,8 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "BaseAttributeSet.h"
-#include "BottomDweller/Abilities/BaseAbilitySystemComponent.h"
-#include "BottomDweller/Abilities/BaseGameplayAbility.h"
+#include "BottomDweller/Actors/Characters/Abilities/BaseAbilitySystemComponent.h"
+#include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS(Abstract)

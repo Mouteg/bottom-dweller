@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/DataAssets/Items/UItemDataAsset.h"
+#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/ActorComponent.h"
 #include "Engine/DataTable.h"
 #include "InventoryComponent.generated.h"

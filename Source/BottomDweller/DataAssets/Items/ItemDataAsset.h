@@ -3,15 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/DataAssets/UBaseDataAsset.h"
-#include "UItemDataAsset.generated.h"
+#include "BottomDweller/DataAssets/BaseDataAsset.h"
+#include "ItemDataAsset.generated.h"
 
-UCLASS()
+
+UENUM(BlueprintType)
+enum class EItemType : uint8
+{
+	Equipment UMETA(DisplayName = "Equipment"),
+	Consumable UMETA(DisplayName = "Usable")
+};
+
+UCLASS(Abstract)
 class BOTTOMDWELLER_API UItemDataAsset : public UBaseDataAsset
 {
 	GENERATED_BODY()
 
 public:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EItemType ItemType;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FName DisplayName;
 
