@@ -16,11 +16,15 @@ void UInventorySlotWidget::SetItem(UItemDataAsset* InventoryItem, int32 ItemQuan
 {
 	Item = InventoryItem;
 	Quantity = ItemQuantity;
-	if (!Item->Thumbnail.Get())
+	//TODO Remove sync load
+	if (UTexture2D* ItemThumbnail = Item->Thumbnail.LoadSynchronous())
+	{
+		Thumbnail->SetBrushFromTexture(ItemThumbnail);
+	}
+	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cant load item thumbnail"));
 	}
-	Thumbnail->SetBrushFromTexture(Item->Thumbnail.Get());
 	QuantityText->SetText(FText::AsNumber(Quantity));
 }
 
@@ -29,7 +33,6 @@ void UInventorySlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 	Thumbnail->SetRenderOpacity(0.5);
 	OnHover.Execute(Item);
-	//Set item details panel visible
 }
 
 void UInventorySlotWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
@@ -37,5 +40,4 @@ void UInventorySlotWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	Super::NativeOnMouseLeave(InMouseEvent);
 	Thumbnail->SetRenderOpacity(1);
 	OnUnHover.Execute();
-	//Set item details panel invisible
 }

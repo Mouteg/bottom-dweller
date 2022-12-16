@@ -30,7 +30,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FText Description;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<UTexture2D> Thumbnail;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

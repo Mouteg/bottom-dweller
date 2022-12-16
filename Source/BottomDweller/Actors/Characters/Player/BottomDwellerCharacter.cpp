@@ -1,7 +1,5 @@
 #include "BottomDwellerCharacter.h"
 
-#include "EnhancedInputComponent.h"
-#include "PlayerAttributeSet.h"
 #include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "Camera/CameraComponent.h"
@@ -40,8 +38,6 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
-
-	PlayerAttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>(TEXT("Player Attributes"));
 }
 
 void ABottomDwellerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -50,7 +46,7 @@ void ABottomDwellerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent, UInputComponent>(PlayerInputComponent);
+	// UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent, UInputComponent>(PlayerInputComponent);
 }
 
 void ABottomDwellerCharacter::BeginPlay()

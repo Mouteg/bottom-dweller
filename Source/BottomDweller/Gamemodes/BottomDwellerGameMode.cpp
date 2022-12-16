@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BottomDwellerGameMode.h"
+
+#include "Engine/AssetManager.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABottomDwellerGameMode::ABottomDwellerGameMode()
@@ -11,4 +13,9 @@ ABottomDwellerGameMode::ABottomDwellerGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	// Load Assets bundles
+	// TArray<FPrimaryAssetId> AssetIds;
+	// TArray<FName> BundlesToLoad;
+	// BundlesToLoad.Add(FName(TEXT("Items")));
+	// UAssetManager::Get().LoadPrimaryAssets(AssetIds, BundlesToLoad);
 }

@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "BaseGameplayAbility.h"
-#include "UObject/Object.h"
 #include "UseItemAbility.generated.h"
 
 /**

@@ -6,15 +6,8 @@
 #include "Abilities/GameplayAbility.h"
 #include "BaseGameplayAbility.generated.h"
 
-
-UENUM(BlueprintType)
-enum class EInputAbilityId : uint8
-{
-	None UMETA(DisplayName = "None"),
-	Confirm UMETA(DisplayName = "Confirm"),
-	Cancel UMETA(DisplayName = "Cancel"),
-	Ability1 UMETA(DisplayName = "Ability1")
-};
+class ABottomDwellerPlayerController;
+class ABaseCharacter;
 
 UCLASS()
 class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility
@@ -22,8 +15,7 @@ class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
-	UBaseGameplayAbility();
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
-	EInputAbilityId AbilityInputId{EInputAbilityId::None};
+	
+	ABottomDwellerPlayerController* GetPlayerControllerFromActorInfo() const;
+	ABaseCharacter* GetCharacterFromActorInfo() const;
 };

@@ -31,11 +31,6 @@ class ABottomDwellerCharacter : public ABaseCharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	UPROPERTY()
-	TObjectPtr<UPlayerAttributeSet> PlayerAttributeSet;
-
-	friend UPlayerAttributeSet;
-
 	UFUNCTION(BlueprintCallable)
 	void Interact();
 

@@ -36,11 +36,6 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetMaxHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-
-		if (TargetCharacter)
-		{
-			TargetCharacter->HandleHealthChange(DeltaValue, SourceTags);
-		}
 	}
 }
 
