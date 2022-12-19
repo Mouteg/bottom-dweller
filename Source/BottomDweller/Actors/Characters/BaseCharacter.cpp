@@ -22,8 +22,3 @@ void ABaseCharacter::BeginPlay()
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 	}
 }
-
-UBaseAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
-}

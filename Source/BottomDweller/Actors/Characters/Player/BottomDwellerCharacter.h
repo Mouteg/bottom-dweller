@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
-#include "GameFramework/Character.h"
 #include "BottomDwellerCharacter.generated.h"
 
 class ABottomDwellerCharacter;
@@ -67,10 +66,6 @@ protected:
 	void MoveRight(float Value);
 
 	virtual void BeginPlay() override;
-
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	// End of APawn interface
 
 public:
 	/** Returns CameraBoom subobject **/

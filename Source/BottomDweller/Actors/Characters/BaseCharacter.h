@@ -28,6 +28,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	UAbilitySet* AbilitySet;
 public:
-
-	virtual UBaseAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UBaseAbilitySystemComponent* GetAbilitySystemComponent() const override
+	{
+		return AbilitySystemComponent;
+	};
 };

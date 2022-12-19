@@ -18,4 +18,5 @@ void UInteractAbility::ActivateAbility(
 	{
 		Character->Interact();
 	}
+	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
 }

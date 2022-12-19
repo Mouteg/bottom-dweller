@@ -30,10 +30,10 @@ void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGam
 		{
 			if (AbilitySpec->Ability && !AbilitySpec->IsActive())
 			{
-				// const UBaseGameplayAbility* AbilityCDO = CastChecked<UBaseGameplayAbility>(AbilitySpec->Ability);
+				const UBaseGameplayAbility* AbilityCDO = CastChecked<UBaseGameplayAbility>(AbilitySpec->Ability);
 
-				// if (AbilityCDO->GetActivationPolicy() == EAbilityActivationPolicy::WhileInputActive)
-				AbilitiesToActivate.AddUnique(AbilitySpec->Handle);
+				if (AbilityCDO->GetActivationPolicy() == EAbilityActivationPolicy::WhileInputActive)
+					AbilitiesToActivate.AddUnique(AbilitySpec->Handle);
 			}
 		}
 	}
@@ -52,10 +52,10 @@ void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGam
 				}
 				else
 				{
-					// const UBaseGameplayAbility* AbilityCDO = CastChecked<UBaseGameplayAbility>(AbilitySpec->Ability);
+					const UBaseGameplayAbility* AbilityCDO = CastChecked<UBaseGameplayAbility>(AbilitySpec->Ability);
 
-					// if (AbilityCDO->GetActivationPolicy() == EAbilityActivationPolicy::OnInputTriggered)
-					AbilitiesToActivate.AddUnique(AbilitySpec->Handle);
+					if (AbilityCDO->GetActivationPolicy() == EAbilityActivationPolicy::OnInputTriggered)
+						AbilitiesToActivate.AddUnique(AbilitySpec->Handle);
 				}
 			}
 		}

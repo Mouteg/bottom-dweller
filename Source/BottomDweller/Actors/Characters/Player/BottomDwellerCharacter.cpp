@@ -39,15 +39,6 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
-void ABottomDwellerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	// Set up gameplay key bindings
-	check(PlayerInputComponent);
-
-	// UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent, UInputComponent>(PlayerInputComponent);
-}
-
 void ABottomDwellerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
