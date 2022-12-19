@@ -1,5 +1,4 @@
 #include "BottomDwellerCharacter.h"
-
 #include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "Camera/CameraComponent.h"

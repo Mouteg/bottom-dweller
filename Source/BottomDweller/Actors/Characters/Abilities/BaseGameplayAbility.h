@@ -6,6 +6,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "BaseGameplayAbility.generated.h"
 
+class ABottomDwellerCharacter;
 class ABottomDwellerPlayerController;
 class ABaseCharacter;
 
@@ -17,5 +18,6 @@ class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility
 public:
 	
 	ABottomDwellerPlayerController* GetPlayerControllerFromActorInfo() const;
-	ABaseCharacter* GetCharacterFromActorInfo() const;
+	ABaseCharacter* GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
+	ABottomDwellerCharacter* GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 };

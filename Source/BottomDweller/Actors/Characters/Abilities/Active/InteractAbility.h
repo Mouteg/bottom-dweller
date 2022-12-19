@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseGameplayAbility.h"
-#include "UseItemAbility.generated.h"
+#include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
+#include "InteractAbility.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UUseItemAbility : public UBaseGameplayAbility
+class BOTTOMDWELLER_API UInteractAbility : public UBaseGameplayAbility
 {
 	GENERATED_BODY()
 

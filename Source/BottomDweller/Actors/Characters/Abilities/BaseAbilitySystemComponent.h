@@ -13,8 +13,11 @@ UCLASS()
 class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-	
 
+public:
+	virtual void BeginPlay() override;
+	
+private:
 	// Handles to abilities that had their input pressed this frame.
 	TArray<FGameplayAbilitySpecHandle> InputPressedSpecHandles;
 

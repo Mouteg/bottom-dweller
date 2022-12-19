@@ -6,6 +6,13 @@
 #include "BaseGameplayAbility.h"
 
 
+void UBaseAbilitySystemComponent::BeginPlay()
+{
+
+	Super::BeginPlay();
+	ClearAbilityInput();
+}
+
 void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGamePaused)
 {
 	// if (HasMatchingGameplayTag(TAG_Gameplay_AbilityInputBlocked))
@@ -38,7 +45,6 @@ void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGam
 			if (AbilitySpec->Ability)
 			{
 				AbilitySpec->InputPressed = true;
-
 				if (AbilitySpec->IsActive())
 				{
 					// Ability is active so pass along the input event.
@@ -48,7 +54,7 @@ void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGam
 				{
 					// const UBaseGameplayAbility* AbilityCDO = CastChecked<UBaseGameplayAbility>(AbilitySpec->Ability);
 
-					// if (LyraAbilityCDO->GetActivationPolicy() == ELyraAbilityActivationPolicy::OnInputTriggered)
+					// if (AbilityCDO->GetActivationPolicy() == EAbilityActivationPolicy::OnInputTriggered)
 					AbilitiesToActivate.AddUnique(AbilitySpec->Handle);
 				}
 			}
