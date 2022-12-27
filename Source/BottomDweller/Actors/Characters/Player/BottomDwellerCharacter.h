@@ -29,20 +29,8 @@ class ABottomDwellerCharacter : public ABaseCharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	UFUNCTION()
-	void Inspect(FString Description);
-
-	UFUNCTION()
-	void StopInspecting();
-
 public:
 	ABottomDwellerCharacter();
-
-	UPROPERTY(BlueprintReadOnly)
-	FString InspectorDescription;
-
-	UPROPERTY(BlueprintReadOnly)
-	bool bIsInspecting = false;
 
 	UFUNCTION(BlueprintCallable)
 	void Interact();
@@ -57,13 +45,9 @@ public:
 	FOnInteract OnInteract;
 
 protected:
-	/** Called for forwards/backward input */
+	/** Called for movement input */
 	UFUNCTION(BlueprintCallable)
-	void MoveForward(float Value);
-
-	/** Called for side to side input */
-	UFUNCTION(BlueprintCallable)
-	void MoveRight(float Value);
+	void Move(float ForwardValue, float RightValue);
 
 	virtual void BeginPlay() override;
 

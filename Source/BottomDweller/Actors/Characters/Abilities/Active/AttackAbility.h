@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
-#include "InteractAbility.generated.h"
+#include "AttackAbility.generated.h"
 
 UCLASS()
-class BOTTOMDWELLER_API UInteractAbility : public UBaseGameplayAbility
+class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 {
 	GENERATED_BODY()
 

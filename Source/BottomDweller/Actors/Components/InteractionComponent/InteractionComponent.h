@@ -6,16 +6,12 @@
 #include "InteractionComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInspect, FString, Description);
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStopInspecting);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
-	UPROPERTY()
-	bool bIsInspecting = false;
 
 	UPROPERTY(EditAnywhere)
 	float TraceStartZOffset = 75.f;
@@ -34,13 +30,18 @@ class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UInteractionComponent();
-
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsInspecting = false;
 
 	/** Length of interactor */
 	UPROPERTY(EditAnywhere)
 	float Length = 500.f;
 
+	UPROPERTY(BlueprintAssignable)
 	FOnInspect OnInspect;
+	
+	UPROPERTY(BlueprintAssignable)
 	FOnStopInspecting OnStopInspecting;
 
 protected:
