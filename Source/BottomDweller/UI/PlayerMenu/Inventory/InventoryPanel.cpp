@@ -3,7 +3,9 @@
 
 #include "InventoryPanel.h"
 #include "InventorySlotWidget.h"
+#include "ItemDetailsPanel.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "Components/WrapBox.h"
 #include "Engine/AssetManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -15,39 +17,8 @@ bool UInventoryPanel::Initialize()
 
 	if (!ensure(InventorySlots != nullptr)) return false;
 	if (!ensure(InventoryDisplayName != nullptr)) return false;
-
+	
 	return bSuccess;
-}
-
-void UInventoryPanel::Refresh()
-{
-	if (!InventoryComponent) return;
-
-	InventorySlots->ClearChildren();
-
-	for (TTuple<TSoftObjectPtr<UItemDataAsset>, int> Pair : InventoryComponent->InventoryContent)
-	{
-		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
-		InventorySlot->OnHover.BindUFunction(this, FName("OnHover"));
-		InventorySlot->OnUnHover.BindUFunction(this, FName("OnUnHover"));
-		//TODO Does unbind automatically ?
-
-		InventorySlots->AddChild(InventorySlot);
-		InventorySlot->SetItem(Pair.Key.Get(), Pair.Value);
-	}
-}
-
-void UInventoryPanel::OnHover(UItemDataAsset* Item)
-{
-	if (!ItemDetailsPanel) return;
-	ItemDetailsPanel->LoadDetails(Item);
-	ItemDetailsPanel->SetVisibility(ESlateVisibility::Visible);
-}
-
-void UInventoryPanel::OnUnHover()
-{
-	if (!ItemDetailsPanel) return;
-	ItemDetailsPanel->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UInventoryPanel::NativeConstruct()
@@ -59,4 +30,36 @@ void UInventoryPanel::NativeConstruct()
 		InventoryComponent->OnChange.AddDynamic(this, &UInventoryPanel::Refresh);
 	}
 	Refresh();
+	
+	OnHover.BindUFunction(this, FName("Hover"));
+	OnUnHover.BindUFunction(this, FName("UnHover"));
+}
+
+void UInventoryPanel::Refresh()
+{
+	if (!InventoryComponent) return;
+
+	InventorySlots->ClearChildren();
+	UnHover();
+
+	for (TTuple<TSoftObjectPtr<UItemDataAsset>, int> Pair : InventoryComponent->GetInventoryContent())
+	{
+		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
+		InventorySlots->AddChild(InventorySlot);
+		InventorySlot->SetOwner(this);
+		InventorySlot->SetItem(Pair.Key.Get(), Pair.Value);
+	}
+}
+
+void UInventoryPanel::Hover(UItemDataAsset* Item)
+{
+	if (!ItemDetailsPanel) return;
+	ItemDetailsPanel->LoadDetails(Item);
+	ItemDetailsPanel->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UInventoryPanel::UnHover()
+{
+	if (!ItemDetailsPanel) return;
+	ItemDetailsPanel->SetVisibility(ESlateVisibility::Hidden);
 }

@@ -2,6 +2,8 @@
 
 
 #include "ItemDetailsPanel.h"
+
+#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"

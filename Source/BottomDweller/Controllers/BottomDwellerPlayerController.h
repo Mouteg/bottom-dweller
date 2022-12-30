@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
-#include "BottomDweller/Actors/Characters/Abilities/BaseAbilitySystemComponent.h"
 #include "BottomDweller/Input/AbilityInputConfig.h"
 #include "BottomDwellerPlayerController.generated.h"
+
+struct FGameplayTag;
+class UBaseAbilitySystemComponent;
 
 UCLASS()
 class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerController

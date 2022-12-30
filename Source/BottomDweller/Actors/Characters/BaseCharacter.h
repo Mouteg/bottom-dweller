@@ -6,8 +6,9 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Abilities/AbilitySet.h"
-#include "BottomDweller/Actors/Characters/Abilities/BaseAbilitySystemComponent.h"
 #include "BaseCharacter.generated.h"
+
+class UBaseAbilitySystemComponent;
 
 UCLASS(Abstract)
 class BOTTOMDWELLER_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface

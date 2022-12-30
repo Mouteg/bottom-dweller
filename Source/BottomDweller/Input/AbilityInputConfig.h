@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
-#include "InputAction.h"
 #include "AbilityInputConfig.generated.h"
+
+class UInputAction;
 
 USTRUCT(BlueprintType)
 struct FTaggedInputAction

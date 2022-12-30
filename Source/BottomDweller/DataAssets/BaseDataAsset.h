@@ -9,7 +9,8 @@ UENUM(BlueprintType)
 enum class EAssetId : uint8
 {
 	Stone UMETA(DisplayName = "Stone"),
-	Stick UMETA(DisplayName = "Stick")
+	Stick UMETA(DisplayName = "Stick"),
+	Sword UMETA(DisplayName = "Sword"),
 };
 
 UCLASS()

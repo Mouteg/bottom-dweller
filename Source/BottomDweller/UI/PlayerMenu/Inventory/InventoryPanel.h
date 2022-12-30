@@ -3,11 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InventorySlotWidget.h"
-#include "ItemDetailsPanel.h"
 #include "Blueprint/UserWidget.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+// #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "InventoryPanel.generated.h"
+
+class UInventorySlotWidget;
+class UItemDetailsPanel;
+class UInventoryComponent;
+class UItemDataAsset;
+
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOnHover, UItemDataAsset*, Item);
+DECLARE_DYNAMIC_DELEGATE(FOnUnHover);
 
 UCLASS()
 class BOTTOMDWELLER_API UInventoryPanel : public UUserWidget
@@ -15,13 +21,19 @@ class BOTTOMDWELLER_API UInventoryPanel : public UUserWidget
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void OnHover(UItemDataAsset* Item);
+	void Hover(UItemDataAsset* Item);
 	
 	UFUNCTION()
-	void OnUnHover();
+	void UnHover();
 	
 public:
-
+	
+	UPROPERTY()
+	FOnHover OnHover;
+	
+	UPROPERTY()
+	FOnUnHover OnUnHover;
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UWrapBox* InventorySlots;
 	
@@ -49,5 +61,4 @@ public:
 	void Refresh();
 protected:
 	virtual void NativeConstruct() override;
-	
 };

@@ -5,8 +5,9 @@
 #include "CoreMinimal.h"
 #include "ItemDetailsEntry.h"
 #include "Blueprint/UserWidget.h"
-#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "ItemDetailsPanel.generated.h"
+
+class UItemDataAsset;
 
 UCLASS()
 class BOTTOMDWELLER_API UItemDetailsPanel : public UUserWidget

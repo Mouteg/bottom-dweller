@@ -5,31 +5,63 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/ActorComponent.h"
-#include "Engine/DataTable.h"
 #include "InventoryComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEquipmentStateChange);
+
+UENUM()
+enum EEquipmentItems
+{
+	Weapon,
+	
+};
+
+USTRUCT()
+struct FInventory_EquipmentState
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere)
+	class UWeaponItemDataAsset* Weapon;
+};
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere)
+	FInventory_EquipmentState EquipmentState;
+
+	UPROPERTY()
+	TMap<TSoftObjectPtr<UItemDataAsset>, int32> InventoryContent;
+
 public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 
+	UFUNCTION()
+	FInventory_EquipmentState GetEquipmentState() const { return EquipmentState; }
+	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryContent; }
+
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnChange OnChange;
 
-	UPROPERTY(BlueprintReadWrite)
-	TMap<TSoftObjectPtr<UItemDataAsset>, int32> InventoryContent;
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnEquipmentStateChange OnEquipmentStateChange;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	int32 AddItem(UItemDataAsset* Item, const int32 Quantity);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity);
+
+	UFUNCTION(BlueprintCallable)
+	void UseItem(UItemDataAsset* Item);
+
+	UFUNCTION(BlueprintCallable)
+	void Equip(UItemDataAsset* Item, EEquipmentItems Slot);
 
 protected:
 	// Called when the game starts

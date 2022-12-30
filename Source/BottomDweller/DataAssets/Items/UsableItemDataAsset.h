@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayEffect.h"
 #include "ItemDataAsset.h"
 #include "UsableItemDataAsset.generated.h"
+
+class UGameplayEffect;
 
 UCLASS()
 class BOTTOMDWELLER_API UUsableItemDataAsset : public UItemDataAsset

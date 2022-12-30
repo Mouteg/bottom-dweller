@@ -2,6 +2,7 @@
 
 
 #include "AbilitySet.h"
+#include "BaseGameplayAbility.h"
 
 void FAbilitySet_GrantedHandles::AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle)
 {
@@ -82,7 +83,6 @@ void UAbilitySet::GiveToAbilitySystem(UBaseAbilitySystemComponent* ASC, FAbility
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityCDO, AbilityToGrant.AbilityLevel);
 		AbilitySpec.SourceObject = SourceObject;
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilityToGrant.InputTag);
-
 		const FGameplayAbilitySpecHandle AbilitySpecHandle = ASC->GiveAbility(AbilitySpec);
 
 		if (OutGrantedHandles)

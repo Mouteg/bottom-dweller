@@ -10,7 +10,7 @@
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
-	Equipment UMETA(DisplayName = "Equipment"),
+	Weapon UMETA(DisplayName = "Weapon"),
 	Consumable UMETA(DisplayName = "Usable")
 };
 
@@ -33,14 +33,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<UTexture2D> Thumbnail;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<UStaticMesh> Mesh;
-
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	// UTexture2D* Thumbnail;
-	//
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	// UStaticMesh* Mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float Cost;

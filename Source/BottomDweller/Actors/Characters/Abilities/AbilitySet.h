@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "BaseAbilitySystemComponent.h"
-#include "BaseGameplayAbility.h"
-#include "GameplayTagContainer.h"
+// #include "GameplayTagContainer.h"
 #include "UObject/Object.h"
 #include "AbilitySet.generated.h"
+
+class UBaseGameplayAbility;
 
 USTRUCT(BlueprintType)
 struct FAbilitySet_GameplayAbility

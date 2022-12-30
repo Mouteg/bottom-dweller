@@ -20,7 +20,7 @@ enum class EAbilityActivationPolicy : uint8
 	WhileInputActive,
 
 	// Try to activate the ability when an avatar is assigned.
-	OnSpawn
+	OnSpawn,
 };
 
 UCLASS()

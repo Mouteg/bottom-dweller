@@ -4,20 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
-#include "AttackAbility.generated.h"
+#include "UseItemAbility.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
+class BOTTOMDWELLER_API UUseItemAbility : public UBaseGameplayAbility
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly)
-	class UWeaponAnimations* WeaponAnimations;
+	UUseItemAbility();
 
-	UFUNCTION()
-	void AttackEnded(UAnimMontage* Montage, bool bInterrupted);
-
-protected:
 	virtual void ActivateAbility(
 		const FGameplayAbilitySpecHandle Handle,
 		const FGameplayAbilityActorInfo* ActorInfo,

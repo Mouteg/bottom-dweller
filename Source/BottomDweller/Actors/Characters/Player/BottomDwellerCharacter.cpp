@@ -50,7 +50,6 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 {
 	if ((Controller != nullptr) && (ForwardValue != 0.0f || RightValue != 0.0f))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%f, %f"), ForwardValue, RightValue);
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);

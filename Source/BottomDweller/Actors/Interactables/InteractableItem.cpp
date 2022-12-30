@@ -5,6 +5,7 @@
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 
 
 // Sets default values

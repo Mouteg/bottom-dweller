@@ -3,14 +3,18 @@
 
 #include "InventoryComponent.h"
 
-// Sets default values for this component's properties
+#include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
+#include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
+#include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
+
 UInventoryComponent::UInventoryComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
+}
 
-	// ...
+void UInventoryComponent::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
@@ -19,12 +23,12 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item Quantity <= 0"))
 	}
-	
+
 	if (!Item)
-    {
-    	UE_LOG(LogTemp, Warning, TEXT("No Item"));
-    	return 0;
-    }
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No Item"));
+		return 0;
+	}
 
 	int32 AmountToReturn;
 	const bool IsContained = InventoryContent.Contains(Item);
@@ -68,8 +72,53 @@ void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Qua
 	UE_LOG(LogTemp, Warning, TEXT("Item removed %s"), *Item->DisplayName.ToString())
 }
 
-// Called when the game starts
-void UInventoryComponent::BeginPlay()
+void UInventoryComponent::UseItem(UItemDataAsset* Item)
 {
-	Super::BeginPlay();
+	switch (Item->ItemType)
+	{
+	case EItemType::Weapon:
+		{
+			Equip(Item, Weapon);
+			break;
+		}
+	case EItemType::Consumable:
+		{
+			UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item);
+			RemoveItem(Item, 48);
+			break;
+		}
+	default:
+		;
+	}
+}
+
+void UInventoryComponent::Equip(UItemDataAsset* Item, const EEquipmentItems Slot)
+{
+	if (!Item || !Item->Implements<UGearItemDataAsset>())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Only gear can be equipped"));
+		return;
+	}
+
+	switch (Slot)
+	{
+	case Weapon:
+		{
+			UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
+			if (!WeaponItem)
+			{
+				return;
+			}
+
+			EquipmentState.Weapon = WeaponItem;
+			break;
+		}
+
+	default:
+		return;
+	}
+
+	RemoveItem(Item, 1);
+	OnEquipmentStateChange.Broadcast();
+	OnChange.Broadcast();
 }

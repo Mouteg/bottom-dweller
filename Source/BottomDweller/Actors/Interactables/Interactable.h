@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "UObject/Interface.h"
 #include "Interactable.generated.h"
+
+class ABottomDwellerCharacter;
 
 // This class does not need to be modified.
 UINTERFACE(BlueprintType, Blueprintable)
