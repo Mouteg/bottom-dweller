@@ -11,7 +11,7 @@ void UAttackState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBa
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
 	if (IMeleeAttacker* MeleeAttacker = Cast<IMeleeAttacker>(MeshComp->GetOwner()))
 	{
-		MeleeAttacker->EnableWeaponCollision();
+		MeleeAttacker->BeginAttack();
 	}
 }
 
@@ -20,6 +20,6 @@ void UAttackState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase
 	Super::NotifyEnd(MeshComp, Animation, EventReference);
 	if (IMeleeAttacker* MeleeAttacker = Cast<IMeleeAttacker>(MeshComp->GetOwner()))
 	{
-		MeleeAttacker->DisableWeaponCollision();
+		MeleeAttacker->EndAttack();
 	}
 }

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "InventoryPanel.h"
 #include "Blueprint/UserWidget.h"
 #include "InventorySlotWidget.generated.h"
@@ -13,6 +14,10 @@ class BOTTOMDWELLER_API UInventorySlotWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTag DoubleClickEventTag;
+	
 	UPROPERTY(BlueprintReadWrite)
 	UItemDataAsset* Item;
 
@@ -29,7 +34,7 @@ public:
 	class UTextBlock* QuantityText;
 
 	virtual bool Initialize() override;
-public:
+	
 	void SetItem(UItemDataAsset* InventoryItem, int32 ItemQuantity = 1);
 
 protected:

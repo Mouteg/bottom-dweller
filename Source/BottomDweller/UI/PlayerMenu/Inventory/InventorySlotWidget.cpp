@@ -15,6 +15,7 @@ bool UInventorySlotWidget::Initialize()
 {
 	const bool bSuccess = Super::Initialize();
 	if (!bSuccess) return false;
+	DoubleClickEventTag = FGameplayTag::RequestGameplayTag(FName("Event.UseItem"));
 
 	return bSuccess;
 }
@@ -60,11 +61,11 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InG
 {
 	if (Item)
 	{
-		const FGameplayTag UseItemTag = FGameplayTag::RequestGameplayTag(FName("Event.UseItem"));
 		FGameplayEventData EventData;
+		EventData.Instigator = GetOwningPlayer();
 		EventData.OptionalObject = Item;
 
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), UseItemTag, EventData);
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), DoubleClickEventTag, EventData);
 	}
 	return Super::NativeOnMouseButtonDoubleClick(InGeometry, InMouseEvent);
 }

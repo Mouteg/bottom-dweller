@@ -14,6 +14,7 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 	GENERATED_BODY()
 
 	bool bCombo;
+	bool bComboOpening;
 	int32 ComboCounter;
 
 	EWeaponType CurrentWeaponType;
@@ -23,6 +24,9 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 
 	UFUNCTION()
 	void AttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	UFUNCTION()
+	void SetComboOpening(FGameplayEventData Payload);
 	
 public:
 
