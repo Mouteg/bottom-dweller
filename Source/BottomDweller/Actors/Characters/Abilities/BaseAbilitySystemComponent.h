@@ -6,13 +6,14 @@
 #include "AbilitySystemComponent.h"
 #include "BaseAbilitySystemComponent.generated.h"
 
-/**
- * 
- */
+enum class EGearSlots : uint8;
+
 UCLASS()
 class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
+
+	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
 
 public:
 	virtual void BeginPlay() override;
@@ -28,6 +29,10 @@ private:
 	TArray<FGameplayAbilitySpecHandle> InputReleasedSpecHandles;
 
 public:
+
+	bool ActiveItemHandlesContain(EGearSlots Slot);
+	void RemoveItemEffect(EGearSlots Slot);
+	void AddItemEffect(EGearSlots Slot, UGameplayEffect* Effect);
 	
 	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
 	void ClearAbilityInput();

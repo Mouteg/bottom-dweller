@@ -7,17 +7,7 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEquipmentStateChange);
-
-UENUM()
-enum EEquipmentItems
-{
-	Weapon,
-	
-};
-
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FInventory_EquipmentState
 {
 	GENERATED_BODY()
@@ -25,6 +15,16 @@ struct FInventory_EquipmentState
 	UPROPERTY(EditAnywhere)
 	class UWeaponItemDataAsset* Weapon;
 };
+
+UENUM(BlueprintType)
+enum class EGearSlots : uint8
+{
+	Weapon,
+	
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EGearSlots, Slot);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
@@ -48,20 +48,20 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnChange OnChange;
 
-	UPROPERTY(BlueprintAssignable, Category = "Events")
+	UPROPERTY()
 	FOnEquipmentStateChange OnEquipmentStateChange;
 
 	UFUNCTION(BlueprintCallable)
-	int32 AddItem(UItemDataAsset* Item, const int32 Quantity);
+	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
-	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity);
+	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
 	void UseItem(UItemDataAsset* Item);
 
 	UFUNCTION(BlueprintCallable)
-	void Equip(UItemDataAsset* Item, EEquipmentItems Slot);
+	void Equip(UItemDataAsset* Item, EGearSlots Slot);
 
 protected:
 	// Called when the game starts

@@ -1,14 +1,32 @@
 #include "BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 
+typedef TFunction<void (UItemDataAsset*)> FEquipFunc;
+
 ABottomDwellerCharacter::ABottomDwellerCharacter()
 {
+	InitActorComponents();
+	InitEquipFunctions();
+}
+
+void ABottomDwellerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	InventoryComponent->OnEquipmentStateChange.AddDynamic(this, &ABottomDwellerCharacter::OnEquipmentStateChange);
+}
+
+void ABottomDwellerCharacter::InitActorComponents()
+{
+	WalkSpeed = 500;
+	AttackWalkSpeed = 100;
+	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
@@ -16,17 +34,22 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	// bUseControllerRotationPitch = true;
 	// bUseControllerRotationYaw = true;
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	InteractionComponent->Length = 500.f;
-	
+
 	// GetCharacterMovement()->bOrientRotationToMovement = false;
-	
+
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+
+	WeaponComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
+	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	WeaponComponent->SetupAttachment(GetMesh(), TEXT("hand_r_weapon_socket"));
+	WeaponComponent->SetVisibility(false);
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -40,11 +63,10 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
-void ABottomDwellerCharacter::BeginPlay()
+void ABottomDwellerCharacter::InitEquipFunctions()
 {
-	Super::BeginPlay();
+	EquipFunctions.Add(EGearSlots::Weapon, ChangeWeapon());
 }
-
 
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 {
@@ -67,4 +89,52 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 void ABottomDwellerCharacter::Interact()
 {
 	OnInteract.Broadcast(this);
+}
+
+void ABottomDwellerCharacter::BeginAttack()
+{
+	GetCharacterMovement()->MaxWalkSpeed = AttackWalkSpeed;
+}
+
+void ABottomDwellerCharacter::EndAttack()
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void ABottomDwellerCharacter::EnableWeaponCollision()
+{
+	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void ABottomDwellerCharacter::DisableWeaponCollision()
+{
+	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void ABottomDwellerCharacter::OnEquipmentStateChange(UItemDataAsset* Item, EGearSlots Slot)
+{
+	EquipFunctions[Slot](Item);
+}
+
+FEquipFunc ABottomDwellerCharacter::ChangeWeapon()
+{
+	return [=](const UItemDataAsset* Item)
+	{
+		const UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
+		if (AbilitySystemComponent->ActiveItemHandlesContain(EGearSlots::Weapon))
+		{
+			AbilitySystemComponent->RemoveItemEffect(EGearSlots::Weapon);
+		}
+
+		if (WeaponItem && WeaponItem->GameplayEffect && WeaponItem->Mesh.Get())
+		{
+			AbilitySystemComponent->AddItemEffect(EGearSlots::Weapon, WeaponItem->GameplayEffect.GetDefaultObject());
+			WeaponComponent->SetStaticMesh(WeaponItem->Mesh.Get());
+			WeaponComponent->SetVisibility(true);
+		}
+		else
+		{
+			WeaponComponent->SetVisibility(false);
+		}
+	};
 }

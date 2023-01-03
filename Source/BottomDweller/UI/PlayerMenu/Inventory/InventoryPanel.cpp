@@ -17,7 +17,7 @@ bool UInventoryPanel::Initialize()
 
 	if (!ensure(InventorySlots != nullptr)) return false;
 	if (!ensure(InventoryDisplayName != nullptr)) return false;
-	
+
 	return bSuccess;
 }
 
@@ -30,36 +30,20 @@ void UInventoryPanel::NativeConstruct()
 		InventoryComponent->OnChange.AddDynamic(this, &UInventoryPanel::Refresh);
 	}
 	Refresh();
-	
-	OnHover.BindUFunction(this, FName("Hover"));
-	OnUnHover.BindUFunction(this, FName("UnHover"));
 }
 
 void UInventoryPanel::Refresh()
 {
-	if (!InventoryComponent) return;
+	if (!InventoryComponent || !ItemDetailsPanel) return;
 
 	InventorySlots->ClearChildren();
-	UnHover();
+	ItemDetailsPanel->SetVisibility(ESlateVisibility::Hidden);
 
 	for (TTuple<TSoftObjectPtr<UItemDataAsset>, int> Pair : InventoryComponent->GetInventoryContent())
 	{
 		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
 		InventorySlots->AddChild(InventorySlot);
-		InventorySlot->SetOwner(this);
 		InventorySlot->SetItem(Pair.Key.Get(), Pair.Value);
+		InventorySlot->ItemDetailsPanel = ItemDetailsPanel;
 	}
-}
-
-void UInventoryPanel::Hover(UItemDataAsset* Item)
-{
-	if (!ItemDetailsPanel) return;
-	ItemDetailsPanel->LoadDetails(Item);
-	ItemDetailsPanel->SetVisibility(ESlateVisibility::Visible);
-}
-
-void UInventoryPanel::UnHover()
-{
-	if (!ItemDetailsPanel) return;
-	ItemDetailsPanel->SetVisibility(ESlateVisibility::Hidden);
 }

@@ -13,6 +13,8 @@ class ABottomDwellerGameMode : public AGameModeBase
 
 public:
 	ABottomDwellerGameMode();
+protected:
+	virtual void BeginPlay() override;
 };
 
 

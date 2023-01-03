@@ -8,19 +8,28 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 
-void UItemDetailsPanel::LoadDetails(UItemDataAsset* Item)
-{
-	Thumbnail->SetBrushFromTexture(Item->Thumbnail.Get());
-	DisplayName->SetText(FText::FromName(Item->DisplayName));
-	Description->SetText(Item->Description);
-	LoadItemProperties(Item);
-}
-
 bool UItemDetailsPanel::Initialize()
 {
 	bool bSuccess = Super::Initialize();
 	this->SetVisibility(ESlateVisibility::Hidden);
 	return bSuccess;
+}
+
+void UItemDetailsPanel::LoadDetails(UItemDataAsset* Item)
+{
+	if (!Item)
+	{
+		return;
+	}
+	
+	if (Item->Thumbnail.Get())
+	{
+		Thumbnail->SetBrushFromTexture(Item->Thumbnail.Get());
+	}
+	
+	DisplayName->SetText(FText::FromName(Item->DisplayName));
+	Description->SetText(Item->Description);
+	LoadItemProperties(Item);
 }
 
 void UItemDetailsPanel::LoadItemProperties(UItemDataAsset* Item)

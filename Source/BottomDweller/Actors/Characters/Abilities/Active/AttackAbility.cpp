@@ -8,9 +8,26 @@
 #include "BottomDweller/Animation/WeaponAnimations.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 
-void UAttackAbility::AttackEnded(UAnimMontage* Montage, bool bInterrupted)
+UAttackAbility::UAttackAbility()
 {
-	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
+	InPlayRate = 1.5;
+}
+
+bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+                                        const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
+                                        FGameplayTagContainer* OptionalRelevantTags) const
+{
+	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetInventoryComponent()->GetEquipmentState().Weapon;
+	if (
+		!IsValid(Weapon)
+		|| !IsValid(GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMesh()->GetAnimInstance())
+		|| !IsValid(WeaponAnimations)
+		|| !WeaponAnimations->WeaponTypeAnimations.Contains(Weapon->WeaponType)
+		|| !(WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages.Num() > ComboCounter)
+		|| !WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter].IsValid()
+	) { return false; }
+
+	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
 
 void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -18,22 +35,46 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	//TODO Refactor
-	UAnimInstance* AnimInstance = GetBottomDwellerCharacterFromActorInfo()->GetMesh()->GetAnimInstance();
-	UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
-	if (!AnimInstance || !Weapon)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack ability, null pointer"));
-		EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
-		return;
-	}
-	const EWeaponType EquippedWeaponType = Weapon->WeaponType;
 
-	if (!WeaponAnimations->WeaponTypeAnimations[EquippedWeaponType].AnimMontages[0].Get())
+	UAnimInstance* AnimInstance = GetBottomDwellerCharacterFromActorInfo()->GetMesh()->GetAnimInstance();
+	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
+	CurrentWeaponType = Weapon->WeaponType;
+	const TSoftObjectPtr<UAnimMontage> AttackMontage = WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter];
+	
+	AnimInstance->Montage_Play(AttackMontage.Get(), InPlayRate);
+	AnimInstance->OnMontageEnded.AddUniqueDynamic(this, &UAttackAbility::AttackMontageEnded);
+}
+
+void UAttackAbility::InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+								  const FGameplayAbilityActivationInfo ActivationInfo)
+{
+	Super::InputPressed(Handle, ActorInfo, ActivationInfo);
+	if (
+		!bCombo
+		&& ComboCounter < WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages.Num() - 1
+		//Change tag to ComboTimeframe something
+		&& GetAbilitySystemComponentFromActorInfo()->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(TEXT("Event.Attack")))
+	)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack ability AnimMontages is null"));
-		EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
-		return;
+		bCombo = true;
+		ComboCounter += 1;
 	}
-	AnimInstance->Montage_Play(WeaponAnimations->WeaponTypeAnimations[EquippedWeaponType].AnimMontages[0].Get(), 1.5);
-	AnimInstance->OnMontageEnded.AddDynamic(this, &UAttackAbility::AttackEnded);
+}
+
+void UAttackAbility::AttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	FGameplayTagContainer TargetTags;
+	FGameplayTagContainer RelevantTags = FGameplayTagContainer::EmptyContainer;
+	GetAbilitySystemComponentFromActorInfo()->GetOwnedGameplayTags(TargetTags);
+	
+	if (bCombo && CanActivateAbility(CurrentSpecHandle, CurrentActorInfo, &AbilityTags, &TargetTags, &RelevantTags))
+	{
+		ActivateAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, &CurrentEventData);
+	}
+	else
+	{
+		ComboCounter = 0;
+		EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
+	}
+	bCombo = false;
 }

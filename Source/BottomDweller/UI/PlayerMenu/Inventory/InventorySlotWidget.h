@@ -11,9 +11,6 @@ UCLASS()
 class BOTTOMDWELLER_API UInventorySlotWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
-	UPROPERTY()
-	UInventoryPanel* Owner;
 	
 public:
 	UPROPERTY(BlueprintReadWrite)
@@ -21,6 +18,9 @@ public:
 
 	UPROPERTY()
 	int32 Quantity;
+	
+	UPROPERTY()
+	UItemDetailsPanel* ItemDetailsPanel;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UBorder* Thumbnail;
@@ -29,12 +29,12 @@ public:
 	class UTextBlock* QuantityText;
 
 	virtual bool Initialize() override;
-
-	void SetItem(UItemDataAsset* InventoryItem, int32 ItemQuantity);
-	void SetOwner(UInventoryPanel* OwnerWidget);
+public:
+	void SetItem(UItemDataAsset* InventoryItem, int32 ItemQuantity = 1);
 
 protected:
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
 };

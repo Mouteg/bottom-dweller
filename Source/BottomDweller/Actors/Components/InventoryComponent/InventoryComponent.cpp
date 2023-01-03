@@ -68,8 +68,6 @@ void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Qua
 		InventoryContent.Remove(Item);
 	}
 	OnChange.Broadcast();
-
-	UE_LOG(LogTemp, Warning, TEXT("Item removed %s"), *Item->DisplayName.ToString())
 }
 
 void UInventoryComponent::UseItem(UItemDataAsset* Item)
@@ -78,13 +76,13 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item)
 	{
 	case EItemType::Weapon:
 		{
-			Equip(Item, Weapon);
+			Equip(Item, EGearSlots::Weapon);
 			break;
 		}
 	case EItemType::Consumable:
 		{
 			UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item);
-			RemoveItem(Item, 48);
+			RemoveItem(Item);
 			break;
 		}
 	default:
@@ -92,7 +90,7 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item)
 	}
 }
 
-void UInventoryComponent::Equip(UItemDataAsset* Item, const EEquipmentItems Slot)
+void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 {
 	if (!Item || !Item->Implements<UGearItemDataAsset>())
 	{
@@ -102,12 +100,17 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EEquipmentItems Slot
 
 	switch (Slot)
 	{
-	case Weapon:
+	case EGearSlots::Weapon:
 		{
 			UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
 			if (!WeaponItem)
 			{
 				return;
+			}
+
+			if (EquipmentState.Weapon)
+			{
+				AddItem(EquipmentState.Weapon);
 			}
 
 			EquipmentState.Weapon = WeaponItem;
@@ -118,7 +121,7 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EEquipmentItems Slot
 		return;
 	}
 
-	RemoveItem(Item, 1);
-	OnEquipmentStateChange.Broadcast();
+	RemoveItem(Item);
+	OnEquipmentStateChange.Broadcast(Item, Slot);
 	OnChange.Broadcast();
 }

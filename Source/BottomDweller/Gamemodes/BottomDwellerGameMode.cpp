@@ -8,16 +8,24 @@
 ABottomDwellerGameMode::ABottomDwellerGameMode()
 {
 	// set default pawn class to our Blueprinted character
-	
+
 	// static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/BottomDweller/Actors/Player/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter"));
 	// if (PlayerPawnBPClass.Class != NULL)
 	// {
 	// 	DefaultPawnClass = PlayerPawnBPClass.Class;
 	// }
-	
+
 	// Load Assets bundles
-	// TArray<FPrimaryAssetId> AssetIds;
-	// TArray<FName> BundlesToLoad;
-	// BundlesToLoad.Add(FName(TEXT("Items")));
-	// UAssetManager::Get().LoadPrimaryAssets(AssetIds, BundlesToLoad);
+}
+
+void ABottomDwellerGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	TArray<FPrimaryAssetId> AssetIds;
+	TArray<FName> BundlesToLoad;
+	BundlesToLoad.Add(FName(TEXT("Items")));
+	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponItem")), AssetIds);
+	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("Usableitem")), AssetIds);
+	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponAnimations")), AssetIds);
+	UAssetManager::Get().LoadPrimaryAssets(AssetIds, BundlesToLoad);
 }

@@ -3,13 +3,13 @@
 
 #include "InventorySlotWidget.h"
 
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
-#include "Kismet/GameplayStatics.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "ItemDetailsPanel.h"
+#include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 
 bool UInventorySlotWidget::Initialize()
 {
@@ -19,16 +19,11 @@ bool UInventorySlotWidget::Initialize()
 	return bSuccess;
 }
 
-void UInventorySlotWidget::SetOwner(UInventoryPanel* OwnerWidget)
-{
-	Owner = OwnerWidget;
-}
-
 void UInventorySlotWidget::SetItem(UItemDataAsset* InventoryItem, int32 ItemQuantity)
 {
 	Item = InventoryItem;
 	Quantity = ItemQuantity;
-	
+
 	if (UTexture2D* ItemThumbnail = Item->Thumbnail.Get())
 	{
 		Thumbnail->SetBrushFromTexture(ItemThumbnail);
@@ -43,29 +38,33 @@ void UInventorySlotWidget::SetItem(UItemDataAsset* InventoryItem, int32 ItemQuan
 void UInventorySlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
-	if (Owner)
+	if (ItemDetailsPanel && Item)
 	{
+		ItemDetailsPanel->LoadDetails(Item);
+		ItemDetailsPanel->SetVisibility(ESlateVisibility::Visible);
 		Thumbnail->SetRenderOpacity(0.5);
-		Owner->OnHover.Execute(Item);
 	}
 }
 
 void UInventorySlotWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
-	if (Owner)
+	if (ItemDetailsPanel)
 	{
+		ItemDetailsPanel->SetVisibility(ESlateVisibility::Hidden);
 		Thumbnail->SetRenderOpacity(1);
-		Owner->OnUnHover.Execute();
 	}
 }
 
 FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	const FGameplayTag UseItemTag = FGameplayTag::RequestGameplayTag(FName("Event.UseItem"));
-	FGameplayEventData EventData;
-	EventData.OptionalObject = Item;
-	
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Owner->InventoryComponent->GetOwner(), UseItemTag, EventData);
+	if (Item)
+	{
+		const FGameplayTag UseItemTag = FGameplayTag::RequestGameplayTag(FName("Event.UseItem"));
+		FGameplayEventData EventData;
+		EventData.OptionalObject = Item;
+
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), UseItemTag, EventData);
+	}
 	return Super::NativeOnMouseButtonDoubleClick(InGeometry, InMouseEvent);
 }
