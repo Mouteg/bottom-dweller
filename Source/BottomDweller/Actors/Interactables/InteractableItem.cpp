@@ -25,14 +25,6 @@ void AInteractableItem::OnConstruction(const FTransform& Transform)
 		StaticMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
 	}
 }
-
-
-// Called when the game starts or when spawned
-void AInteractableItem::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void AInteractableItem::OnInteract(ABottomDwellerCharacter* Interactor)
 {
 	if (

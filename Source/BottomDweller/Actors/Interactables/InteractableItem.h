@@ -33,10 +33,6 @@ public:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 public:
 	virtual void OnInteract(ABottomDwellerCharacter* Interactor) override;
 

@@ -12,11 +12,6 @@ UInventoryComponent::UInventoryComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UInventoryComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 {
 	if (Quantity <= 0)
@@ -59,7 +54,12 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 
 void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Quantity)
 {
-	if (InventoryContent.Contains(Item) && InventoryContent[Item] > Quantity)
+	if (!InventoryContent.Contains(Item))
+	{
+		return;
+	}
+	
+	if (InventoryContent[Item] > Quantity)
 	{
 		InventoryContent[Item] -= Quantity;
 	}

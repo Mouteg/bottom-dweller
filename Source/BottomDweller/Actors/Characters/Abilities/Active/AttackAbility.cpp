@@ -8,10 +8,12 @@
 #include "BottomDweller/Animation/WeaponAnimations.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
+#include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 
 UAttackAbility::UAttackAbility()
 {
 	InPlayRate = 1.5;
+	bInitialized = false;
 }
 
 bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -21,13 +23,11 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetInventoryComponent()->GetEquipmentState().Weapon;
 	if (
 		!IsValid(Weapon)
-		|| !IsValid(ActorInfo->GetAnimInstance())
 		|| !IsValid(WeaponAnimations)
 		|| !WeaponAnimations->WeaponTypeAnimations.Contains(Weapon->WeaponType)
 		|| !(WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages.Num() > ComboCounter)
 		|| !WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter].IsValid()
 	) { return false; }
-
 	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
 
@@ -35,22 +35,30 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
                                      const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
-	UAbilityTask_WaitGameplayEvent* WaitForComboOpening = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
-		this,
-		FGameplayTag::RequestGameplayTag(TEXT("Event.Attack.ComboOpening"))
-	);
-	WaitForComboOpening->EventReceived.AddDynamic(this, &UAttackAbility::SetComboOpening);
-	WaitForComboOpening->Activate();
 	
-	UAnimInstance* AnimInstance = ActorInfo->GetAnimInstance();
+	if (!bInitialized)
+	{
+		UAbilityTask_WaitGameplayEvent* WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
+			this,
+			FGameplayTag::RequestGameplayTag(TEXT("Event.Attack.ComboOpening"))
+		);
+		WaitForComboOpeningTask->EventReceived.AddDynamic(this, &UAttackAbility::SetComboOpening);
+		WaitForComboOpeningTask->Activate();
+		bInitialized = false;
+	}
+	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
 	const TSoftObjectPtr<UAnimMontage> AttackMontage = WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter];
-	UE_LOG(LogTemp, Warning, TEXT("Attack animation number = %d"), ComboCounter);
 
-	AnimInstance->Montage_Play(AttackMontage.Get(), InPlayRate);
-	AnimInstance->OnMontageEnded.AddUniqueDynamic(this, &UAttackAbility::AttackMontageEnded);
+	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
+		this,
+		TEXT("AttackMontageTask"),
+		AttackMontage.Get(),
+		InPlayRate
+	);
+	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &UAttackAbility::AttackMontageEnded);
+	AttackMontageTask->Activate();
 }
 
 void UAttackAbility::InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -68,7 +76,7 @@ void UAttackAbility::InputPressed(const FGameplayAbilitySpecHandle Handle, const
 	}
 }
 
-void UAttackAbility::AttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAttackAbility::AttackMontageEnded()
 {
 	FGameplayTagContainer TargetTags;
 	FGameplayTagContainer RelevantTags = FGameplayTagContainer::EmptyContainer;
@@ -81,6 +89,7 @@ void UAttackAbility::AttackMontageEnded(UAnimMontage* Montage, bool bInterrupted
 	else
 	{
 		ComboCounter = 0;
+		AttackMontageTask->OnBlendOut.RemoveDynamic(this, &UAttackAbility::AttackMontageEnded);
 		EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
 	}
 	bCombo = false;

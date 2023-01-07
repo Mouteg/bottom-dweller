@@ -20,13 +20,16 @@ void ABottomDwellerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	InventoryComponent->OnEquipmentStateChange.AddDynamic(this, &ABottomDwellerCharacter::OnEquipmentStateChange);
+	UE_LOG(LogTemp, Warning, TEXT("Binded state change"));
+
 }
 
 void ABottomDwellerCharacter::InitActorComponents()
 {
 	WalkSpeed = 500;
 	AttackWalkSpeed = 100;
-	
+	RotationRate = FRotator(0.0f, 500.0f, 0.0f);
+	AttackRotationRate = FRotator(0.0f, 200.0f, 0.0f);
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
@@ -94,21 +97,24 @@ void ABottomDwellerCharacter::Interact()
 void ABottomDwellerCharacter::BeginAttack()
 {
 	GetCharacterMovement()->MaxWalkSpeed = AttackWalkSpeed;
+	GetCharacterMovement()->RotationRate = AttackRotationRate;
 }
 
 void ABottomDwellerCharacter::EndAttack()
 {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	GetCharacterMovement()->RotationRate = RotationRate;
 }
 
 void ABottomDwellerCharacter::EnableWeaponCollision()
 {
-	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	WeaponComponent->SetCollisionProfileName(EName::Actor);
+
 }
 
 void ABottomDwellerCharacter::DisableWeaponCollision()
 {
-	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	WeaponComponent->SetCollisionProfileName(EName::None);
 }
 
 void ABottomDwellerCharacter::OnEquipmentStateChange(UItemDataAsset* Item, EGearSlots Slot)

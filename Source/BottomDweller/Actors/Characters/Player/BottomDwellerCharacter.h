@@ -59,7 +59,13 @@ public:
 	float WalkSpeed;
 	
 	UPROPERTY(EditAnywhere)
+	FRotator RotationRate;
+	
+	UPROPERTY(EditAnywhere)
 	float AttackWalkSpeed;
+
+	UPROPERTY(EditAnywhere)
+	FRotator AttackRotationRate;
 	
 	ABottomDwellerCharacter();
 
