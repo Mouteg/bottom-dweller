@@ -1,6 +1,5 @@
 ﻿#include "InteractionComponent.h"
 
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Interactables/Interactable.h"
 #include "GameFramework/Character.h"
 
@@ -8,16 +7,10 @@
 UInteractionComponent::UInteractionComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.TickInterval = 0.1;
 }
 
-void UInteractionComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	ABottomDwellerCharacter* OwnerCharacter = CastChecked<ABottomDwellerCharacter>(GetOwner());
-	OwnerCharacter->OnInteract.AddDynamic(this, &UInteractionComponent::Interact);
-}
-
-void UInteractionComponent::Interact(ABottomDwellerCharacter* Interactor)
+void UInteractionComponent::Interact(AActor* Interactor)
 {
 	FHitResult Hit;
 
@@ -26,6 +19,7 @@ void UInteractionComponent::Interact(ABottomDwellerCharacter* Interactor)
 		if (IInteractable* Interactable = ToInteractable(Hit))
 		{
 			Interactable->OnInteract(Interactor);
+			OnInteract.Broadcast(GetOwner());
 		}
 	}
 }
@@ -60,7 +54,6 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 	);
 }
 
-// Make in timer ?
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

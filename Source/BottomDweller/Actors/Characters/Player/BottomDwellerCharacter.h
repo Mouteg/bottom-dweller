@@ -13,8 +13,6 @@ struct FInventory_EquipmentState;
 
 typedef TFunction<void (UItemDataAsset*)> FEquipFunc;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInteract, ABottomDwellerCharacter*, Interactor);
-
 UCLASS(config=Game)
 class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 {
@@ -69,22 +67,22 @@ public:
 	
 	ABottomDwellerCharacter();
 
-	UFUNCTION(BlueprintCallable)
-	void Interact();
-
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
 	UInventoryComponent* GetInventoryComponent() const
 	{
 		return InventoryComponent;
+	}
+	
+	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
+	UInteractionComponent* GetInteractionComponent() const
+	{
+		return InteractionComponent;
 	}
 
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-	UPROPERTY(BlueprintAssignable)
-	FOnInteract OnInteract;
 
 	virtual void BeginAttack() override;
 	virtual void EndAttack() override;

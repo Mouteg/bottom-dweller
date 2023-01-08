@@ -20,8 +20,6 @@ void ABottomDwellerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	InventoryComponent->OnEquipmentStateChange.AddDynamic(this, &ABottomDwellerCharacter::OnEquipmentStateChange);
-	UE_LOG(LogTemp, Warning, TEXT("Binded state change"));
-
 }
 
 void ABottomDwellerCharacter::InitActorComponents()
@@ -89,11 +87,6 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 	}
 }
 
-void ABottomDwellerCharacter::Interact()
-{
-	OnInteract.Broadcast(this);
-}
-
 void ABottomDwellerCharacter::BeginAttack()
 {
 	GetCharacterMovement()->MaxWalkSpeed = AttackWalkSpeed;
@@ -109,7 +102,6 @@ void ABottomDwellerCharacter::EndAttack()
 void ABottomDwellerCharacter::EnableWeaponCollision()
 {
 	WeaponComponent->SetCollisionProfileName(EName::Actor);
-
 }
 
 void ABottomDwellerCharacter::DisableWeaponCollision()

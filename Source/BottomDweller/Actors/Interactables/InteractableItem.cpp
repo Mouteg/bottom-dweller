@@ -25,13 +25,15 @@ void AInteractableItem::OnConstruction(const FTransform& Transform)
 		StaticMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
 	}
 }
-void AInteractableItem::OnInteract(ABottomDwellerCharacter* Interactor)
+
+void AInteractableItem::OnInteract(AActor* Interactor)
 {
-	if (
-		UInventoryComponent* InventoryComponent = Interactor->GetInventoryComponent();
-		InventoryComponent
-	)
+	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(Interactor);
+	UInventoryComponent* InventoryComponent = Character->GetInventoryComponent();
+	if (Character && InventoryComponent)
+	{
 		Quantity = InventoryComponent->AddItem(InventoryItem, Quantity);
+	}
 	if (Quantity <= 0)
 	{
 		Destroy();

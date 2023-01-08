@@ -20,7 +20,7 @@ class BOTTOMDWELLER_API IInteractable
 	GENERATED_BODY()
 
 public:
-	virtual void OnInteract(ABottomDwellerCharacter* Interactor) = 0;
+	virtual void OnInteract(AActor* Interactor) = 0;
 
 	virtual FString GetInspectorDescription() const = 0;
 };

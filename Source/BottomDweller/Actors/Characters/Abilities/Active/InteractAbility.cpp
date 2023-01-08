@@ -3,8 +3,8 @@
 
 #include "InteractAbility.h"
 
-#include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 
 void UInteractAbility::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
@@ -16,7 +16,7 @@ void UInteractAbility::ActivateAbility(
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	if (ABottomDwellerCharacter* Character = GetBottomDwellerCharacterFromActorInfo())
 	{
-		Character->Interact();
+		Character->GetInteractionComponent()->Interact(Character);
 	}
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
 }

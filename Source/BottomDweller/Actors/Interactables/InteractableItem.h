@@ -34,7 +34,7 @@ public:
 	virtual void OnConstruction(const FTransform& Transform) override;
 
 public:
-	virtual void OnInteract(ABottomDwellerCharacter* Interactor) override;
+	virtual void OnInteract(AActor* Interactor) override;
 
 	UFUNCTION(BlueprintPure, BlueprintGetter, BlueprintCallable)
 	virtual FString GetInspectorDescription() const override
