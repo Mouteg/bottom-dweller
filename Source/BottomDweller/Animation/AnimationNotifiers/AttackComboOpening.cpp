@@ -5,18 +5,15 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
+#include "BottomDweller/Actors/Characters/Abilities/GameplayTagHelpers.h"
 
-UAttackComboOpening::UAttackComboOpening()
-{
-	AttackComboOpeningEventTag = FGameplayTag::RequestGameplayTag(TEXT("Event.Attack.ComboOpening"));
-}
 
 void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated)
 {
 	FGameplayEventData EventData;
 	EventData.Instigator = Owner->GetOwner();
 	EventData.EventMagnitude = bActivated;
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Owner, AttackComboOpeningEventTag, EventData);
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Owner, UGameplayTagHelpers::GetComboOpeningTag(), EventData);
 }
 
 void UAttackComboOpening::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration,

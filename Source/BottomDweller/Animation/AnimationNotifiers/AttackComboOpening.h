@@ -19,8 +19,6 @@ class BOTTOMDWELLER_API UAttackComboOpening : public UAnimNotifyState
 
 public:
 
-	UAttackComboOpening();
-
 	UPROPERTY(EditAnywhere)
 	FGameplayTag AttackComboOpeningEventTag;
 	

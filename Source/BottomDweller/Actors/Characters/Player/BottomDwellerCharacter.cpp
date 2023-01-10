@@ -16,6 +16,11 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 	InitEquipFunctions();
 }
 
+void ABottomDwellerCharacter::OnEquipmentStateChange(UItemDataAsset* Item, EGearSlots Slot)
+{
+	EquipFunctions[Slot](Item);
+}
+
 void ABottomDwellerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -109,24 +114,24 @@ void ABottomDwellerCharacter::DisableWeaponCollision()
 	WeaponComponent->SetCollisionProfileName(EName::None);
 }
 
-void ABottomDwellerCharacter::OnEquipmentStateChange(UItemDataAsset* Item, EGearSlots Slot)
-{
-	EquipFunctions[Slot](Item);
-}
-
 FEquipFunc ABottomDwellerCharacter::ChangeWeapon()
 {
 	return [=](const UItemDataAsset* Item)
 	{
 		const UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
-		if (AbilitySystemComponent->ActiveItemHandlesContain(EGearSlots::Weapon))
+		if (ActiveItemHandles.Contains(EGearSlots::Weapon))
 		{
-			AbilitySystemComponent->RemoveItemEffect(EGearSlots::Weapon);
+			AbilitySystemComponent->RemoveActiveGameplayEffect(ActiveItemHandles[EGearSlots::Weapon]);
 		}
 
 		if (WeaponItem && WeaponItem->GameplayEffect && WeaponItem->Mesh.Get())
 		{
-			AbilitySystemComponent->AddItemEffect(EGearSlots::Weapon, WeaponItem->GameplayEffect.GetDefaultObject());
+			const FActiveGameplayEffectHandle Handle = AbilitySystemComponent->ApplyGameplayEffectToSelf(
+				WeaponItem->GameplayEffect.GetDefaultObject(),
+				1,
+				AbilitySystemComponent->MakeEffectContext()
+			);
+			ActiveItemHandles.Add(EGearSlots::Weapon, Handle);
 			WeaponComponent->SetStaticMesh(WeaponItem->Mesh.Get());
 			WeaponComponent->SetVisibility(true);
 		}

@@ -44,6 +44,8 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 
 	TMap<EGearSlots, FEquipFunc> EquipFunctions;
 
+	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
+	
 protected:
 	/** Called for movement input */
 	UFUNCTION(BlueprintCallable)
@@ -53,7 +55,7 @@ protected:
 	
 public:
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Walking")
 	float WalkSpeed;
 	
 	UPROPERTY(EditAnywhere)

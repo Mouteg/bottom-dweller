@@ -8,6 +8,7 @@
 #include "Components/TextBlock.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "ItemDetailsPanel.h"
+#include "BottomDweller/Actors/Characters/Abilities/GameplayTagHelpers.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -15,7 +16,7 @@ bool UInventorySlotWidget::Initialize()
 {
 	const bool bSuccess = Super::Initialize();
 	if (!bSuccess) return false;
-	DoubleClickEventTag = FGameplayTag::RequestGameplayTag(FName("Event.UseItem"));
+	DoubleClickEventTag = UGameplayTagHelpers::GetUseItemTag();
 
 	return bSuccess;
 }

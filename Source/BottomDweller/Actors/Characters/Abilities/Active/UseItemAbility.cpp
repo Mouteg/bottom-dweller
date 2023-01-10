@@ -3,6 +3,7 @@
 
 #include "UseItemAbility.h"
 
+#include "BottomDweller/Actors/Characters/Abilities/GameplayTagHelpers.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
@@ -11,7 +12,7 @@ UUseItemAbility::UUseItemAbility()
 {
 	FAbilityTriggerData TriggerData;
 	TriggerData.TriggerSource = EGameplayAbilityTriggerSource::GameplayEvent;
-	TriggerData.TriggerTag = FGameplayTag::RequestGameplayTag(FName("Event.UseItem"));
+	TriggerData.TriggerTag = UGameplayTagHelpers::GetUseItemTag();
 	AbilityTriggers.Add(TriggerData);
 }
 

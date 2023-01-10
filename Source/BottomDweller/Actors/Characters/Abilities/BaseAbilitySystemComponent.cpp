@@ -10,26 +10,6 @@ void UBaseAbilitySystemComponent::BeginPlay()
 	ClearAbilityInput();
 }
 
-bool UBaseAbilitySystemComponent::ActiveItemHandlesContain(EGearSlots Slot)
-{
-	return ActiveItemHandles.Contains(Slot);
-}
-
-void UBaseAbilitySystemComponent::RemoveItemEffect(EGearSlots Slot)
-{
-	RemoveActiveGameplayEffect(ActiveItemHandles[Slot]);
-	ActiveItemHandles.FindAndRemoveChecked(Slot);
-}
-void UBaseAbilitySystemComponent::AddItemEffect(EGearSlots Slot, UGameplayEffect* Effect)
-{
-	const FActiveGameplayEffectHandle Handle = ApplyGameplayEffectToSelf(
-			Effect,
-			1,
-			MakeEffectContext()
-		);
-	ActiveItemHandles.Add(Slot, Handle);
-}
-
 void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGamePaused)
 {
 	// if (HasMatchingGameplayTag(TAG_Gameplay_AbilityInputBlocked))
