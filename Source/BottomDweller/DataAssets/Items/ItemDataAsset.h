@@ -14,6 +14,51 @@ enum class EItemType : uint8
 	Consumable UMETA(DisplayName = "Usable")
 };
 
+USTRUCT()
+struct FItemStatEffect
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, Category=Health)
+	float MaxHealth;
+	UPROPERTY(EditDefaultsOnly, Category=Health)
+	float Health;
+	UPROPERTY(EditDefaultsOnly, Category=Health)
+	float HealthRegen;
+	
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float MaxStamina;
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float Stamina;
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float StaminaRegen;
+	
+	UPROPERTY(EditDefaultsOnly, Category=Mana)
+	float MaxMana;
+	UPROPERTY(EditDefaultsOnly, Category=Mana)
+	float Mana;
+	UPROPERTY(EditDefaultsOnly, Category=Mana)
+	float ManaRegen;
+	
+	UPROPERTY(EditDefaultsOnly, Category=Attributes)
+	float Dexterity;
+	UPROPERTY(EditDefaultsOnly, Category=Attributes)
+	float Strength;
+	UPROPERTY(EditDefaultsOnly, Category=Attributes)
+	float Intelligence;
+	UPROPERTY(EditDefaultsOnly, Category=Attributes)
+	float Luck;
+	
+	UPROPERTY(EditDefaultsOnly, Category=Damage)
+	float SlashingDamage;
+
+	UPROPERTY(EditDefaultsOnly, Category=Damage)
+	float BluntDamage;
+
+	UPROPERTY(EditDefaultsOnly, Category=Damage)
+	float PiercingDamage;
+};
+
 UCLASS(Abstract)
 class BOTTOMDWELLER_API UItemDataAsset : public UBaseDataAsset
 {

@@ -14,6 +14,8 @@ class BOTTOMDWELLER_API USprintAbility : public UBaseGameplayAbility
 {
 	GENERATED_BODY()
 
+	FActiveGameplayEffectHandle CostEffectHandle;
+
 	USprintAbility();
 	
 protected:
@@ -28,7 +30,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float SprintSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category=Costs)
+	TSubclassOf<UGameplayEffect> SprintPeriodicCostEffect;
 	
 	virtual void InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 		const FGameplayAbilityActivationInfo ActivationInfo) override;
+	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
+	virtual void OnRemoveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 };

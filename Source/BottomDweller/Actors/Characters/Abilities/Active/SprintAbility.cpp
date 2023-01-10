@@ -19,9 +19,32 @@ void USprintAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 }
 
 void USprintAbility::InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-	const FGameplayAbilityActivationInfo ActivationInfo)
+                                   const FGameplayAbilityActivationInfo ActivationInfo)
 {
 	Super::InputReleased(Handle, ActorInfo, ActivationInfo);
 	GetBottomDwellerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
+}
+
+void USprintAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
+{
+	Super::OnGiveAbility(ActorInfo, Spec);
+	if (SprintPeriodicCostEffect)
+	{
+		CostEffectHandle = GetAbilitySystemComponentFromActorInfo(ActorInfo)->ApplyGameplayEffectToSelf(
+			SprintPeriodicCostEffect->GetDefaultObject<UGameplayEffect>(),
+			1,
+			MakeEffectContext(Spec.Handle, ActorInfo)
+		);
+	}
+}
+
+void USprintAbility::OnRemoveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
+{
+	Super::OnRemoveAbility(ActorInfo, Spec);
+	if (CostEffectHandle.IsValid())
+	{
+		GetAbilitySystemComponentFromActorInfo(ActorInfo)->RemoveActiveGameplayEffect(CostEffectHandle);
+	}
+	
 }

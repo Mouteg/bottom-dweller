@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/ActorComponent.h"
+#include "GameplayEffectTypes.h"
 #include "InventoryComponent.generated.h"
+
+class UGameplayEffect;
 
 USTRUCT(BlueprintType)
 struct FInventory_EquipmentState
@@ -30,7 +33,11 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
+	
+	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
+	
+	void ChangeWeapon(UWeaponItemDataAsset* Item);
+	
 	UPROPERTY(EditAnywhere)
 	FInventory_EquipmentState EquipmentState;
 
@@ -45,12 +52,6 @@ public:
 	FInventory_EquipmentState GetEquipmentState() const { return EquipmentState; }
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryContent; }
 
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnChange OnChange;
-
-	UPROPERTY()
-	FOnEquipmentStateChange OnEquipmentStateChange;
-
 	UFUNCTION(BlueprintCallable)
 	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
 
@@ -62,7 +63,21 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Equip(UItemDataAsset* Item, EGearSlots Slot);
+	
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnChange OnChange;
 
+	UPROPERTY()
+	FOnEquipmentStateChange OnEquipmentStateChange;
+
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
+	TSubclassOf<UGameplayEffect> InstantEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
+	TSubclassOf<UGameplayEffect> DurationEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
+	TSubclassOf<UGameplayEffect> InfiniteEffect;
 	// Add / remove
 	// Sort
 	// Transfer between two

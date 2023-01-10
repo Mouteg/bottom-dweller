@@ -27,6 +27,7 @@ public:
 	FGameplayAttributeData ManaRegen;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, ManaRegen);
 	
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxStamina;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, MaxStamina);
@@ -38,6 +39,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData StaminaRegen;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, StaminaRegen);
+	
 
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Strength;
@@ -54,4 +56,17 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Luck;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, Luck);
+	
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData WeaponSlashingDamage;
+	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, WeaponSlashingDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData WeaponBluntDamage;
+	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, WeaponBluntDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData WeaponPiercingDamage;
+	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, WeaponPiercingDamage);
 };

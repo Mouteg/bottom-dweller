@@ -1,30 +1,15 @@
 #include "BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
-#include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 
-typedef TFunction<void (UItemDataAsset*)> FEquipFunc;
-
 ABottomDwellerCharacter::ABottomDwellerCharacter()
 {
 	InitActorComponents();
-	InitEquipFunctions();
-}
-
-void ABottomDwellerCharacter::OnEquipmentStateChange(UItemDataAsset* Item, EGearSlots Slot)
-{
-	EquipFunctions[Slot](Item);
-}
-
-void ABottomDwellerCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	InventoryComponent->OnEquipmentStateChange.AddDynamic(this, &ABottomDwellerCharacter::OnEquipmentStateChange);
 }
 
 void ABottomDwellerCharacter::InitActorComponents()
@@ -69,11 +54,6 @@ void ABottomDwellerCharacter::InitActorComponents()
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
-void ABottomDwellerCharacter::InitEquipFunctions()
-{
-	EquipFunctions.Add(EGearSlots::Weapon, ChangeWeapon());
-}
-
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 {
 	if ((Controller != nullptr) && (ForwardValue != 0.0f || RightValue != 0.0f))
@@ -112,32 +92,4 @@ void ABottomDwellerCharacter::EnableWeaponCollision()
 void ABottomDwellerCharacter::DisableWeaponCollision()
 {
 	WeaponComponent->SetCollisionProfileName(EName::None);
-}
-
-FEquipFunc ABottomDwellerCharacter::ChangeWeapon()
-{
-	return [=](const UItemDataAsset* Item)
-	{
-		const UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
-		if (ActiveItemHandles.Contains(EGearSlots::Weapon))
-		{
-			AbilitySystemComponent->RemoveActiveGameplayEffect(ActiveItemHandles[EGearSlots::Weapon]);
-		}
-
-		if (WeaponItem && WeaponItem->GameplayEffect && WeaponItem->Mesh.Get())
-		{
-			const FActiveGameplayEffectHandle Handle = AbilitySystemComponent->ApplyGameplayEffectToSelf(
-				WeaponItem->GameplayEffect.GetDefaultObject(),
-				1,
-				AbilitySystemComponent->MakeEffectContext()
-			);
-			ActiveItemHandles.Add(EGearSlots::Weapon, Handle);
-			WeaponComponent->SetStaticMesh(WeaponItem->Mesh.Get());
-			WeaponComponent->SetVisibility(true);
-		}
-		else
-		{
-			WeaponComponent->SetVisibility(false);
-		}
-	};
 }

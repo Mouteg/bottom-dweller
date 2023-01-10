@@ -90,10 +90,16 @@ void UAttackAbility::AttackMontageEnded()
 	else
 	{
 		ComboCounter = 0;
-		AttackMontageTask->OnBlendOut.RemoveDynamic(this, &UAttackAbility::AttackMontageEnded);
-		EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
+		AttackMontageTask->OnBlendOut.RemoveAll(this);
+		AttackMontageTask->OnCompleted.AddDynamic(this, &UAttackAbility::AttackCompleted);
 	}
 	bCombo = false;
+}
+
+void UAttackAbility::AttackCompleted()
+{
+	AttackMontageTask->OnCompleted.RemoveAll(this);
+	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
 }
 
 void UAttackAbility::SetComboOpening(FGameplayEventData Payload)

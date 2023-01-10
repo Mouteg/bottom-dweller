@@ -7,23 +7,12 @@
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
 #include "BottomDwellerCharacter.generated.h"
 
-class UItemDataAsset;
-class ABottomDwellerCharacter;
-struct FInventory_EquipmentState;
-
-typedef TFunction<void (UItemDataAsset*)> FEquipFunc;
-
 UCLASS(config=Game)
 class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 {
 	GENERATED_BODY()
 	
 	void InitActorComponents();
-	void InitEquipFunctions();
-	
-	UFUNCTION(BlueprintCallable)
-	void OnEquipmentStateChange(UItemDataAsset* Item, EGearSlots Slot);
-	FEquipFunc ChangeWeapon();
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -35,27 +24,18 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UInventoryComponent* InventoryComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* WeaponComponent;
-
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
-
-	TMap<EGearSlots, FEquipFunc> EquipFunctions;
-
-	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
 	
 protected:
 	/** Called for movement input */
 	UFUNCTION(BlueprintCallable)
 	void Move(float ForwardValue, float RightValue);
-
-	virtual void BeginPlay() override;
 	
 public:
 
-	UPROPERTY(EditAnywhere, Category="Walking")
+	UPROPERTY(EditAnywhere)
 	float WalkSpeed;
 	
 	UPROPERTY(EditAnywhere)
@@ -66,6 +46,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FRotator AttackRotationRate;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* WeaponComponent;
 	
 	ABottomDwellerCharacter();
 

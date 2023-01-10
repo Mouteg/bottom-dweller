@@ -12,6 +12,7 @@
 	 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 	 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
 UCLASS()
 class BOTTOMDWELLER_API UBaseAttributeSet : public UAttributeSet
 {
@@ -34,4 +35,16 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData HealthRegen;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, HealthRegen);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData SlashingDamage;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, SlashingDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData BluntDamage;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, BluntDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData PiercingDamage;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, PiercingDamage);
 };

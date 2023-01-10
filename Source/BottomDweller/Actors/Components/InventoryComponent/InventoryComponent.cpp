@@ -2,7 +2,7 @@
 
 
 #include "InventoryComponent.h"
-
+#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
@@ -58,7 +58,7 @@ void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Qua
 	{
 		return;
 	}
-	
+
 	if (InventoryContent[Item] > Quantity)
 	{
 		InventoryContent[Item] -= Quantity;
@@ -103,17 +103,7 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 	case EGearSlots::Weapon:
 		{
 			UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
-			if (!WeaponItem)
-			{
-				return;
-			}
-
-			if (EquipmentState.Weapon)
-			{
-				AddItem(EquipmentState.Weapon);
-			}
-
-			EquipmentState.Weapon = WeaponItem;
+			ChangeWeapon(WeaponItem);
 			break;
 		}
 
@@ -124,4 +114,41 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 	RemoveItem(Item);
 	OnEquipmentStateChange.Broadcast(Item, Slot);
 	OnChange.Broadcast();
+}
+
+void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
+{
+	if (EquipmentState.Weapon)
+	{
+		AddItem(EquipmentState.Weapon);
+	}
+
+	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
+	if (!Character || !Character->GetAbilitySystemComponent())
+	{
+		return;
+	}
+
+	UBaseAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
+	if (ActiveItemHandles.Contains(EGearSlots::Weapon))
+	{
+		Character->GetAbilitySystemComponent()->RemoveActiveGameplayEffect(ActiveItemHandles[EGearSlots::Weapon]);
+	}
+
+	if (Item && Item->GameplayEffect && Item->Mesh.Get())
+	{
+		const FActiveGameplayEffectHandle Handle = ASC->ApplyGameplayEffectToSelf(
+			Item->GameplayEffect.GetDefaultObject(),
+			1,
+			ASC->MakeEffectContext()
+		);
+		ActiveItemHandles.Add(EGearSlots::Weapon, Handle);
+		Character->WeaponComponent->SetStaticMesh(Item->Mesh.Get());
+		Character->WeaponComponent->SetVisibility(true);
+	}
+	else
+	{
+		Character->WeaponComponent->SetVisibility(false);
+	}
+	EquipmentState.Weapon = Item;
 }

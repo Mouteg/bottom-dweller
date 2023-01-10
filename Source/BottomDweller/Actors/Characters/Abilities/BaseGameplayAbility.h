@@ -34,7 +34,11 @@ protected:
 	EAbilityActivationPolicy ActivationPolicy;
 
 public:
+	UPROPERTY(EditDefaultsOnly, Category=Costs)
+	float Cost;
+	
 	EAbilityActivationPolicy GetActivationPolicy() const { return ActivationPolicy; }
+	UAbilitySystemComponent* GetAbilitySystemComponentFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 	ABottomDwellerPlayerController* GetPlayerControllerFromActorInfo() const;
 	ABaseCharacter* GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 	ABottomDwellerCharacter* GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;

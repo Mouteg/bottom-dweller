@@ -29,6 +29,8 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 
 	UFUNCTION()
 	void AttackMontageEnded();
+	UFUNCTION()
+	void AttackCompleted();
 
 	UFUNCTION()
 	void SetComboOpening(FGameplayEventData Payload);
