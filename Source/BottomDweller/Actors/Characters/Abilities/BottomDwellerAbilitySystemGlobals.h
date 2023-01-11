@@ -60,6 +60,8 @@ public:
 
 	UPROPERTY()
 	FGameplayTag ComboOpeningTag;
+	UPROPERTY()
+	FGameplayTag SprintAbility;
 
 	UPROPERTY()
 	FGameplayTag UseItemTag;

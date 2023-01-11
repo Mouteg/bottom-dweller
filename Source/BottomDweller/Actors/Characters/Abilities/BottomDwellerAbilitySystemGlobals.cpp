@@ -17,6 +17,7 @@ void UBottomDwellerAbilitySystemGlobals::InitGlobalTags()
 	Super::InitGlobalTags();
 	ComboOpeningTag = FGameplayTag::RequestGameplayTag(TEXT("Event.Attack.ComboOpening"));
 	UseItemTag = FGameplayTag::RequestGameplayTag(TEXT("Event.UseItem"));
+	SprintAbility = FGameplayTag::RequestGameplayTag(TEXT("Ability.Sprint"));
 
 	MaxHealthTag = FGameplayTag::RequestGameplayTag(TEXT("Attribute.MaxHealth"));
 	HealthTag = FGameplayTag::RequestGameplayTag(TEXT("Attribute.Health"));

@@ -80,10 +80,5 @@ void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)
 
 void UUseItemAbility::AddSetByCaller(FGameplayTag Tag, float Magnitude)
 {
-	if (Magnitude == 0)
-	{
-		return;
-	}
 	CurrentEffectSpec->SetByCallerTagMagnitudes.Add(Tag, Magnitude);
-
 }

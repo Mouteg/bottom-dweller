@@ -16,18 +16,20 @@ void ABottomDwellerCharacter::InitActorComponents()
 {
 	WalkSpeed = 500;
 	AttackWalkSpeed = 100;
-	RotationRate = FRotator(0.0f, 500.0f, 0.0f);
+	RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 	AttackRotationRate = FRotator(0.0f, 200.0f, 0.0f);
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->BrakingFrictionFactor = 1;
+	GetCharacterMovement()->BrakingFriction = 6.0f;
+	GetCharacterMovement()->GroundFriction = 8.0f;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
-	GetCharacterMovement()->JumpZVelocity = 700.f;
-	GetCharacterMovement()->AirControl = 0.35f;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
-	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+	GetCharacterMovement()->BrakingDecelerationWalking = 1400.f;
 	// bUseControllerRotationPitch = true;
 	// bUseControllerRotationYaw = true;
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));

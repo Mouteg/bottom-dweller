@@ -1,6 +1,7 @@
 ﻿#include "PlayerAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
+#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 
 void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
@@ -13,6 +14,12 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 	if (Data.EvaluatedData.Attribute == GetStaminaAttribute())
 	{
 		SetStamina(FMath::Clamp(GetStamina(), 0.f, GetMaxStamina()));
+		if (GetStamina() == 0)
+		{
+			FGameplayTagContainer TagsToCancel;
+			TagsToCancel.AddTag(UBottomDwellerAbilitySystemGlobals::GSGet().SprintAbility);
+			GetOwningAbilitySystemComponent()->CancelAbilities(&TagsToCancel);
+		}
 	}
 }
 
