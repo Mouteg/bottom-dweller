@@ -14,8 +14,6 @@ class BOTTOMDWELLER_API UUsableItemDataAsset : public UItemDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UGameplayEffect> GameplayEffect;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bIsInfinite;

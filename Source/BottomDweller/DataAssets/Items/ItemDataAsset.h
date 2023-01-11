@@ -10,16 +10,16 @@
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
-	Weapon UMETA(DisplayName = "Weapon"),
+	Gear UMETA(DisplayName = "Gear"),
 	Consumable UMETA(DisplayName = "Usable")
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FItemStatEffect
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category=Health)
+	UPROPERTY(EditDefaultsOnly, Category="Health")
 	float MaxHealth;
 	UPROPERTY(EditDefaultsOnly, Category=Health)
 	float Health;
@@ -51,10 +51,8 @@ struct FItemStatEffect
 	
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
 	float SlashingDamage;
-
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
 	float BluntDamage;
-
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
 	float PiercingDamage;
 };
@@ -81,6 +79,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<UStaticMesh> Mesh;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FItemStatEffect ItemStatEffect;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float Cost;
 

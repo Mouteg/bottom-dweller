@@ -2,6 +2,8 @@
 
 
 #include "InventoryComponent.h"
+
+#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
@@ -70,11 +72,11 @@ void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Qua
 	OnChange.Broadcast();
 }
 
-void UInventoryComponent::UseItem(UItemDataAsset* Item)
+void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec)
 {
 	switch (Item->ItemType)
 	{
-	case EItemType::Weapon:
+	case EItemType::Gear:
 		{
 			Equip(Item, EGearSlots::Weapon);
 			break;
@@ -86,8 +88,9 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item)
 			break;
 		}
 	default:
-		;
+		return;
 	}
+	ApplyGameplayEffectSpec(Spec);
 }
 
 void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
@@ -97,7 +100,6 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 		UE_LOG(LogTemp, Warning, TEXT("Only gear can be equipped"));
 		return;
 	}
-
 	switch (Slot)
 	{
 	case EGearSlots::Weapon:
@@ -124,25 +126,13 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 	}
 
 	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
-	if (!Character || !Character->GetAbilitySystemComponent())
+	if (!Item || !Character || !Character->GetAbilitySystemComponent())
 	{
 		return;
 	}
 
-	UBaseAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
-	if (ActiveItemHandles.Contains(EGearSlots::Weapon))
+	if (Item->Mesh.Get())
 	{
-		Character->GetAbilitySystemComponent()->RemoveActiveGameplayEffect(ActiveItemHandles[EGearSlots::Weapon]);
-	}
-
-	if (Item && Item->GameplayEffect && Item->Mesh.Get())
-	{
-		const FActiveGameplayEffectHandle Handle = ASC->ApplyGameplayEffectToSelf(
-			Item->GameplayEffect.GetDefaultObject(),
-			1,
-			ASC->MakeEffectContext()
-		);
-		ActiveItemHandles.Add(EGearSlots::Weapon, Handle);
 		Character->WeaponComponent->SetStaticMesh(Item->Mesh.Get());
 		Character->WeaponComponent->SetVisibility(true);
 	}
@@ -150,5 +140,18 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 	{
 		Character->WeaponComponent->SetVisibility(false);
 	}
+
 	EquipmentState.Weapon = Item;
+}
+
+void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec)
+{
+	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
+	UBaseAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
+	if (ActiveItemHandles.Contains(EGearSlots::Weapon))
+	{
+		Character->GetAbilitySystemComponent()->RemoveActiveGameplayEffect(ActiveItemHandles[EGearSlots::Weapon]);
+	}
+	const FActiveGameplayEffectHandle Handle = ASC->ApplyGameplayEffectSpecToSelf(Spec);
+	ActiveItemHandles.Add(EGearSlots::Weapon, Handle);
 }

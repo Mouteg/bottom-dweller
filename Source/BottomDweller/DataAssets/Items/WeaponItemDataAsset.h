@@ -22,9 +22,6 @@ class BOTTOMDWELLER_API UWeaponItemDataAsset : public UItemDataAsset, public IGe
 public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UGameplayEffect> GameplayEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EWeaponType WeaponType;
 
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override

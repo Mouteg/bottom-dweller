@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffect.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/ActorComponent.h"
 #include "GameplayEffectTypes.h"
@@ -37,6 +38,8 @@ class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
 	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
 	
 	void ChangeWeapon(UWeaponItemDataAsset* Item);
+
+	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec);
 	
 	UPROPERTY(EditAnywhere)
 	FInventory_EquipmentState EquipmentState;
@@ -59,7 +62,7 @@ public:
 	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
-	void UseItem(UItemDataAsset* Item);
+	void UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec);
 
 	UFUNCTION(BlueprintCallable)
 	void Equip(UItemDataAsset* Item, EGearSlots Slot);
@@ -69,15 +72,6 @@ public:
 
 	UPROPERTY()
 	FOnEquipmentStateChange OnEquipmentStateChange;
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
-	TSubclassOf<UGameplayEffect> InstantEffect;
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
-	TSubclassOf<UGameplayEffect> DurationEffect;
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
-	TSubclassOf<UGameplayEffect> InfiniteEffect;
 	// Add / remove
 	// Sort
 	// Transfer between two

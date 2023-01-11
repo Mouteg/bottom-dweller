@@ -2,6 +2,7 @@
 
 #include "BottomDwellerGameMode.h"
 
+#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "Engine/AssetManager.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -28,4 +29,6 @@ void ABottomDwellerGameMode::BeginPlay()
 	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("Usableitem")), AssetIds);
 	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponAnimations")), AssetIds);
 	UAssetManager::Get().LoadPrimaryAssets(AssetIds, BundlesToLoad);
+
+	UBottomDwellerAbilitySystemGlobals::Get().InitGlobalData();
 }

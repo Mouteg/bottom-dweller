@@ -5,7 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
-#include "BottomDweller/Actors/Characters/Abilities/GameplayTagHelpers.h"
+#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 
 
 void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated)
@@ -13,7 +13,7 @@ void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated)
 	FGameplayEventData EventData;
 	EventData.Instigator = Owner->GetOwner();
 	EventData.EventMagnitude = bActivated;
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Owner, UGameplayTagHelpers::GetComboOpeningTag(), EventData);
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Owner, UBottomDwellerAbilitySystemGlobals::GSGet().ComboOpeningTag, EventData);
 }
 
 void UAttackComboOpening::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration,
