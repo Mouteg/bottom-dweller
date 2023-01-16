@@ -6,12 +6,13 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Abilities/AbilitySet.h"
+#include "BottomDweller/Saves/Saveable.h"
 #include "BaseCharacter.generated.h"
 
 class UBaseAbilitySystemComponent;
 
 UCLASS(Abstract)
-class BOTTOMDWELLER_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
+class BOTTOMDWELLER_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface, public ISaveable
 {
 	GENERATED_BODY()
 
@@ -23,12 +24,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Abilities")
+	UPROPERTY(EditAnywhere, Category = "Abilities", SaveGame)
 	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	UAbilitySet* AbilitySet;
 public:
+	virtual void OnActorLoaded_Implementation() override;
+
 	virtual UBaseAbilitySystemComponent* GetAbilitySystemComponent() const override
 	{
 		return AbilitySystemComponent;

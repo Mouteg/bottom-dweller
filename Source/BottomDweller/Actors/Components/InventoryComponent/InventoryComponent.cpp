@@ -83,8 +83,10 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 		}
 	case EItemType::Consumable:
 		{
-			UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item);
-			RemoveItem(Item);
+			if (const UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item); !ConsumableItem->bIsInfinite)
+			{
+				RemoveItem(Item);
+			}
 			break;
 		}
 	default:

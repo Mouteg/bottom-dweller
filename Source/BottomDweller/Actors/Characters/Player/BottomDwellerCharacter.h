@@ -21,7 +21,7 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UInteractionComponent* InteractionComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
 	class UInventoryComponent* InventoryComponent;
 
 	/** Follow camera */
@@ -51,6 +51,19 @@ public:
 	class UStaticMeshComponent* WeaponComponent;
 	
 	ABottomDwellerCharacter();
+	
+	UFUNCTION(BlueprintCallable, BlueprintSetter)
+	void SetInventoryComponent(UInventoryComponent* NewInventoryComponent)
+	{
+		InventoryComponent = NewInventoryComponent;
+	}
+	
+	UFUNCTION(BlueprintCallable, BlueprintSetter)
+	void SetInteractionComponent(UInteractionComponent* NewInteractionComponent)
+	{
+		InteractionComponent = NewInteractionComponent;
+	}
+	
 
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
 	UInventoryComponent* GetInventoryComponent() const
@@ -68,6 +81,8 @@ public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
+	virtual void OnActorLoaded_Implementation() override;
 
 	virtual void BeginAttack() override;
 	virtual void EndAttack() override;

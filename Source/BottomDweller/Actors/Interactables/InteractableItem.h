@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Interactables/Interactable.h"
+#include "BottomDweller/Saves/Saveable.h"
 #include "GameFramework/Actor.h"
 #include "InteractableItem.generated.h"
 
 class UItemDataAsset;
 
 UCLASS()
-class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable
+class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable, public ISaveable
 {
 	GENERATED_BODY()
 
@@ -20,7 +21,7 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable
 	UPROPERTY()
 	UStaticMeshComponent* StaticMesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, SaveGame)
 	int32 Quantity = 1;
 
 	UPROPERTY(EditAnywhere)
@@ -31,9 +32,10 @@ public:
 	// Sets default values for this actor's properties
 	AInteractableItem();
 
-	virtual void OnConstruction(const FTransform& Transform) override;
+	// virtual void OnActorLoaded() override;
 
-public:
+	virtual void OnConstruction(const FTransform& Transform) override;
+	
 	virtual void OnInteract(AActor* Interactor) override;
 
 	UFUNCTION(BlueprintPure, BlueprintGetter, BlueprintCallable)

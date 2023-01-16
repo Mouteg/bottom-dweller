@@ -22,3 +22,8 @@ void ABaseCharacter::BeginPlay()
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 	}
 }
+
+void ABaseCharacter::OnActorLoaded_Implementation()
+{
+	
+}

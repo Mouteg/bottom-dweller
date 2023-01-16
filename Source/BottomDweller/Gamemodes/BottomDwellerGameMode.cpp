@@ -3,7 +3,21 @@
 #include "BottomDwellerGameMode.h"
 
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
+#include "BottomDweller/Saves/SaveGameManager.h"
 #include "Engine/AssetManager.h"
+#include "Kismet/GameplayStatics.h"
+
+void ABottomDwellerGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	
+	LoadPrimaryAssets();
+	
+	UBottomDwellerAbilitySystemGlobals::Get().InitGlobalData();
+	USaveGameManager* SaveGameManager = GetGameInstance()->GetSubsystem<USaveGameManager>();
+	// FString SelectedSaveSlot = UGameplayStatics::ParseOption(Options, "SaveGame");
+	SaveGameManager->LoadSaveGame("SaveGame01");
+}
 
 ABottomDwellerGameMode::ABottomDwellerGameMode()
 {
@@ -14,9 +28,8 @@ ABottomDwellerGameMode::ABottomDwellerGameMode()
 	// }
 }
 
-void ABottomDwellerGameMode::BeginPlay()
+void ABottomDwellerGameMode::LoadPrimaryAssets()
 {
-	Super::BeginPlay();
 	TArray<FPrimaryAssetId> AssetIds;
 	TArray<FName> BundlesToLoad;
 	BundlesToLoad.Add(FName(TEXT("Items")));
@@ -24,6 +37,4 @@ void ABottomDwellerGameMode::BeginPlay()
 	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("Usableitem")), AssetIds);
 	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponAnimations")), AssetIds);
 	UAssetManager::Get().LoadPrimaryAssets(AssetIds, BundlesToLoad);
-
-	UBottomDwellerAbilitySystemGlobals::Get().InitGlobalData();
 }

@@ -22,12 +22,13 @@ void ABottomDwellerCharacter::InitActorComponents()
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->JumpZVelocity = 700;;
 	GetCharacterMovement()->BrakingFrictionFactor = 1;
 	GetCharacterMovement()->BrakingFriction = 6.0f;
 	GetCharacterMovement()->GroundFriction = 8.0f;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
+	GetCharacterMovement()->RotationRate = RotationRate;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->BrakingDecelerationWalking = 1400.f;
 	// bUseControllerRotationPitch = true;
@@ -72,6 +73,11 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 		AddMovementInput(DirectionForward, ForwardValue);
 		AddMovementInput(DirectionRight, RightValue);
 	}
+}
+
+void ABottomDwellerCharacter::OnActorLoaded_Implementation()
+{
+	Super::OnActorLoaded_Implementation();
 }
 
 void ABottomDwellerCharacter::BeginAttack()
