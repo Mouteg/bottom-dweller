@@ -20,7 +20,9 @@ class BOTTOMDWELLER_API IInteractable
 	GENERATED_BODY()
 
 public:
-	virtual void OnInteract(AActor* Interactor) = 0;
-
-	virtual FString GetInspectorDescription() const = 0;
+	UFUNCTION(BlueprintNativeEvent)
+	void OnInteract(AActor* Interactor);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	FString GetInspectorDescription() const;
 };

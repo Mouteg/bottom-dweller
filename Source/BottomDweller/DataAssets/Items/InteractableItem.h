@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/Actors/Interactables/Interactable.h"
+#include "BottomDweller/Maps/Interactable.h"
 #include "BottomDweller/Saves/Saveable.h"
 #include "GameFramework/Actor.h"
 #include "InteractableItem.generated.h"
@@ -18,7 +18,7 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable,
 	UPROPERTY(EditAnywhere)
 	UItemDataAsset* InventoryItem;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(EditAnywhere, SaveGame)
@@ -32,14 +32,9 @@ public:
 	// Sets default values for this actor's properties
 	AInteractableItem();
 
-	// virtual void OnActorLoaded() override;
-
 	virtual void OnConstruction(const FTransform& Transform) override;
-	
-	virtual void OnInteract(AActor* Interactor) override;
-
-	UFUNCTION(BlueprintPure, BlueprintGetter, BlueprintCallable)
-	virtual FString GetInspectorDescription() const override
+	virtual void OnInteract_Implementation(AActor* Interactor) override;
+	virtual FString GetInspectorDescription_Implementation() const override
 	{
 		return InspectorDescription;
 	}

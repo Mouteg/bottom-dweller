@@ -83,9 +83,8 @@ public:
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
 	virtual void OnActorLoaded_Implementation() override;
-
-	virtual void BeginAttack() override;
-	virtual void EndAttack() override;
-	virtual void EnableWeaponCollision() override;
-	virtual void DisableWeaponCollision() override;
+	virtual void BeginAttack_Implementation() override;
+	virtual void EndAttack_Implementation() override;
+	virtual void EnableWeaponCollision_Implementation() override;
+	virtual void DisableWeaponCollision_Implementation() override;
 };

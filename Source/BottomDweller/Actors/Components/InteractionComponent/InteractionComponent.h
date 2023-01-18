@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/Actors/Interactables/Interactable.h"
+#include "BottomDweller/Maps/Interactable.h"
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
@@ -19,11 +19,6 @@ class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
 
 	UFUNCTION()
 	bool TraceForInteractable(FHitResult& Hit) const;
-
-	IInteractable* ToInteractable(const FHitResult Hit) const
-	{
-		return Cast<IInteractable>(Hit.GetActor());
-	}
 
 public:
 	// Sets default values for this component's properties

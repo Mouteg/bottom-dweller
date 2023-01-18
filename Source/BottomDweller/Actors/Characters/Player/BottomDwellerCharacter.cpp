@@ -80,24 +80,24 @@ void ABottomDwellerCharacter::OnActorLoaded_Implementation()
 	Super::OnActorLoaded_Implementation();
 }
 
-void ABottomDwellerCharacter::BeginAttack()
+void ABottomDwellerCharacter::BeginAttack_Implementation()
 {
 	GetCharacterMovement()->MaxWalkSpeed = AttackWalkSpeed;
 	GetCharacterMovement()->RotationRate = AttackRotationRate;
 }
 
-void ABottomDwellerCharacter::EndAttack()
+void ABottomDwellerCharacter::EndAttack_Implementation()
 {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->RotationRate = RotationRate;
 }
 
-void ABottomDwellerCharacter::EnableWeaponCollision()
+void ABottomDwellerCharacter::EnableWeaponCollision_Implementation()
 {
 	WeaponComponent->SetCollisionProfileName(EName::Actor);
 }
 
-void ABottomDwellerCharacter::DisableWeaponCollision()
+void ABottomDwellerCharacter::DisableWeaponCollision_Implementation()
 {
 	WeaponComponent->SetCollisionProfileName(EName::None);
 }

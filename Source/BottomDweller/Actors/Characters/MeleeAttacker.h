@@ -23,8 +23,12 @@ class BOTTOMDWELLER_API IMeleeAttacker
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 	// Implement functions below statically
 public:
-	virtual void BeginAttack() = 0;
-	virtual void EndAttack() = 0;
-	virtual void EnableWeaponCollision() = 0;
-	virtual void DisableWeaponCollision() = 0;
+	UFUNCTION(BlueprintNativeEvent)
+	void BeginAttack();
+	UFUNCTION(BlueprintNativeEvent)
+	void EndAttack();
+	UFUNCTION(BlueprintNativeEvent)
+	void EnableWeaponCollision();
+	UFUNCTION(BlueprintNativeEvent)
+	void DisableWeaponCollision();
 };

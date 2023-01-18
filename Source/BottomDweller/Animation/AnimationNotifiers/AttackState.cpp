@@ -9,17 +9,17 @@ void UAttackState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBa
                                const FAnimNotifyEventReference& EventReference)
 {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
-	if (IMeleeAttacker* MeleeAttacker = Cast<IMeleeAttacker>(MeshComp->GetOwner()))
+	if (MeshComp->GetOwner()->Implements<UMeleeAttacker>())
 	{
-		MeleeAttacker->BeginAttack();
+		IMeleeAttacker::Execute_BeginAttack(MeshComp->GetOwner());
 	}
 }
 
 void UAttackState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
 {
 	Super::NotifyEnd(MeshComp, Animation, EventReference);
-	if (IMeleeAttacker* MeleeAttacker = Cast<IMeleeAttacker>(MeshComp->GetOwner()))
+	if (MeshComp->GetOwner()->Implements<UMeleeAttacker>())
 	{
-		MeleeAttacker->EndAttack();
+		IMeleeAttacker::Execute_EndAttack(MeshComp->GetOwner());
 	}
 }

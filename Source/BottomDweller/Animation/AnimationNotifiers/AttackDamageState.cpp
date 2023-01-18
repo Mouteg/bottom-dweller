@@ -9,17 +9,17 @@ void UAttackDamageState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequ
                                      const FAnimNotifyEventReference& EventReference)
 {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
-	if (IMeleeAttacker* MeleeAttacker = Cast<IMeleeAttacker>(MeshComp->GetOwner()))
+	if (MeshComp->GetOwner()->Implements<UMeleeAttacker>())
 	{
-		MeleeAttacker->EnableWeaponCollision();
+		IMeleeAttacker::Execute_EnableWeaponCollision(MeshComp->GetOwner());
 	}
 }
 
 void UAttackDamageState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
 {
 	Super::NotifyEnd(MeshComp, Animation, EventReference);
-	if (IMeleeAttacker* MeleeAttacker = Cast<IMeleeAttacker>(MeshComp->GetOwner()))
+	if (MeshComp->GetOwner()->Implements<UMeleeAttacker>())
 	{
-		MeleeAttacker->DisableWeaponCollision();
+		IMeleeAttacker::Execute_DisableWeaponCollision(MeshComp->GetOwner());
 	}
 }

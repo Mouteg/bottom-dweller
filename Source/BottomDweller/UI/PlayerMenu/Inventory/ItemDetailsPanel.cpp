@@ -7,6 +7,7 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
+#include "UObject/UnrealTypePrivate.h"
 
 bool UItemDetailsPanel::Initialize()
 {
@@ -37,6 +38,21 @@ void UItemDetailsPanel::LoadItemProperties(UItemDataAsset* Item)
 	PropertiesContainer->ClearChildren();
 	UItemDetailsEntry* Entry = CreateWidget<UItemDetailsEntry>(this, DetailsEntryWidget);
 	//Make an enum of default props ?
-	Entry->SetProperty("Cost", FString::SanitizeFloat(Item->Cost), FLinearColor::Yellow);
+	Entry->SetProperty("Cost", FString::SanitizeFloat(Item->Cost, 0), FLinearColor::Yellow);
 	PropertiesContainer->AddChild(Entry);
+	CreateDetailsEntries(Item->ItemStatEffect);
+}
+
+void UItemDetailsPanel::CreateDetailsEntries(FItemStatEffect StatEffect)
+{
+	for (TFieldIterator<FProperty> Property(StatEffect.StaticStruct()); Property; ++Property)
+	{
+		const float Value = *Property->ContainerPtrToValuePtr<float>(&StatEffect);
+		if (Value != 0)
+		{
+			UItemDetailsEntry* Entry = CreateWidget<UItemDetailsEntry>(this, DetailsEntryWidget);
+			Entry->SetProperty(Property->GetName(), "+" + FString::SanitizeFloat(Value, 0), FLinearColor::MakeRandomSeededColor(GetTypeHash(Property->GetName())));
+			PropertiesContainer->AddChild(Entry);
+		}
+	}
 }

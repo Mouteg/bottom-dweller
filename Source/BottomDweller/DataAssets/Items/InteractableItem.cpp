@@ -14,19 +14,19 @@ AInteractableItem::AInteractableItem()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Item mesh");
+	StaticMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
 }
 
 void AInteractableItem::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	if (InventoryItem)
+	if (InventoryItem && StaticMesh)
 	{
 		StaticMesh->SetStaticMesh(InventoryItem->Mesh.Get());
-		StaticMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
 	}
 }
 
-void AInteractableItem::OnInteract(AActor* Interactor)
+void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
 {
 	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(Interactor);
 	UInventoryComponent* InventoryComponent = Character->GetInventoryComponent();

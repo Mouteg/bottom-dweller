@@ -7,9 +7,16 @@
 #include "EngineUtils.h"
 #include "Saveable.h"
 #include "SaveGameSettings.h"
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
+
+void USaveGameManager::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+
+	const USaveGameSettings* SaveSettings = GetDefault<USaveGameSettings>();
+	CurrentSlotName = SaveSettings->SaveSlotName;
+}
 
 void USaveGameManager::SetSlotName(FString NewSlotName)
 {
@@ -25,7 +32,10 @@ void USaveGameManager::SetSlotName(FString NewSlotName)
 void USaveGameManager::WriteSaveGame(FString SlotName)
 {
 	SetSlotName(SlotName);
-	
+	if (!CurrentSaveGame)
+	{
+		CurrentSaveGame = Cast<UBottomDwellerSaveGame>(UGameplayStatics::CreateSaveGameObject(UBottomDwellerSaveGame::StaticClass()));
+	}
 	CurrentSaveGame->SavedActors.Empty();
 	
 	AGameStateBase* GameState = GetWorld()->GetGameState();
@@ -50,9 +60,7 @@ void USaveGameManager::WriteSaveGame(FString SlotName)
 		FMemoryWriter MemWriter(ActorData.ByteData);
 
 		FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
-		// Find only variables with UPROPERTY(SaveGame)
 		Ar.ArIsSaveGame = true;
-		// Converts Actor's SaveGame UPROPERTIES into binary array
 		Actor->Serialize(Ar);
 
 		CurrentSaveGame->SavedActors.Add(ActorData);
@@ -61,17 +69,10 @@ void USaveGameManager::WriteSaveGame(FString SlotName)
 	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, CurrentSlotName, 0);
 }
 
-void USaveGameManager::Initialize(FSubsystemCollectionBase& Collection)
-{
-	Super::Initialize(Collection);
-
-	const USaveGameSettings* SaveSettings = GetDefault<USaveGameSettings>();
-	CurrentSlotName = SaveSettings->SaveSlotName;
-}
-
 void USaveGameManager::LoadSaveGame(FString SlotName)
 {
 	SetSlotName(SlotName);
+	
 	if (!UGameplayStatics::DoesSaveGameExist(CurrentSlotName, 0))
 	{
 		CurrentSaveGame = Cast<UBottomDwellerSaveGame>(UGameplayStatics::CreateSaveGameObject(UBottomDwellerSaveGame::StaticClass()));
@@ -85,6 +86,10 @@ void USaveGameManager::LoadSaveGame(FString SlotName)
 		UE_LOG(LogTemp, Warning, TEXT("Failed to load SaveGame Data."));
 		return;
 	}
+
+	// Array of actors that dont exist inside save game
+	TArray<AActor*> ActorsToDestroy;
+	
 	for (FActorIterator It(GetWorld()); It; ++It)
 	{
 		AActor* Actor = *It;
@@ -93,27 +98,33 @@ void USaveGameManager::LoadSaveGame(FString SlotName)
 			continue;
 		}
 
+		bool ActorExists = false;
+		
 		for (FActorSaveData ActorData : CurrentSaveGame->SavedActors)
 		{
 			if (ActorData.ActorName == Actor->GetFName())
 			{
+				ActorExists = true;
 				Actor->SetActorTransform(ActorData.Transform);
-				UE_LOG(LogTemp, Warning, TEXT("Actor: %s, %d"), *Actor->GetName(), ActorData.ByteData.Num());
 
-				FMemoryReader MemReader(ActorData.ByteData);
-				
-				FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
-				Ar.ArIsSaveGame = true;
-				Actor->Serialize(Ar);
-
-				if (ABottomDwellerCharacter* PlayerCharacter = Cast<ABottomDwellerCharacter>(Actor))
-				{
-					PlayerCharacter->SetInventoryComponent(PlayerCharacter->GetInventoryComponent());
-				}
+				// FMemoryReader MemReader(ActorData.ByteData);
+				//
+				// FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
+				// Ar.ArIsSaveGame = true;
+				// Actor->Serialize(Ar);
 				
 				ISaveable::Execute_OnActorLoaded(Actor);
 				break;
 			}
 		}
+		if (!ActorExists)
+		{
+			ActorsToDestroy.Add(Actor);
+		}
+	}
+
+	for (AActor* ToDestroy : ActorsToDestroy)
+	{
+		ToDestroy->Destroy();
 	}
 }

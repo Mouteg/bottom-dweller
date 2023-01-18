@@ -19,42 +19,42 @@ struct FItemStatEffect
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category="Health")
-	float MaxHealth;
 	UPROPERTY(EditDefaultsOnly, Category=Health)
-	float Health;
+	float MaxHealth = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Health)
-	float HealthRegen;
+	float Health = 0;
+	UPROPERTY(EditDefaultsOnly, Category=Health)
+	float HealthRegen = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
-	float MaxStamina;
+	float MaxStamina = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
-	float Stamina;
+	float Stamina = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
-	float StaminaRegen;
+	float StaminaRegen = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category=Mana)
-	float MaxMana;
+	float MaxMana = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Mana)
-	float Mana;
+	float Mana = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Mana)
-	float ManaRegen;
+	float ManaRegen = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
-	float Dexterity;
+	float Dexterity = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
-	float Strength;
+	float Strength = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
-	float Intelligence;
+	float Intelligence = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
-	float Luck;
+	float Luck = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
-	float SlashingDamage;
+	float SlashingDamage = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
-	float BluntDamage;
+	float BluntDamage = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
-	float PiercingDamage;
+	float PiercingDamage = 0;
 };
 
 UCLASS(Abstract)
