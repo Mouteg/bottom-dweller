@@ -17,14 +17,14 @@ struct FInventory_EquipmentState
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere)
-	class UWeaponItemDataAsset* Weapon;
+	class UWeaponItemDataAsset* Weapon = nullptr;
 };
 
 UENUM(BlueprintType)
 enum class EGearSlots : uint8
 {
 	Weapon,
-	
+	None,
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
@@ -39,7 +39,7 @@ class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
 	
 	void ChangeWeapon(UWeaponItemDataAsset* Item);
 
-	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec);
+	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot);
 	
 	UPROPERTY(EditAnywhere)
 	FInventory_EquipmentState EquipmentState;

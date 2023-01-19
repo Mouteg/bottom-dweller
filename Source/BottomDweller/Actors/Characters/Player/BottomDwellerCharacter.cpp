@@ -94,10 +94,11 @@ void ABottomDwellerCharacter::EndAttack_Implementation()
 
 void ABottomDwellerCharacter::EnableWeaponCollision_Implementation()
 {
-	WeaponComponent->SetCollisionProfileName(EName::Actor);
+	UE_LOG(LogTemp, Log, TEXT("Damage State on"));
+
 }
 
 void ABottomDwellerCharacter::DisableWeaponCollision_Implementation()
 {
-	WeaponComponent->SetCollisionProfileName(EName::None);
+	UE_LOG(LogTemp, Log, TEXT("Damage State off"));
 }

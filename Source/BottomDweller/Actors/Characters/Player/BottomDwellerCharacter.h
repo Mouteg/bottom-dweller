@@ -46,9 +46,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FRotator AttackRotationRate;
-	
+
+	// Perhaps not component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* WeaponComponent;
+	UStaticMeshComponent* WeaponComponent;
 	
 	ABottomDwellerCharacter();
 	

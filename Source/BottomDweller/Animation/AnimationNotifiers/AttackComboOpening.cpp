@@ -10,6 +10,11 @@
 
 void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated)
 {
+	if (!Owner->GetOwner())
+	{
+		return;
+	}
+	
 	FGameplayEventData EventData;
 	EventData.Instigator = Owner->GetOwner();
 	EventData.EventMagnitude = bActivated;

@@ -24,7 +24,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Abilities", SaveGame)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities", SaveGame)
 	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")

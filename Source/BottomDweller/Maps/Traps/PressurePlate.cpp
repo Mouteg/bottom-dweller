@@ -4,18 +4,37 @@
 #include "PressurePlate.h"
 
 #include "BottomDweller/Maps/Activatable.h"
+#include "Components/BoxComponent.h"
 #include "Engine/TriggerBox.h"
 
-UPressurePlate::UPressurePlate()
+APressurePlate::APressurePlate()
 {
-	TriggerBox = CreateDefaultSubobject<ATriggerBox>(TEXT("TriggerBox"));
-	TriggerBox->OnActorBeginOverlap.AddDynamic(this, &UPressurePlate::OnOverlap);
+	bOneTimeUse = false;
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Plate collision"));
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plate Mesh"));
+	SetRootComponent(BoxComponent);
+	MeshComponent->SetupAttachment(BoxComponent);
 }
 
-void UPressurePlate::OnOverlap(AActor* ActorOverlapped, AActor* OtherActor)
+void APressurePlate::BeginPlay()
 {
-	if (OtherActor->Implements<UActivatable>())
+	Super::BeginPlay();
+	OnActorBeginOverlap.AddDynamic(this, &APressurePlate::OnOverlap);
+}
+
+void APressurePlate::OnOverlap(AActor* ActorOverlapped, AActor* OtherActor)
+{
+
+	for (AActor* Actor : ObjectsToActivate)
 	{
-		IActivatable::Execute_Activate(OtherActor);
+		if (Actor->Implements<UActivatable>())
+		{
+			//play sound, maybe animation
+			IActivatable::Execute_Activate(Actor);
+		}
+	}
+	if (bOneTimeUse)
+	{
+		Destroy();
 	}
 }

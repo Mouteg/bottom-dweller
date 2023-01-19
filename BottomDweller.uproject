@@ -30,5 +30,13 @@
 			"Name": "DidItHit",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"Linux",
+		"LinuxArm64",
+		"Mac",
+		"TVOS",
+		"Windows",
+		"HoloLens"
 	]
 }

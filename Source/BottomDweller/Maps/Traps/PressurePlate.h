@@ -9,15 +9,29 @@
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UPressurePlate : public UStaticMeshComponent
+class BOTTOMDWELLER_API APressurePlate : public AActor
 {
 	GENERATED_BODY()
 
-public:
-	UPressurePlate();
+protected:
+	virtual void BeginPlay() override;
 	
-	UPROPERTY(EditDefaultsOnly)
-	class ATriggerBox* TriggerBox;
+public:
 
+	APressurePlate();
+	
+	UPROPERTY(EditAnywhere)
+	bool bOneTimeUse;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<AActor*> ObjectsToActivate;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* MeshComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UBoxComponent* BoxComponent;
+
+	UFUNCTION()
 	void OnOverlap(AActor* ActorOverlapped, AActor* OtherActor);
 };
