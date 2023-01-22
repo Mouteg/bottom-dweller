@@ -58,14 +58,20 @@ class BOTTOMDWELLER_API UBottomDwellerAbilitySystemGlobals : public UAbilitySyst
 public:
 	UBottomDwellerAbilitySystemGlobals();
 
+	//Abilities
+	UPROPERTY()
+	FGameplayTag SprintAbilityTag;
+
+	//Events
+	UPROPERTY()
+	FGameplayTag AttackEventTag;
 	UPROPERTY()
 	FGameplayTag ComboOpeningTag;
 	UPROPERTY()
-	FGameplayTag SprintAbility;
-
-	UPROPERTY()
 	FGameplayTag UseItemTag;
 
+
+	// Attributes
 	UPROPERTY()
 	FGameplayTag MaxHealthTag;
 	UPROPERTY()

@@ -1,11 +1,13 @@
 #include "BottomDwellerCharacter.h"
+
+#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/PointLightComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
-#include "GameFramework/SpringArmComponent.h"
 
 ABottomDwellerCharacter::ABottomDwellerCharacter()
 {
@@ -14,10 +16,9 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 
 void ABottomDwellerCharacter::InitActorComponents()
 {
+	Sensitivity = 0.65;
 	WalkSpeed = 500;
 	AttackWalkSpeed = 100;
-	RotationRate = FRotator(0.0f, 720.0f, 0.0f);
-	AttackRotationRate = FRotator(0.0f, 200.0f, 0.0f);
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
@@ -28,11 +29,11 @@ void ABottomDwellerCharacter::InitActorComponents()
 	GetCharacterMovement()->GroundFriction = 8.0f;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
-	GetCharacterMovement()->RotationRate = RotationRate;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->BrakingDecelerationWalking = 1400.f;
 	// bUseControllerRotationPitch = true;
-	// bUseControllerRotationYaw = true;
+	bUseControllerRotationYaw = true;
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	InteractionComponent->Length = 500.f;
 
@@ -44,17 +45,28 @@ void ABottomDwellerCharacter::InitActorComponents()
 	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	WeaponComponent->SetupAttachment(GetMesh(), TEXT("hand_r_weapon_socket"));
 	WeaponComponent->SetVisibility(false);
-
+	WeaponComponent->SetCastShadow(false);
+	
 	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	// CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	// CameraBoom->SetupAttachment(RootComponent);
+	// CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
+	// CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->SetupAttachment(GetMesh(), TEXT("CameraSocket"));
 	FollowCamera->bUsePawnControlRotation = false;
+	FollowCamera->SetRelativeLocation(FVector(-0.7, 9, 5));
+	FollowCamera->SetRelativeRotation(FRotator(-90, 0, 95));
+	FollowCamera->SetFieldOfView(100);
+
+	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("Point Light"));
+	PointLight->SetIntensity(500);
+	PointLight->SetSourceRadius(100);
+	PointLight->SetSoftSourceRadius(100);
+	PointLight->SetLightColor(FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("FFAD5DFF"))));
+	PointLight->SetupAttachment(FollowCamera);
 }
 
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
@@ -75,6 +87,17 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 	}
 }
 
+float ABottomDwellerCharacter::GetSensitivity()
+{
+	UE_LOG(LogTemp, Log, TEXT("%d"), AbilitySystemComponent->HasMatchingGameplayTag(UBottomDwellerAbilitySystemGlobals::GSGet().AttackEventTag));
+
+	if (AbilitySystemComponent->HasMatchingGameplayTag(UBottomDwellerAbilitySystemGlobals::GSGet().AttackEventTag))
+	{
+		return AttackSensitivityMultiplier;
+	}
+	return Sensitivity;
+}
+
 void ABottomDwellerCharacter::OnActorLoaded_Implementation()
 {
 	Super::OnActorLoaded_Implementation();
@@ -83,13 +106,11 @@ void ABottomDwellerCharacter::OnActorLoaded_Implementation()
 void ABottomDwellerCharacter::BeginAttack_Implementation()
 {
 	GetCharacterMovement()->MaxWalkSpeed = AttackWalkSpeed;
-	GetCharacterMovement()->RotationRate = AttackRotationRate;
 }
 
 void ABottomDwellerCharacter::EndAttack_Implementation()
 {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	GetCharacterMovement()->RotationRate = RotationRate;
 }
 
 void ABottomDwellerCharacter::EnableWeaponCollision_Implementation()

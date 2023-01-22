@@ -14,9 +14,15 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	
 	void InitActorComponents();
 
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+
+	UPROPERTY(EditAnywhere)
+	float Sensitivity;
+
+	UPROPERTY(EditAnywhere)
+	float AttackSensitivityMultiplier;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UPointLightComponent* PointLight;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UInteractionComponent* InteractionComponent;
@@ -24,12 +30,10 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
 	class UInventoryComponent* InventoryComponent;
 
-	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 	
 protected:
-	/** Called for movement input */
 	UFUNCTION(BlueprintCallable)
 	void Move(float ForwardValue, float RightValue);
 	
@@ -39,13 +43,7 @@ public:
 	float WalkSpeed;
 	
 	UPROPERTY(EditAnywhere)
-	FRotator RotationRate;
-	
-	UPROPERTY(EditAnywhere)
 	float AttackWalkSpeed;
-
-	UPROPERTY(EditAnywhere)
-	FRotator AttackRotationRate;
 
 	// Perhaps not component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -78,8 +76,9 @@ public:
 		return InteractionComponent;
 	}
 
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	float GetSensitivity();
+	
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	

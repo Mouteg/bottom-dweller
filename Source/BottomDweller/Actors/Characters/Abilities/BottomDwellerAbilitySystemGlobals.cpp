@@ -15,10 +15,16 @@ FGameplayEffectContext* UBottomDwellerAbilitySystemGlobals::AllocGameplayEffectC
 void UBottomDwellerAbilitySystemGlobals::InitGlobalTags()
 {
 	Super::InitGlobalTags();
+
+	//Abilities
+	SprintAbilityTag = FGameplayTag::RequestGameplayTag(TEXT("Ability.Sprint"));
+	
+	//Events
 	ComboOpeningTag = FGameplayTag::RequestGameplayTag(TEXT("Event.Attack.ComboOpening"));
 	UseItemTag = FGameplayTag::RequestGameplayTag(TEXT("Event.UseItem"));
-	SprintAbility = FGameplayTag::RequestGameplayTag(TEXT("Ability.Sprint"));
+	AttackEventTag = FGameplayTag::RequestGameplayTag(TEXT("Event.Attack"));
 
+	//Attributes
 	MaxHealthTag = FGameplayTag::RequestGameplayTag(TEXT("Attribute.MaxHealth"));
 	HealthTag = FGameplayTag::RequestGameplayTag(TEXT("Attribute.Health"));
 	HealthRegenTag = FGameplayTag::RequestGameplayTag(TEXT("Attribute.HealthRegen"));

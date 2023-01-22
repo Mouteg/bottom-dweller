@@ -123,11 +123,6 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 
 void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 {
-	if (EquipmentState.Weapon)
-	{
-		AddItem(EquipmentState.Weapon);
-	}
-
 	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
 	if (!Item || !Character || !Character->GetAbilitySystemComponent())
 	{
@@ -143,7 +138,11 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 	{
 		Character->WeaponComponent->SetVisibility(false);
 	}
-
+	
+	if (EquipmentState.Weapon)
+	{
+		AddItem(EquipmentState.Weapon);
+	}
 	EquipmentState.Weapon = Item;
 }
 

@@ -17,7 +17,7 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 		if (GetStamina() == 0)
 		{
 			FGameplayTagContainer TagsToCancel;
-			TagsToCancel.AddTag(UBottomDwellerAbilitySystemGlobals::GSGet().SprintAbility);
+			TagsToCancel.AddTag(UBottomDwellerAbilitySystemGlobals::GSGet().SprintAbilityTag);
 			GetOwningAbilitySystemComponent()->CancelAbilities(&TagsToCancel);
 		}
 	}

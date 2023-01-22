@@ -8,7 +8,7 @@
 UInteractionComponent::UInteractionComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickInterval = 0.1;
+	PrimaryComponentTick.TickInterval = 0.05;
 }
 
 bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const

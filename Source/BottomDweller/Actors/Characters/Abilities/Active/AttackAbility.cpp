@@ -50,7 +50,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
-	const TSoftObjectPtr<UAnimMontage> AttackMontage = WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter];
+	const TSoftObjectPtr<UAnimMontage> AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter];
 
 	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
 		this,
