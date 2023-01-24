@@ -1,8 +1,8 @@
 #include "BottomDwellerCharacter.h"
 
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
-#include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/InteractionComponent.h"
+#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PointLightComponent.h"

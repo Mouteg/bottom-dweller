@@ -5,7 +5,7 @@
 #include "InventorySlotWidget.h"
 #include "ItemDetailsPanel.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "Components/WrapBox.h"
 #include "Engine/AssetManager.h"
 #include "Kismet/GameplayStatics.h"

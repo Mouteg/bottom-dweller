@@ -5,7 +5,7 @@
 #include "EquippedItemSlot.h"
 #include "ItemDetailsPanel.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 void UEquippedItemsWidget::NativeConstruct()

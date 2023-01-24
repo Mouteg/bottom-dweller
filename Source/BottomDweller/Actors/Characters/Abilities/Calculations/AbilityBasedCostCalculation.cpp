@@ -11,5 +11,5 @@ float UAbilityBasedCostCalculation::CalculateBaseMagnitude_Implementation(const 
 	{
 		return 0;
 	}
-	return -Ability->Cost;
+	return -(Ability->Cost);
 }

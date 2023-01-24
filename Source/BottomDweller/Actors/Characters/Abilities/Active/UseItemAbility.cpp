@@ -5,7 +5,7 @@
 
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 
 UUseItemAbility::UUseItemAbility()

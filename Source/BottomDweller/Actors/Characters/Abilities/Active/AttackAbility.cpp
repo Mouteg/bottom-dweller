@@ -4,7 +4,7 @@
 #include "AttackAbility.h"
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Animation/WeaponAnimations.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
@@ -15,6 +15,7 @@ UAttackAbility::UAttackAbility()
 {
 	InPlayRate = 1.5;
 	bInitialized = false;
+	//Maybe instancing policy -> per actor ?
 }
 
 bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -39,7 +40,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	
 	if (!bInitialized)
 	{
-		UAbilityTask_WaitGameplayEvent* WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
+		WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
 			this,
 			UBottomDwellerAbilitySystemGlobals::GSGet().ComboOpeningTag
 		);
@@ -47,15 +48,18 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		WaitForComboOpeningTask->Activate();
 		bInitialized = false;
 	}
+	
+	//async task for socket tracing
+	
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
-	const TSoftObjectPtr<UAnimMontage> AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter];
+	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
 
 	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
 		this,
 		TEXT("AttackMontageTask"),
-		AttackMontage.Get(),
+		AttackMontage,
 		InPlayRate
 	);
 	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &UAttackAbility::AttackMontageEnded);
@@ -99,6 +103,7 @@ void UAttackAbility::AttackMontageEnded()
 void UAttackAbility::AttackCompleted()
 {
 	AttackMontageTask->OnCompleted.RemoveAll(this);
+	AttackMontageTask->EndTask();
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
 }
 

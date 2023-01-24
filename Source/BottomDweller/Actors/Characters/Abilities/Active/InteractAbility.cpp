@@ -4,7 +4,7 @@
 #include "InteractAbility.h"
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InteractionComponent/InteractionComponent.h"
+#include "BottomDweller/Actors/Components/InteractionComponent.h"
 
 void UInteractAbility::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,

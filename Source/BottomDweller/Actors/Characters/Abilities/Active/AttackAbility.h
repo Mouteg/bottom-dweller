@@ -6,6 +6,7 @@
 #include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
 #include "AttackAbility.generated.h"
 
+class UAbilityTask_WaitGameplayEvent;
 class UAbilityTask_PlayMontageAndWait;
 enum class EWeaponType : uint8;
 
@@ -24,6 +25,9 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 	UPROPERTY()
 	UAbilityTask_PlayMontageAndWait* AttackMontageTask;
 	
+	UPROPERTY()
+	UAbilityTask_WaitGameplayEvent* WaitForComboOpeningTask;
+	
 	UPROPERTY(EditDefaultsOnly)
 	class UWeaponAnimations* WeaponAnimations;
 
@@ -31,7 +35,6 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 	void AttackMontageEnded();
 	UFUNCTION()
 	void AttackCompleted();
-
 	UFUNCTION()
 	void SetComboOpening(FGameplayEventData Payload);
 	
@@ -40,9 +43,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float InPlayRate;
-	
+
 	virtual void InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-		const FGameplayAbilityActivationInfo ActivationInfo) override;
+	                          const FGameplayAbilityActivationInfo ActivationInfo) override;
 	
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 		const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const override;
