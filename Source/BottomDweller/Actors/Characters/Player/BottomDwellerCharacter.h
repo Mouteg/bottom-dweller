@@ -14,7 +14,6 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	
 	void InitActorComponents();
 
-
 	UPROPERTY(EditAnywhere)
 	float Sensitivity;
 
@@ -46,8 +45,8 @@ public:
 	float AttackWalkSpeed;
 
 	// Perhaps not component
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UStaticMeshComponent* WeaponComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* WeaponComponent;
 	
 	ABottomDwellerCharacter();
 	

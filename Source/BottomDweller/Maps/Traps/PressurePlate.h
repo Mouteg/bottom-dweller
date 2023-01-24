@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UBoxComponent* BoxComponent;
 
+	UPROPERTY(EditAnywhere)
+	FString InspectorDescription;
+
 	UFUNCTION()
 	void OnOverlap(AActor* ActorOverlapped, AActor* OtherActor);
 	

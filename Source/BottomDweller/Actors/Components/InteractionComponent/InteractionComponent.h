@@ -14,11 +14,13 @@ class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
-	float TraceStartZOffset = 75.f;
+	UPROPERTY()
+	AActor* LastHitActor;
 
 	UFUNCTION()
 	bool TraceForInteractable(FHitResult& Hit) const;
+
+	void SetOutlineStencilOnLastHitActor(bool Value);
 
 public:
 	// Sets default values for this component's properties

@@ -8,7 +8,7 @@
 
 class ABottomDwellerCharacter;
 
-// This class does not need to be modified.
+// Turn on StaticMesh->SetRenderCustomDepth(true); for outlines to work
 UINTERFACE(BlueprintType, Blueprintable)
 class UInteractable : public UInterface
 {

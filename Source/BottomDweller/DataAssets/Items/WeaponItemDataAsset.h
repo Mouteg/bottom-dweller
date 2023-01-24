@@ -11,11 +11,13 @@ UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
 	OneHanded_Sword UMETA(DisplayName = "One-Handed Sword"),
+	TwoHanded_Sword UMETA(DisplayName = "One-Handed Sword"),
+	OneHanded_Axe UMETA(DisplayName = "Two-Handed Axe"),
 	TwoHanded_Axe UMETA(DisplayName = "Two-Handed Axe"),
 };
 
 UCLASS()
-class BOTTOMDWELLER_API UWeaponItemDataAsset : public UItemDataAsset, public IGearItemDataAsset
+class BOTTOMDWELLER_API UWeaponItemDataAsset : public UGearItemDataAsset
 {
 	GENERATED_BODY()
 

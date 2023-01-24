@@ -17,13 +17,16 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 void ABottomDwellerCharacter::InitActorComponents()
 {
 	Sensitivity = 0.65;
-	WalkSpeed = 500;
-	AttackWalkSpeed = 100;
+	AttackSensitivityMultiplier = 0.2;
+	WalkSpeed = 350;
+	AttackWalkSpeed = 250;
+	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->JumpZVelocity = 700;;
+	GetCharacterMovement()->JumpZVelocity = 700;
+	GetCharacterMovement()->GravityScale = 2;
 	GetCharacterMovement()->BrakingFrictionFactor = 1;
 	GetCharacterMovement()->BrakingFriction = 6.0f;
 	GetCharacterMovement()->GroundFriction = 8.0f;
@@ -32,34 +35,25 @@ void ABottomDwellerCharacter::InitActorComponents()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->BrakingDecelerationWalking = 1400.f;
-	// bUseControllerRotationPitch = true;
+	GetCharacterMovement()->bIgnoreBaseRotation = true;
+	
 	bUseControllerRotationYaw = true;
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	InteractionComponent->Length = 500.f;
 
-	// GetCharacterMovement()->bOrientRotationToMovement = false;
-
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
-	WeaponComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
-	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	WeaponComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
 	WeaponComponent->SetupAttachment(GetMesh(), TEXT("hand_r_weapon_socket"));
 	WeaponComponent->SetVisibility(false);
 	WeaponComponent->SetCastShadow(false);
-	
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	// CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	// CameraBoom->SetupAttachment(RootComponent);
-	// CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
-	// CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
-	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(GetMesh(), TEXT("CameraSocket"));
-	FollowCamera->bUsePawnControlRotation = false;
 	FollowCamera->SetRelativeLocation(FVector(-0.7, 9, 5));
 	FollowCamera->SetRelativeRotation(FRotator(-90, 0, 95));
 	FollowCamera->SetFieldOfView(100);
+	FollowCamera->bUsePawnControlRotation = true;
 
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("Point Light"));
 	PointLight->SetIntensity(500);
@@ -89,8 +83,6 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 
 float ABottomDwellerCharacter::GetSensitivity()
 {
-	UE_LOG(LogTemp, Log, TEXT("%d"), AbilitySystemComponent->HasMatchingGameplayTag(UBottomDwellerAbilitySystemGlobals::GSGet().AttackEventTag));
-
 	if (AbilitySystemComponent->HasMatchingGameplayTag(UBottomDwellerAbilitySystemGlobals::GSGet().AttackEventTag))
 	{
 		return AttackSensitivityMultiplier;

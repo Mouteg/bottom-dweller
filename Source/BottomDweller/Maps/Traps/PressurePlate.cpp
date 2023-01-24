@@ -12,9 +12,11 @@ APressurePlate::APressurePlate()
 	bOneTimeUse = false;
 	bIsButton = false;
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Plate collision"));
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plate Mesh"));
 	SetRootComponent(BoxComponent);
+
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plate Mesh"));
 	MeshComponent->SetupAttachment(BoxComponent);
+	MeshComponent->SetRenderCustomDepth(true);
 	MeshComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
 }
 
@@ -52,7 +54,7 @@ FString APressurePlate::GetInspectorDescription_Implementation() const
 {
 	if (bIsButton)
 	{
-		return TEXT("Aboba");
+		return InspectorDescription;
 	}
 	return TEXT("");
 }

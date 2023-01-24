@@ -3,20 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Interface.h"
 #include "GearItemDataAsset.generated.h"
 
-// This class does not need to be modified.
-UINTERFACE()
-class UGearItemDataAsset : public UInterface
+UCLASS()
+class BOTTOMDWELLER_API UGearItemDataAsset : public UItemDataAsset
 {
 	GENERATED_BODY()
-};
+	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
+	TSoftObjectPtr<USkeletalMesh> SkeletalMesh;
 
-/**
- * 
- */
-class BOTTOMDWELLER_API IGearItemDataAsset
-{
-	GENERATED_BODY()
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override
+	{
+		return FPrimaryAssetId(TEXT("GearItem"), GetFName());
+	}
 };

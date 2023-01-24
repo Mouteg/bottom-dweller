@@ -34,8 +34,5 @@ public:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void OnInteract_Implementation(AActor* Interactor) override;
-	virtual FString GetInspectorDescription_Implementation() const override
-	{
-		return InspectorDescription;
-	}
+	virtual FString GetInspectorDescription_Implementation() const override;
 };

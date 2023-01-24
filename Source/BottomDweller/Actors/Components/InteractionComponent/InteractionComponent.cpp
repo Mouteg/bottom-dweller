@@ -31,7 +31,7 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 	// 	3
 	// );
 
-	if(GetWorld()->LineTraceSingleByChannel(
+	if (GetWorld()->LineTraceSingleByChannel(
 		OUT Hit,
 		Start,
 		End,
@@ -60,16 +60,40 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	FHitResult Hit;
+	// Condition for bIsInspecting needed so that if we already inspect we dont trace again
 	if (TraceForInteractable(OUT Hit) != bIsInspecting)
 	{
 		if (bIsInspecting)
 		{
 			OnStopInspecting.Broadcast();
+			if (LastHitActor)
+			{
+				SetOutlineStencilOnLastHitActor(false);
+				LastHitActor = nullptr;
+			}
 		}
 		else
 		{
+			LastHitActor = Hit.GetActor();
 			OnInspect.Broadcast(IInteractable::Execute_GetInspectorDescription(Hit.GetActor()));
+			SetOutlineStencilOnLastHitActor(true);
 		}
 		bIsInspecting = !bIsInspecting;
+	}
+}
+
+void UInteractionComponent::SetOutlineStencilOnLastHitActor(bool Value)
+{
+	if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(LastHitActor->GetComponentByClass(UStaticMeshComponent::StaticClass())))
+	{
+		if (Value)
+		{
+			//TODO Magic numbers -> to config
+			Mesh->SetCustomDepthStencilValue(1);
+		}
+		else
+		{
+			Mesh->SetCustomDepthStencilValue(0);
+		}
 	}
 }

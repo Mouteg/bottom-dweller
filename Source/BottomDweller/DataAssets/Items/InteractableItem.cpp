@@ -15,6 +15,7 @@ AInteractableItem::AInteractableItem()
 	PrimaryActorTick.bCanEverTick = false;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Item mesh");
 	StaticMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
+	StaticMesh->SetRenderCustomDepth(true);
 }
 
 void AInteractableItem::OnConstruction(const FTransform& Transform)
@@ -38,4 +39,9 @@ void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
 	{
 		Destroy();
 	}
+}
+
+FString AInteractableItem::GetInspectorDescription_Implementation() const
+{
+	return InspectorDescription;
 }

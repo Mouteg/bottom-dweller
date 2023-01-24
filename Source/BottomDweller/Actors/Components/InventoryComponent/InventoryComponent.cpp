@@ -98,7 +98,7 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 
 void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 {
-	if (!Item || !Item->Implements<UGearItemDataAsset>())
+	if (!Item || !Cast<UGearItemDataAsset>(Item))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Only gear can be equipped"));
 		return;
@@ -124,14 +124,14 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 {
 	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
-	if (!Item || !Character || !Character->GetAbilitySystemComponent())
+	if (!Item || !Character || !Character->WeaponComponent)
 	{
 		return;
 	}
-
-	if (Item->Mesh.Get())
+	
+	if (Item->SkeletalMesh.Get())
 	{
-		Character->WeaponComponent->SetStaticMesh(Item->Mesh.Get());
+		Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
 		Character->WeaponComponent->SetVisibility(true);
 	}
 	else
