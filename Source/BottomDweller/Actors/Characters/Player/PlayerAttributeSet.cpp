@@ -2,6 +2,7 @@
 
 #include "GameplayEffectExtension.h"
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
+#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 
 void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
@@ -17,7 +18,7 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 		if (GetStamina() == 0)
 		{
 			FGameplayTagContainer TagsToCancel;
-			TagsToCancel.AddTag(UBottomDwellerAbilitySystemGlobals::GSGet().SprintAbilityTag);
+			TagsToCancel.AddTag(Tag_Ability_Sprint);
 			GetOwningAbilitySystemComponent()->CancelAbilities(&TagsToCancel);
 		}
 	}

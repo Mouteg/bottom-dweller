@@ -9,6 +9,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "ItemDetailsPanel.h"
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
+#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -16,7 +17,7 @@ bool UInventorySlotWidget::Initialize()
 {
 	const bool bSuccess = Super::Initialize();
 	if (!bSuccess) return false;
-	DoubleClickEventTag = UBottomDwellerAbilitySystemGlobals::GSGet().UseItemTag;
+	DoubleClickEventTag = Tag_Event_UseItem;
 
 	return bSuccess;
 }

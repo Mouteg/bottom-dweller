@@ -1,0 +1,36 @@
+﻿// All rights reserved by Aboba Inc.
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Event_Attack_ComboOpening)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Event_Attack)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Event_UseItem)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Ability_Sprint)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Gameplay_AbilityInputBlocked)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Gameplay_StopMovement)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_MaxHealth)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Health)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_HealthRegen)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_MaxStamina)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Stamina)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_StaminaRegen)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_MaxMana)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Mana)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_ManaRegen)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Strength)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Dexterity)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Intelligence)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_Luck)
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_SlashingDamage)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_BluntDamage)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Attribute_PiercingDamage)
+

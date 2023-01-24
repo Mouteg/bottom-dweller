@@ -10,6 +10,7 @@
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
+#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 
 UAttackAbility::UAttackAbility()
 {
@@ -42,7 +43,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	{
 		WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
 			this,
-			UBottomDwellerAbilitySystemGlobals::GSGet().ComboOpeningTag
+			Tag_Event_Attack_ComboOpening
 		);
 		WaitForComboOpeningTask->EventReceived.AddDynamic(this, &UAttackAbility::SetComboOpening);
 		WaitForComboOpeningTask->Activate();

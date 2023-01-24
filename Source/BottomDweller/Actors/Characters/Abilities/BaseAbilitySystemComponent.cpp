@@ -2,6 +2,7 @@
 #include "BaseAbilitySystemComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BaseGameplayAbility.h"
+#include "TagDeclarations.h"
 
 
 void UBaseAbilitySystemComponent::BeginPlay()
@@ -12,11 +13,11 @@ void UBaseAbilitySystemComponent::BeginPlay()
 
 void UBaseAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGamePaused)
 {
-	// if (HasMatchingGameplayTag(TAG_Gameplay_AbilityInputBlocked))
-	// {
-	// 	ClearAbilityInput();
-	// 	return;
-	// }
+	if (HasMatchingGameplayTag(Tag_Gameplay_AbilityInputBlocked))
+	{
+		ClearAbilityInput();
+		return;
+	}
 
 	static TArray<FGameplayAbilitySpecHandle> AbilitiesToActivate;
 	AbilitiesToActivate.Reset();

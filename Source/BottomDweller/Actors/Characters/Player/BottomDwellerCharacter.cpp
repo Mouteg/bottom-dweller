@@ -1,6 +1,7 @@
 #include "BottomDwellerCharacter.h"
 
 #include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
+#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "Camera/CameraComponent.h"
@@ -24,13 +25,12 @@ void ABottomDwellerCharacter::InitActorComponents()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
 	GetCharacterMovement()->JumpZVelocity = 700;
 	GetCharacterMovement()->GravityScale = 2;
 	GetCharacterMovement()->BrakingFrictionFactor = 1;
 	GetCharacterMovement()->BrakingFriction = 6.0f;
 	GetCharacterMovement()->GroundFriction = 8.0f;
-	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
@@ -83,7 +83,7 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 
 float ABottomDwellerCharacter::GetSensitivity()
 {
-	if (AbilitySystemComponent->HasMatchingGameplayTag(UBottomDwellerAbilitySystemGlobals::GSGet().AttackEventTag))
+	if (AbilitySystemComponent->HasMatchingGameplayTag(Tag_Event_Attack))
 	{
 		return AttackSensitivityMultiplier;
 	}
