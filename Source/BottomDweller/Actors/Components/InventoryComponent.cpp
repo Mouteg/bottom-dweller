@@ -3,7 +3,7 @@
 
 #include "InventoryComponent.h"
 
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
+#include "WeaponComponent.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"

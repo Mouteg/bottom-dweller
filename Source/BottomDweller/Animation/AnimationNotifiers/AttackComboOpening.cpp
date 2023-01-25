@@ -5,7 +5,6 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 
 

@@ -1,9 +1,9 @@
 #include "BottomDwellerCharacter.h"
 
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/WeaponComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PointLightComponent.h"
@@ -43,7 +43,7 @@ void ABottomDwellerCharacter::InitActorComponents()
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
-	WeaponComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon"));
 	WeaponComponent->SetupAttachment(GetMesh(), TEXT("hand_r_weapon_socket"));
 	WeaponComponent->SetVisibility(false);
 	WeaponComponent->SetCastShadow(false);
@@ -105,13 +105,12 @@ void ABottomDwellerCharacter::EndAttack_Implementation()
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
-void ABottomDwellerCharacter::EnableWeaponCollision_Implementation()
+void ABottomDwellerCharacter::EnableWeaponTracing_Implementation()
 {
-	UE_LOG(LogTemp, Log, TEXT("Damage State on"));
-
+	WeaponComponent->SetCanTrace(true);
 }
 
-void ABottomDwellerCharacter::DisableWeaponCollision_Implementation()
+void ABottomDwellerCharacter::DisableWeaponTracing_Implementation()
 {
-	UE_LOG(LogTemp, Log, TEXT("Damage State off"));
+	WeaponComponent->SetCanTrace(false);
 }

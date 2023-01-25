@@ -8,7 +8,6 @@
 #include "Components/TextBlock.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "ItemDetailsPanel.h"
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"

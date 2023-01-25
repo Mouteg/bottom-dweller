@@ -37,6 +37,8 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 	void AttackCompleted();
 	UFUNCTION()
 	void SetComboOpening(FGameplayEventData Payload);
+	UFUNCTION()
+	void OnActorHit(FHitResult HitResult);
 	
 public:
 	UAttackAbility();

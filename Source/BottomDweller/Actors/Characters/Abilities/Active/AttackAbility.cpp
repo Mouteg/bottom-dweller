@@ -9,8 +9,9 @@
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
+#include "BottomDweller/Actors/Components/WeaponComponent.h"
+#include "Engine/StaticMeshActor.h"
 
 UAttackAbility::UAttackAbility()
 {
@@ -38,7 +39,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
                                      const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-	
+
 	if (!bInitialized)
 	{
 		WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
@@ -49,11 +50,10 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		WaitForComboOpeningTask->Activate();
 		bInitialized = false;
 	}
-	
-	//async task for socket tracing
-	
+
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
+	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &UAttackAbility::OnActorHit);
 	CurrentWeaponType = Weapon->WeaponType;
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
 
@@ -111,4 +111,14 @@ void UAttackAbility::AttackCompleted()
 void UAttackAbility::SetComboOpening(FGameplayEventData Payload)
 {
 	bComboOpening = static_cast<bool>(Payload.EventMagnitude);
+}
+
+void UAttackAbility::OnActorHit(FHitResult HitResult)
+{
+	if (const AActor* Actor = HitResult.GetActor(); Actor->IsA(AStaticMeshActor::StaticClass()))
+	{
+		//Play cancel montage
+		CancelAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false);
+		UE_LOG(LogTemp, Warning, TEXT("Static mesh hit - canceling attack"));
+	}
 }

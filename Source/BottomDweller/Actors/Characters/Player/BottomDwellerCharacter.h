@@ -46,7 +46,7 @@ public:
 
 	// Perhaps not component
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* WeaponComponent;
+	class UWeaponComponent* WeaponComponent;
 	
 	ABottomDwellerCharacter();
 	
@@ -84,6 +84,6 @@ public:
 	virtual void OnActorLoaded_Implementation() override;
 	virtual void BeginAttack_Implementation() override;
 	virtual void EndAttack_Implementation() override;
-	virtual void EnableWeaponCollision_Implementation() override;
-	virtual void DisableWeaponCollision_Implementation() override;
+	virtual void EnableWeaponTracing_Implementation() override;
+	virtual void DisableWeaponTracing_Implementation() override;
 };

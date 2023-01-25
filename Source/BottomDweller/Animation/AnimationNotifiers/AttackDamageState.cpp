@@ -11,7 +11,7 @@ void UAttackDamageState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequ
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
 	if (MeshComp->GetOwner()->Implements<UMeleeAttacker>())
 	{
-		IMeleeAttacker::Execute_EnableWeaponCollision(MeshComp->GetOwner());
+		IMeleeAttacker::Execute_EnableWeaponTracing(MeshComp->GetOwner());
 	}
 }
 
@@ -20,6 +20,6 @@ void UAttackDamageState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequen
 	Super::NotifyEnd(MeshComp, Animation, EventReference);
 	if (MeshComp->GetOwner()->Implements<UMeleeAttacker>())
 	{
-		IMeleeAttacker::Execute_DisableWeaponCollision(MeshComp->GetOwner());
+		IMeleeAttacker::Execute_DisableWeaponTracing(MeshComp->GetOwner());
 	}
 }

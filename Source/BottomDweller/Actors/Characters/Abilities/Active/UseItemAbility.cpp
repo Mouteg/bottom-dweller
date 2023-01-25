@@ -3,7 +3,6 @@
 
 #include "UseItemAbility.h"
 
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"

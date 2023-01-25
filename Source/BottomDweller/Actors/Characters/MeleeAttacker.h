@@ -28,7 +28,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void EndAttack();
 	UFUNCTION(BlueprintNativeEvent)
-	void EnableWeaponCollision();
+	void EnableWeaponTracing();
 	UFUNCTION(BlueprintNativeEvent)
-	void DisableWeaponCollision();
+	void DisableWeaponTracing();
 };

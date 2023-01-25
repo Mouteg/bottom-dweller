@@ -1,7 +1,6 @@
 ﻿#include "PlayerAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
-#include "BottomDweller/Actors/Characters/Abilities/BottomDwellerAbilitySystemGlobals.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 
 void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
