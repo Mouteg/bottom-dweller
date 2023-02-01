@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "ItemDetailsEntry.generated.h"
+#include "TextEntry.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UItemDetailsEntry : public UUserWidget
+class BOTTOMDWELLER_API UTextEntry : public UUserWidget
 {
 	GENERATED_BODY()
 	
@@ -21,5 +21,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* PropertyValue;
 
-	void SetProperty(FString PropertyName, FString PropertyValue, FLinearColor Color = FLinearColor::Black) const;
+	void SetProperty(FString PropertyName, FString PropertyValue, FLinearColor Color = FLinearColor::Black);
+	void SetValue(FString PropertyValue);
+	void SetName(FString PropertyName);
+	void SetColor(FLinearColor Color = FLinearColor::Black);
 };

@@ -36,7 +36,7 @@ void UItemDetailsPanel::LoadDetails(UItemDataAsset* Item)
 void UItemDetailsPanel::LoadItemProperties(UItemDataAsset* Item)
 {
 	PropertiesContainer->ClearChildren();
-	UItemDetailsEntry* Entry = CreateWidget<UItemDetailsEntry>(this, DetailsEntryWidget);
+	UTextEntry* Entry = CreateWidget<UTextEntry>(this, DetailsEntryWidget);
 	//Make an enum of default props ?
 	Entry->SetProperty("Cost", FString::SanitizeFloat(Item->Cost, 0), FLinearColor::Yellow);
 	PropertiesContainer->AddChild(Entry);
@@ -50,8 +50,8 @@ void UItemDetailsPanel::CreateDetailsEntries(FItemStatEffect StatEffect)
 		const float Value = *Property->ContainerPtrToValuePtr<float>(&StatEffect);
 		if (Value != 0)
 		{
-			UItemDetailsEntry* Entry = CreateWidget<UItemDetailsEntry>(this, DetailsEntryWidget);
-			Entry->SetProperty(Property->GetName(), "+" + FString::SanitizeFloat(Value, 0), FLinearColor::MakeRandomSeededColor(GetTypeHash(Property->GetName())));
+			UTextEntry* Entry = CreateWidget<UTextEntry>(this, DetailsEntryWidget);
+			Entry->SetProperty(Property->GetName(), "+" + FString::FromInt(Value), FLinearColor::MakeRandomSeededColor(GetTypeHash(Property->GetName())));
 			PropertiesContainer->AddChild(Entry);
 		}
 	}

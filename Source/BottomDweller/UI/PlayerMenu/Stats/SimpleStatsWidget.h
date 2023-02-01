@@ -3,23 +3,49 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AttributeSet.h"
 #include "Blueprint/UserWidget.h"
 #include "SimpleStatsWidget.generated.h"
 
 struct FOnAttributeChangeData;
 class UVerticalBox;
-class UItemDetailsEntry;
+class UTextEntry;
 /**
  * 
- */
+*/
+
+USTRUCT()
+struct FCompositeEntryAttributes
+{
+	GENERATED_BODY();
+
+	UPROPERTY()
+	FString ValueAttribute;
+	UPROPERTY()
+	FString MaxValueAttribute;
+	UPROPERTY()
+	FString RegenValueAttribute;
+};
 UCLASS()
 class BOTTOMDWELLER_API USimpleStatsWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	void InitDelegates();
+	void InitializeDelegates();
+	void InitializeAttributes();
+	void CreateEntries();
+	void CreateOrUpdateCompositeEntry(const FCompositeEntryAttributes& CompositeAttributes, const int32 Index = 0);
+	void UpdateEntry(const FString& AttributeName);
 
-	TMap<FString, float> Attributes;
+
+	FCompositeEntryAttributes HealthComposite = FCompositeEntryAttributes();
+	FCompositeEntryAttributes StaminaComposite = FCompositeEntryAttributes();
+	FCompositeEntryAttributes ManaComposite = FCompositeEntryAttributes();
+	
+	TMap<FString, int32> Attributes;
+	TMap<FString, int32> AttributeToChildIndex;
+	TArray<FString> DefaultAttributes;
+	bool bIsInitialized = false;
 
 protected:
 	virtual void NativeConstruct() override;
@@ -31,5 +57,5 @@ public:
 	UVerticalBox* StatsContainer;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UItemDetailsEntry> EntryWidget;
+	TSubclassOf<UTextEntry> EntryWidget;
 };

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemDetailsEntry.h"
+#include "TextEntry.h"
 #include "Blueprint/UserWidget.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "ItemDetailsPanel.generated.h"
@@ -33,7 +33,7 @@ public:
 	class UImage* Thumbnail;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UItemDetailsEntry> DetailsEntryWidget;
+	TSubclassOf<UTextEntry> DetailsEntryWidget;
 
 	UFUNCTION()
 	void LoadDetails(UItemDataAsset* Item);
