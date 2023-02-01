@@ -30,6 +30,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float SprintSpeed;
+	
+	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+		const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const override;
 
 	UPROPERTY(EditDefaultsOnly, Category=Costs)
 	TSubclassOf<UGameplayEffect> SprintPeriodicCostEffect;

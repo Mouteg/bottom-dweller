@@ -13,11 +13,6 @@ void ABottomDwellerPlayerController::BeginPlay()
 	{
 		AbilitySystemComponent = ASC;
 	}
-
-	if (UUserWidget* HUD = CreateWidget(this, HUDClass))
-	{
-		HUD->AddToViewport();
-	}
 }
 
 void ABottomDwellerPlayerController::SetupInputComponent()
@@ -46,6 +41,14 @@ void ABottomDwellerPlayerController::Input_AbilityInputTagReleased(FGameplayTag 
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->Input_AbilityInputTagReleased(Tag);
+	}
+}
+
+void ABottomDwellerPlayerController::InitializeHUD()
+{
+	if (UUserWidget* HUD = CreateWidget(this, HUDClass))
+	{
+		HUD->AddToViewport();
 	}
 }
 

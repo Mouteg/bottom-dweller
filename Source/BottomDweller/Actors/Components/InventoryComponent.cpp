@@ -148,10 +148,11 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 
 void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot)
 {
-	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
+	ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
 	UBaseAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
 	const FActiveGameplayEffectHandle Handle = ASC->ApplyGameplayEffectSpecToSelf(Spec);
-
+	Character->RecalculateDamage();
+	
 	if (Spec.Duration == FGameplayEffectConstants::INSTANT_APPLICATION)
 	{
 		return;

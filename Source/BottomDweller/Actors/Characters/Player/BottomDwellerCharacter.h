@@ -3,9 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerAttributeSet.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
 #include "BottomDwellerCharacter.generated.h"
+
+class UInventoryComponent;
 
 UCLASS(config=Game)
 class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
@@ -27,7 +30,7 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	class UInteractionComponent* InteractionComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
-	class UInventoryComponent* InventoryComponent;
+	TObjectPtr<UInventoryComponent> InventoryComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
@@ -37,7 +40,6 @@ protected:
 	void Move(float ForwardValue, float RightValue);
 	
 public:
-
 	UPROPERTY(EditAnywhere)
 	float WalkSpeed;
 	
@@ -49,6 +51,8 @@ public:
 	class UWeaponComponent* WeaponComponent;
 	
 	ABottomDwellerCharacter();
+	
+	void RecalculateDamage();
 	
 	UFUNCTION(BlueprintCallable, BlueprintSetter)
 	void SetInventoryComponent(UInventoryComponent* NewInventoryComponent)

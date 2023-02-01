@@ -30,13 +30,10 @@ struct FPlayerSaveData
 	GENERATED_BODY()
 
 	UPROPERTY()
-	FVector Location = FVector(0, 0, 0);
+	class UBaseAbilitySystemComponent* ASC = nullptr;
 
 	UPROPERTY()
-	FRotator Rotation = FRotator(0, 0, 0);
-
-	UPROPERTY()
-	bool bResumeAtTransform = false;
+	class UInventoryComponent* InventoryComponent = nullptr;
 };
 
 UCLASS()

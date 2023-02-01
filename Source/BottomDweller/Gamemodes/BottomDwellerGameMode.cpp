@@ -15,8 +15,8 @@ void ABottomDwellerGameMode::InitGame(const FString& MapName, const FString& Opt
 	
 	UBottomDwellerAbilitySystemGlobals::Get().InitGlobalData();
 	USaveGameManager* SaveGameManager = GetGameInstance()->GetSubsystem<USaveGameManager>();
-	// FString SelectedSaveSlot = UGameplayStatics::ParseOption(Options, "SaveGame");
-	// SaveGameManager->LoadSaveGame("SaveGame01");
+	FString SelectedSaveSlot = UGameplayStatics::ParseOption(Options, "SaveGame");
+	SaveGameManager->LoadSaveGame("SaveGame01");
 }
 
 ABottomDwellerGameMode::ABottomDwellerGameMode()

@@ -8,13 +8,24 @@
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+bool UEquippedItemsWidget::Initialize()
+{
+	const bool bSuccess = Super::Initialize();
+	if (!bSuccess) return false;
+
+	if (!ensure(WeaponSlot != nullptr)) return false;
+
+	return bSuccess;
+}
+
 void UEquippedItemsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
 	if (const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)))
 	{
 		InventoryComponent = Character->GetInventoryComponent();
-		InventoryComponent->OnEquipmentStateChange.AddDynamic(this, &UEquippedItemsWidget::Update);
+		InventoryComponent->OnEquipmentStateChange.AddUniqueDynamic(this, &UEquippedItemsWidget::Update);
 	}
 	InitSlots();
 }

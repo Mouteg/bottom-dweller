@@ -1,5 +1,6 @@
 ﻿#include "PlayerAttributeSet.h"
 
+#include "BottomDwellerCharacter.h"
 #include "GameplayEffectExtension.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 
@@ -21,9 +22,4 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			GetOwningAbilitySystemComponent()->CancelAbilities(&TagsToCancel);
 		}
 	}
-}
-
-void UPlayerAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
-{
-	Super::PreAttributeChange(Attribute, NewValue);
 }

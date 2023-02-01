@@ -12,7 +12,6 @@ class BOTTOMDWELLER_API UPlayerAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")

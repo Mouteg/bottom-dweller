@@ -18,8 +18,21 @@ void USprintAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	GetBottomDwellerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 }
 
+bool USprintAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+	const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
+{
+	if (!GetBottomDwellerCharacterFromActorInfo(ActorInfo))
+	{
+		return false;
+	}
+	
+	return !GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsFalling()
+	&& GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsMovingOnGround()
+	&& Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
+}
+
 void USprintAbility::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-	const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
+                                   const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
 {
 	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
 	GetBottomDwellerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;

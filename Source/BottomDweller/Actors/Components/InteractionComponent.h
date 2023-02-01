@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/Maps/Interactable.h"
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 

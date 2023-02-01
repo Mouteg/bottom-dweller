@@ -21,6 +21,9 @@ class BOTTOMDWELLER_API UEquippedItemsWidget : public UUserWidget
 	TMap<EGearSlots, UEquippedItemSlot*> EquipSlots;
 
 public:
+	
+	virtual bool Initialize() override;
+	
 	UPROPERTY()
 	UInventoryComponent* InventoryComponent;
 	

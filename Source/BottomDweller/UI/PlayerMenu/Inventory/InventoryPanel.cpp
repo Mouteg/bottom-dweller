@@ -24,10 +24,11 @@ bool UInventoryPanel::Initialize()
 void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
 	if (const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)))
 	{
 		InventoryComponent = Character->GetInventoryComponent();
-		InventoryComponent->OnChange.AddDynamic(this, &UInventoryPanel::Refresh);
+		InventoryComponent->OnChange.AddUniqueDynamic(this, &UInventoryPanel::Refresh);
 	}
 	Refresh();
 }

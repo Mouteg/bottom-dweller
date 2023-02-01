@@ -3,6 +3,8 @@
 
 #include "BaseCharacter.h"
 
+#include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
+
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -21,6 +23,7 @@ void ABaseCharacter::BeginPlay()
 	{
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 	}
+	// Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
 }
 
 void ABaseCharacter::OnActorLoaded_Implementation()

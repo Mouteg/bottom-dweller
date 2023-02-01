@@ -28,7 +28,7 @@
 		},
 		{
 			"Name": "DidItHit",
-			"Enabled": true
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [

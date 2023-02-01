@@ -27,5 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void WriteSaveGame(FString SlotName);
 
+	UFUNCTION(BlueprintCallable)
+	void DeleteSaveGame(FString SlotName);
+
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 };

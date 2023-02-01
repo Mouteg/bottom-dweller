@@ -43,6 +43,7 @@ protected:
 	UAbilityInputConfig* InputConfig;
 
 public:
+	void InitializeHUD();
 	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
 };
 

@@ -1,6 +1,7 @@
 ﻿#include "InteractionComponent.h"
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Maps/Interactable.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
 

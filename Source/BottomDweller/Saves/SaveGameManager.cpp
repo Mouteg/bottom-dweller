@@ -7,6 +7,7 @@
 #include "EngineUtils.h"
 #include "Saveable.h"
 #include "SaveGameSettings.h"
+#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
@@ -57,6 +58,14 @@ void USaveGameManager::WriteSaveGame(FString SlotName)
 		ActorData.ActorName = Actor->GetFName();
 		ActorData.Transform = Actor->GetActorTransform();
 
+		if (ABottomDwellerCharacter* PlayerCharacter = Cast<ABottomDwellerCharacter>(Actor))
+		{
+			FPlayerSaveData PlayerSaveData;
+			PlayerSaveData.InventoryComponent = PlayerCharacter->GetInventoryComponent();
+			PlayerSaveData.ASC = PlayerCharacter->GetAbilitySystemComponent();
+			CurrentSaveGame->SavedPlayer = PlayerSaveData;
+		}
+		
 		FMemoryWriter MemWriter(ActorData.ByteData);
 
 		FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
@@ -67,6 +76,11 @@ void USaveGameManager::WriteSaveGame(FString SlotName)
 	}
 	
 	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, CurrentSlotName, 0);
+}
+
+void USaveGameManager::DeleteSaveGame(FString SlotName)
+{
+	UGameplayStatics::DeleteGameInSlot(SlotName, 0);
 }
 
 void USaveGameManager::LoadSaveGame(FString SlotName)
@@ -107,11 +121,17 @@ void USaveGameManager::LoadSaveGame(FString SlotName)
 				ActorExists = true;
 				Actor->SetActorTransform(ActorData.Transform);
 
-				// FMemoryReader MemReader(ActorData.ByteData);
-				//
-				// FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
-				// Ar.ArIsSaveGame = true;
-				// Actor->Serialize(Ar);
+				if (ABottomDwellerCharacter* PlayerCharacter = Cast<ABottomDwellerCharacter>(Actor))
+				{
+					PlayerCharacter->SetInventoryComponent(CurrentSaveGame->SavedPlayer.InventoryComponent);
+					PlayerCharacter->SetAbilitySystemComponent(CurrentSaveGame->SavedPlayer.ASC);
+				}
+
+				FMemoryReader MemReader(ActorData.ByteData);
+				
+				FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
+				Ar.ArIsSaveGame = true;
+				Actor->Serialize(Ar);
 				
 				ISaveable::Execute_OnActorLoaded(Actor);
 				break;

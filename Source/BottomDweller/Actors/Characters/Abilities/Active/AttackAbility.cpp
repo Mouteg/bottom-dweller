@@ -12,6 +12,7 @@
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
 #include "Engine/StaticMeshActor.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 UAttackAbility::UAttackAbility()
 {
@@ -26,7 +27,8 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
 {
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetInventoryComponent()->GetEquipmentState().Weapon;
 	if (
-		!IsValid(Weapon)
+		GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsFalling()
+		|| !IsValid(Weapon)
 		|| !IsValid(WeaponAnimations)
 		|| !WeaponAnimations->WeaponTypeAnimations.Contains(Weapon->WeaponType)
 		|| !(WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages.Num() > ComboCounter)
@@ -50,11 +52,11 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		WaitForComboOpeningTask->Activate();
 		bInitialized = false;
 	}
-
+	
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
-	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &UAttackAbility::OnActorHit);
 	CurrentWeaponType = Weapon->WeaponType;
+	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &UAttackAbility::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
 
 	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
@@ -115,10 +117,20 @@ void UAttackAbility::SetComboOpening(FGameplayEventData Payload)
 
 void UAttackAbility::OnActorHit(FHitResult HitResult)
 {
-	if (const AActor* Actor = HitResult.GetActor(); Actor->IsA(AStaticMeshActor::StaticClass()))
+	const AActor* Actor = HitResult.GetActor();
+	if (Actor->IsA(AStaticMeshActor::StaticClass()))
 	{
 		//Play cancel montage
 		CancelAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false);
 		UE_LOG(LogTemp, Warning, TEXT("Static mesh hit - canceling attack"));
+	}
+
+	if (Actor->IsA(ABaseCharacter::StaticClass()))
+	{
+		bool Found;
+		UE_LOG(LogTemp, Warning, TEXT("%f"),
+			GetAbilitySystemComponentFromActorInfo()->GetGameplayAttributeValue(UBaseAttributeSet::GetBluntDamageAttribute(), Found)
+			);
+		//deal damage
 	}
 }

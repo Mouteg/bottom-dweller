@@ -11,15 +11,20 @@ bool UInventoryUI::Initialize()
 	const bool bSuccess = Super::Initialize();
 	if (!bSuccess) return false;
 
+	if (!ensure(EquippedItemsWidget != nullptr)) return false;
+	if (!ensure(InventoryPanel != nullptr)) return false;
+	if (!ensure(ItemDetailsPanel != nullptr)) return false;
+	
+	if (EquippedItemsWidget && InventoryPanel && ItemDetailsPanel)
+	{
+		InventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
+		EquippedItemsWidget->ItemDetailsPanel = ItemDetailsPanel;
+	}
+	
 	return bSuccess;
 }
 
 void UInventoryUI::NativePreConstruct()
 {
 	Super::NativeConstruct();
-	if (EquippedItemsWidget && InventoryPanel && ItemDetailsPanel)
-	{
-		InventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
-		EquippedItemsWidget->ItemDetailsPanel = ItemDetailsPanel;
-	}
 }

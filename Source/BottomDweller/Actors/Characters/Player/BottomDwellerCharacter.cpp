@@ -21,7 +21,7 @@ void ABottomDwellerCharacter::InitActorComponents()
 	AttackSensitivityMultiplier = 0.2;
 	WalkSpeed = 350;
 	AttackWalkSpeed = 250;
-	
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	// Configure character movement
@@ -36,7 +36,7 @@ void ABottomDwellerCharacter::InitActorComponents()
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->BrakingDecelerationWalking = 1400.f;
 	GetCharacterMovement()->bIgnoreBaseRotation = true;
-	
+
 	bUseControllerRotationYaw = true;
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	InteractionComponent->Length = 500.f;
@@ -61,6 +61,21 @@ void ABottomDwellerCharacter::InitActorComponents()
 	PointLight->SetSoftSourceRadius(100);
 	PointLight->SetLightColor(FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("FFAD5DFF"))));
 	PointLight->SetupAttachment(FollowCamera);
+}
+
+void ABottomDwellerCharacter::RecalculateDamage()
+{
+	const UPlayerAttributeSet* PlayerAttributeSet = Cast<const
+		UPlayerAttributeSet>(AbilitySystemComponent->GetAttributeSet(UPlayerAttributeSet::StaticClass()));
+
+	const float BluntDamage = PlayerAttributeSet->GetWeaponBluntDamage() + PlayerAttributeSet->GetStrength();
+	const float SlashingDamage = PlayerAttributeSet->GetWeaponSlashingDamage() + PlayerAttributeSet->GetStrength() * 0.5 + PlayerAttributeSet->GetDexterity() *
+		0.5;
+	const float PiercingDamage = PlayerAttributeSet->GetWeaponPiercingDamage() + PlayerAttributeSet->GetDexterity();
+
+	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetBluntDamageAttribute(), BluntDamage);
+	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetSlashingDamageAttribute(), SlashingDamage);
+	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetPiercingDamageAttribute(), PiercingDamage);
 }
 
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
