@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryPanel.generated.h"
 
+class UTextBlock;
+class UWrapBox;
 class UInventorySlotWidget;
 class UItemDetailsPanel;
 class UInventoryComponent;
@@ -19,16 +21,16 @@ class BOTTOMDWELLER_API UInventoryPanel : public UUserWidget
 public:
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UWrapBox* InventorySlots;
+	TObjectPtr<UWrapBox> InventorySlots;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* InventoryDisplayName;
+	TObjectPtr<UTextBlock> InventoryDisplayName;
 
 	UPROPERTY()
-	UInventoryComponent* InventoryComponent;
+	TObjectPtr<UInventoryComponent> InventoryComponent;
 
 	UPROPERTY(BlueprintReadWrite)
-	UItemDetailsPanel* ItemDetailsPanel;
+	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UInventorySlotWidget> SlotWidget;

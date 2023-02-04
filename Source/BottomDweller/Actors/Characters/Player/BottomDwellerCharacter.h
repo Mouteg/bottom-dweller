@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PlayerAttributeSet.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
 #include "BottomDwellerCharacter.generated.h"
 
+class UInteractionComponent;
+class UPointLightComponent;
+class UCameraComponent;
 class UInventoryComponent;
 
 UCLASS(config=Game)
@@ -24,16 +26,16 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 	float AttackSensitivityMultiplier;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UPointLightComponent* PointLight;
+	TObjectPtr<UPointLightComponent> PointLight;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UInteractionComponent* InteractionComponent;
+	TObjectPtr<UInteractionComponent> InteractionComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
 	TObjectPtr<UInventoryComponent> InventoryComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+	TObjectPtr<UCameraComponent> FollowCamera;
 	
 protected:
 	UFUNCTION(BlueprintCallable)

@@ -17,7 +17,8 @@ class UTextEntry;
 USTRUCT()
 struct FCompositeEntryAttributes
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
+	;
 
 	UPROPERTY()
 	FString ValueAttribute;
@@ -26,6 +27,7 @@ struct FCompositeEntryAttributes
 	UPROPERTY()
 	FString RegenValueAttribute;
 };
+
 UCLASS()
 class BOTTOMDWELLER_API USimpleStatsWidget : public UUserWidget
 {
@@ -41,7 +43,7 @@ class BOTTOMDWELLER_API USimpleStatsWidget : public UUserWidget
 	FCompositeEntryAttributes HealthComposite = FCompositeEntryAttributes();
 	FCompositeEntryAttributes StaminaComposite = FCompositeEntryAttributes();
 	FCompositeEntryAttributes ManaComposite = FCompositeEntryAttributes();
-	
+
 	TMap<FString, int32> Attributes;
 	TMap<FString, int32> AttributeToChildIndex;
 	TArray<FString> DefaultAttributes;
@@ -54,7 +56,7 @@ public:
 	void UpdateStats(const FOnAttributeChangeData& Data);
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UVerticalBox* StatsContainer;
+	TObjectPtr<UVerticalBox> StatsContainer;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UTextEntry> EntryWidget;

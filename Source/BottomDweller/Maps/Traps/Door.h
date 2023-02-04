@@ -31,7 +31,7 @@ public:
 	ADoor();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* MeshComponent;
+	TObjectPtr<UStaticMeshComponent> MeshComponent;
 	
 	UPROPERTY(EditAnywhere)
 	EDoorOpenType OpenType;

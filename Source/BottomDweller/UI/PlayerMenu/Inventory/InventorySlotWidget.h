@@ -8,6 +8,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventorySlotWidget.generated.h"
 
+class UBorder;
 UCLASS()
 class BOTTOMDWELLER_API UInventorySlotWidget : public UUserWidget
 {
@@ -19,19 +20,19 @@ public:
 	FGameplayTag DoubleClickEventTag;
 	
 	UPROPERTY(BlueprintReadWrite)
-	UItemDataAsset* Item;
+	TObjectPtr<UItemDataAsset> Item;
 
 	UPROPERTY()
 	int32 Quantity;
 	
 	UPROPERTY()
-	UItemDetailsPanel* ItemDetailsPanel;
+	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UBorder* Thumbnail;
+	TObjectPtr<UBorder> Thumbnail;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* QuantityText;
+	TObjectPtr<UTextBlock> QuantityText;
 
 	virtual bool Initialize() override;
 	

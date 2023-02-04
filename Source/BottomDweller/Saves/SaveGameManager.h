@@ -13,7 +13,8 @@ class BOTTOMDWELLER_API USaveGameManager : public UGameInstanceSubsystem
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	UBottomDwellerSaveGame* CurrentSaveGame;
+	TObjectPtr<UBottomDwellerSaveGame> CurrentSaveGame;
+	
 	FString CurrentSlotName;
 
 public:

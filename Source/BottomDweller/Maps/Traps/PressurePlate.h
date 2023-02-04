@@ -6,6 +6,7 @@
 #include "BottomDweller/Maps/Interactable.h"
 #include "PressurePlate.generated.h"
 
+class UBoxComponent;
 /**
  * 
  */
@@ -31,10 +32,10 @@ public:
 	TArray<AActor*> ObjectsToActivate;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* MeshComponent;
+	TObjectPtr<UStaticMeshComponent> MeshComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UBoxComponent* BoxComponent;
+	TObjectPtr<UBoxComponent> BoxComponent;
 
 	UPROPERTY(EditAnywhere)
 	FString InspectorDescription;

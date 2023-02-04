@@ -9,6 +9,7 @@
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
+#include "BottomDweller/Actors/Characters/BaseAttributeSet.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
 #include "Engine/StaticMeshActor.h"

@@ -6,6 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryUI.generated.h"
 
+class UItemDetailsPanel;
+class UInventoryPanel;
+class UEquippedItemsWidget;
 /**
  * 
  */
@@ -22,11 +25,11 @@ public:
 	virtual bool Initialize() override;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
-	class UEquippedItemsWidget* EquippedItemsWidget;
+	TObjectPtr<UEquippedItemsWidget> EquippedItemsWidget;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
-	class UInventoryPanel* InventoryPanel;
+	TObjectPtr<UInventoryPanel> InventoryPanel;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
-	class UItemDetailsPanel* ItemDetailsPanel;
+	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 };

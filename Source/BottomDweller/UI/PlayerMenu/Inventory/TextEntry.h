@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "TextEntry.generated.h"
 
+class UTextBlock;
 /**
  * 
  */
@@ -13,13 +14,13 @@ UCLASS()
 class BOTTOMDWELLER_API UTextEntry : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* PropertyName;
+	TObjectPtr<UTextBlock> PropertyName;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* PropertyValue;
+	TObjectPtr<UTextBlock> PropertyValue;
 
 	void SetProperty(FString PropertyName, FString PropertyValue, FLinearColor Color = FLinearColor::Black);
 	void SetValue(FString PropertyValue);

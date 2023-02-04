@@ -8,6 +8,8 @@
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "ItemDetailsPanel.generated.h"
 
+class UImage;
+class UVerticalBox;
 UCLASS()
 class BOTTOMDWELLER_API UItemDetailsPanel : public UUserWidget
 {
@@ -21,16 +23,16 @@ class BOTTOMDWELLER_API UItemDetailsPanel : public UUserWidget
 
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UVerticalBox* PropertiesContainer;
+	TObjectPtr<UVerticalBox> PropertiesContainer;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* DisplayName;
+	TObjectPtr<UTextBlock> DisplayName;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* Description;
+	TObjectPtr<UTextBlock> Description;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UImage* Thumbnail;
+	TObjectPtr<UImage> Thumbnail;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UTextEntry> DetailsEntryWidget;

@@ -6,6 +6,7 @@
 #include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
 #include "AttackAbility.generated.h"
 
+class UWeaponAnimations;
 class UAbilityTask_WaitGameplayEvent;
 class UAbilityTask_PlayMontageAndWait;
 enum class EWeaponType : uint8;
@@ -23,13 +24,13 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 	EWeaponType CurrentWeaponType;
 
 	UPROPERTY()
-	UAbilityTask_PlayMontageAndWait* AttackMontageTask;
+	TObjectPtr<UAbilityTask_PlayMontageAndWait> AttackMontageTask;
 	
 	UPROPERTY()
-	UAbilityTask_WaitGameplayEvent* WaitForComboOpeningTask;
+	TObjectPtr<UAbilityTask_WaitGameplayEvent> WaitForComboOpeningTask;
 	
 	UPROPERTY(EditDefaultsOnly)
-	class UWeaponAnimations* WeaponAnimations;
+	TObjectPtr<UWeaponAnimations> WeaponAnimations;
 
 	UFUNCTION()
 	void AttackMontageEnded();

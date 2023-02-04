@@ -3,6 +3,7 @@
 
 #include "SimpleStatsWidget.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Characters/Player/PlayerAttributeSet.h"
 #include "BottomDweller/UI/PlayerMenu/Inventory/TextEntry.h"
 #include "Components/VerticalBox.h"
 

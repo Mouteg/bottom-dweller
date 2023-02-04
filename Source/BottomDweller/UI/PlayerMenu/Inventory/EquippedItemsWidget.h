@@ -25,13 +25,13 @@ public:
 	virtual bool Initialize() override;
 	
 	UPROPERTY()
-	UInventoryComponent* InventoryComponent;
+	TObjectPtr<UInventoryComponent> InventoryComponent;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UEquippedItemSlot* WeaponSlot;
+	TObjectPtr<UEquippedItemSlot> WeaponSlot;
 	
 	UPROPERTY(BlueprintReadWrite)
-	UItemDetailsPanel* ItemDetailsPanel;
+	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 	
 	UFUNCTION()
 	void Update(UItemDataAsset* Item, EGearSlots GearSlot);

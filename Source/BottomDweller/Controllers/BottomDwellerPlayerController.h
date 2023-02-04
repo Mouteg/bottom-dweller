@@ -34,13 +34,13 @@ protected:
 		TArray<uint32>& BindHandles
 	);
 	UPROPERTY()
-	UBaseAbilitySystemComponent* AbilitySystemComponent;
+	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
 	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> HUDClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	UAbilityInputConfig* InputConfig;
+	TObjectPtr<UAbilityInputConfig> InputConfig;
 
 public:
 	void InitializeHUD();

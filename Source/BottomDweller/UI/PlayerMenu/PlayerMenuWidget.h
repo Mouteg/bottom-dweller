@@ -10,9 +10,7 @@ class USimpleStatsWidget;
 class UButton;
 class UWidgetSwitcher;
 class UInventoryUI;
-/**
- * 
- */
+
 UCLASS()
 class BOTTOMDWELLER_API UPlayerMenuWidget : public UUserWidget
 {
@@ -26,19 +24,19 @@ class BOTTOMDWELLER_API UPlayerMenuWidget : public UUserWidget
 public:
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UWidgetSwitcher* WidgetSwitcher;
+	TObjectPtr<UWidgetSwitcher> WidgetSwitcher;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UButton* StatsButton;
+	TObjectPtr<UButton> StatsButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UButton* InventoryButton;
+	TObjectPtr<UButton> InventoryButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UInventoryUI* InventoryUI;
+	TObjectPtr<UInventoryUI> InventoryUI;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	USimpleStatsWidget* SimpleStatsWidget;
+	TObjectPtr<USimpleStatsWidget> SimpleStatsWidget;
 
 protected:
 	virtual void NativeConstruct() override;

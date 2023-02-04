@@ -16,10 +16,10 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable,
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	UItemDataAsset* InventoryItem;
+	TObjectPtr<UItemDataAsset> InventoryItem;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* StaticMesh;
+	TObjectPtr<UStaticMeshComponent> StaticMesh;
 
 	UPROPERTY(EditAnywhere, SaveGame)
 	int32 Quantity = 1;

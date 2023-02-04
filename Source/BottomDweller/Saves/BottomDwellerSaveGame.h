@@ -6,6 +6,8 @@
 #include "GameFramework/SaveGame.h"
 #include "BottomDwellerSaveGame.generated.h"
 
+class UInventoryComponent;
+class UBaseAbilitySystemComponent;
 USTRUCT()
 struct FActorSaveData
 {
@@ -30,10 +32,10 @@ struct FPlayerSaveData
 	GENERATED_BODY()
 
 	UPROPERTY()
-	class UBaseAbilitySystemComponent* ASC = nullptr;
+	TObjectPtr<UBaseAbilitySystemComponent> ASC = nullptr;
 
 	UPROPERTY()
-	class UInventoryComponent* InventoryComponent = nullptr;
+	TObjectPtr<UInventoryComponent> InventoryComponent = nullptr;
 };
 
 UCLASS()

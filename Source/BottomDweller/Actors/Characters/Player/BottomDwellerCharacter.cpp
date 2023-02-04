@@ -1,5 +1,6 @@
 #include "BottomDwellerCharacter.h"
 
+#include "PlayerAttributeSet.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"

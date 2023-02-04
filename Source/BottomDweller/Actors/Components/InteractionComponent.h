@@ -14,7 +14,7 @@ class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
 	GENERATED_BODY()
 
 	UPROPERTY()
-	AActor* LastHitActor;
+	TObjectPtr<AActor> LastHitActor;
 
 	UPROPERTY(EditAnywhere)
 	bool bDrawDebug;
