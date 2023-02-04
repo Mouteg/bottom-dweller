@@ -30,14 +30,14 @@ void USimpleStatsWidget::InitializeDelegates()
 
 void USimpleStatsWidget::InitializeAttributes()
 {
-	DefaultAttributes.Add(UBaseAttributeSet::GetBluntDamageAttribute().AttributeName);
-	DefaultAttributes.Add(UBaseAttributeSet::GetSlashingDamageAttribute().AttributeName);
-	DefaultAttributes.Add(UBaseAttributeSet::GetPiercingDamageAttribute().AttributeName);
-	
 	DefaultAttributes.Add(UPlayerAttributeSet::GetStrengthAttribute().AttributeName);
 	DefaultAttributes.Add(UPlayerAttributeSet::GetDexterityAttribute().AttributeName);
 	DefaultAttributes.Add(UPlayerAttributeSet::GetIntelligenceAttribute().AttributeName);
 	DefaultAttributes.Add(UPlayerAttributeSet::GetLuckAttribute().AttributeName);
+	
+	DefaultAttributes.Add(UBaseAttributeSet::GetBluntDamageAttribute().AttributeName);
+	DefaultAttributes.Add(UBaseAttributeSet::GetSlashingDamageAttribute().AttributeName);
+	DefaultAttributes.Add(UBaseAttributeSet::GetPiercingDamageAttribute().AttributeName);
 
 	HealthComposite.ValueAttribute = UBaseAttributeSet::GetHealthAttribute().AttributeName;
 	HealthComposite.MaxValueAttribute = UBaseAttributeSet::GetMaxHealthAttribute().AttributeName;
@@ -78,6 +78,15 @@ void USimpleStatsWidget::CreateEntries()
 	}
 
 	int32 Index = 0;
+	CreateOrUpdateCompositeEntry(HealthComposite, Index);
+	Index++;
+
+	CreateOrUpdateCompositeEntry(StaminaComposite, Index);
+	Index++;
+
+	CreateOrUpdateCompositeEntry(ManaComposite, Index);
+	Index++;
+	
 	for (TTuple<FString, int32> Attribute : Attributes)
 	{
 		if (!DefaultAttributes.Contains(Attribute.Key))
@@ -91,15 +100,6 @@ void USimpleStatsWidget::CreateEntries()
 		AttributeToChildIndex.Add(Attribute.Key, Index);
 		Index++;
 	}
-
-	CreateOrUpdateCompositeEntry(HealthComposite, Index);
-	Index++;
-
-	CreateOrUpdateCompositeEntry(StaminaComposite, Index);
-	Index++;
-
-	CreateOrUpdateCompositeEntry(ManaComposite, Index);
-	Index++;
 }
 
 void USimpleStatsWidget::CreateOrUpdateCompositeEntry(const FCompositeEntryAttributes& CompositeAttributes, const int32 Index)

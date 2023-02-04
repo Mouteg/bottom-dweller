@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayEffect.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/ActorComponent.h"
 #include "GameplayEffectTypes.h"

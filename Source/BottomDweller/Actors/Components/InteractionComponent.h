@@ -16,6 +16,9 @@ class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
 	UPROPERTY()
 	AActor* LastHitActor;
 
+	UPROPERTY(EditAnywhere)
+	bool bDrawDebug;
+
 	UFUNCTION()
 	bool TraceForInteractable(FHitResult& Hit) const;
 

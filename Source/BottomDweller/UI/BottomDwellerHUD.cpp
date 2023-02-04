@@ -2,3 +2,7 @@
 
 
 #include "BottomDwellerHUD.h"
+
+ABottomDwellerHUD::ABottomDwellerHUD()
+{
+}

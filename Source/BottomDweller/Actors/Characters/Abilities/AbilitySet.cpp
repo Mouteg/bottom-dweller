@@ -31,7 +31,6 @@ void FAbilitySet_GrantedHandles::TakeFromAbilitySystem(UBaseAbilitySystemCompone
 
 	if (!ASC->IsOwnerActorAuthoritative())
 	{
-		// Must be authoritative to give or take ability sets.
 		return;
 	}
 

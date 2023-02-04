@@ -10,6 +10,7 @@ UInteractionComponent::UInteractionComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickInterval = 0.05;
+	bDrawDebug = false;
 }
 
 bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
@@ -21,16 +22,19 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(GetOwner());
 
-	// DrawDebugLine(
-	// 	GetWorld(),
-	// 	Start,
-	// 	End,
-	// 	FColor::Red,
-	// 	false,
-	// 	1,
-	// 	1,
-	// 	3
-	// );
+	if (bDrawDebug)
+	{
+		DrawDebugLine(
+			GetWorld(),
+			Start,
+			End,
+			FColor::Red,
+			false,
+			1,
+			1,
+			3
+		);
+	}
 
 	if (GetWorld()->LineTraceSingleByChannel(
 		OUT Hit,

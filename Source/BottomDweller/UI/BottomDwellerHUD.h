@@ -13,4 +13,6 @@ UCLASS()
 class BOTTOMDWELLER_API ABottomDwellerHUD final : public AHUD
 {
 	GENERATED_BODY()
+
+	ABottomDwellerHUD();
 };

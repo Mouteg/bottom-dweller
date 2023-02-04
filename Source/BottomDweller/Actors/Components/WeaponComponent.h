@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "WeaponComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHit, FHitResult, HitResult)
@@ -19,6 +20,9 @@ class BOTTOMDWELLER_API UWeaponComponent : public USkeletalMeshComponent
 	
 	UPROPERTY(VisibleAnywhere)	
 	bool bCanTrace;
+
+	UPROPERTY(EditAnywhere)
+	bool bDrawDebug;
 
 	void UpdateLastKnowSocketLocations();
 	void AddToHitArray(TArray<FHitResult> HitArrayToAdd);

@@ -6,16 +6,13 @@
 #include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
 
 
-// Sets default values
 ABaseCharacter::ABaseCharacter()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	AbilitySystemComponent = CreateDefaultSubobject<UBaseAbilitySystemComponent>(TEXT("Ability System Component"));
 }
 
-// Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,7 +20,7 @@ void ABaseCharacter::BeginPlay()
 	{
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 	}
-	// Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
+	Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
 }
 
 void ABaseCharacter::OnActorLoaded_Implementation()

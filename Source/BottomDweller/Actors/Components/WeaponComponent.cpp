@@ -11,6 +11,7 @@ UWeaponComponent::UWeaponComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	bCanTrace = false;
+	bDrawDebug = false;
 }
 
 
@@ -52,7 +53,8 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 			}
 			const FVector End = GetSocketLocation(Socket);
 			TArray<FHitResult> OutHits;
-			
+
+			const EDrawDebugTrace::Type DrawDebugType = bDrawDebug ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None;
 			UKismetSystemLibrary::LineTraceMulti(
 				GetWorld(),
 				Start,
@@ -60,7 +62,7 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 				UEngineTypes::ConvertToTraceType(ECC_Visibility),
 				false,
 				ActorsToIgnore,
-				EDrawDebugTrace::ForDuration,
+				DrawDebugType,
 				OutHits,
 				true
 			);

@@ -17,11 +17,9 @@ class BOTTOMDWELLER_API ABaseCharacter : public ACharacter, public IAbilitySyste
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ABaseCharacter();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities", SaveGame)

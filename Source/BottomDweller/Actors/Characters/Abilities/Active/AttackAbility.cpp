@@ -66,6 +66,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		InPlayRate
 	);
 	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &UAttackAbility::AttackMontageEnded);
+	AttackMontageTask->OnCompleted.AddDynamic(this, &UAttackAbility::AttackCompleted);
 	AttackMontageTask->Activate();
 }
 
@@ -97,8 +98,6 @@ void UAttackAbility::AttackMontageEnded()
 	else
 	{
 		ComboCounter = 0;
-		AttackMontageTask->OnBlendOut.RemoveAll(this);
-		AttackMontageTask->OnCompleted.AddDynamic(this, &UAttackAbility::AttackCompleted);
 	}
 	bCombo = false;
 }
