@@ -55,6 +55,13 @@ struct FItemStatEffect
 	float BluntDamage = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
 	float PiercingDamage = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category=DamageResistance)
+	float SlashingDamageResistance = 0;
+	UPROPERTY(EditDefaultsOnly, Category=DamageResistance)
+	float BluntDamageResistance = 0;
+	UPROPERTY(EditDefaultsOnly, Category=DamageResistance)
+	float PiercingDamageResistance = 0;
 };
 
 UCLASS(Abstract)

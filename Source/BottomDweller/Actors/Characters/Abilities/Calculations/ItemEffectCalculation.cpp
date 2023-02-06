@@ -29,12 +29,20 @@ struct FItemStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(WeaponSlashingDamage);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(WeaponBluntDamage);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(WeaponPiercingDamage);
+
+	DECLARE_ATTRIBUTE_CAPTUREDEF(SlashingDamageResistance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(BluntDamageResistance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(PiercingDamageResistance);
 	
 	FItemStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet, MaxHealth, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet, Health, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet, HealthRegen, Source, false);
+		
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet, SlashingDamageResistance, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet, BluntDamageResistance, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet, PiercingDamageResistance, Source, false);
 		
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UPlayerAttributeSet, MaxStamina, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UPlayerAttributeSet, Stamina, Source, false);
@@ -82,6 +90,10 @@ UItemEffectCalculation::UItemEffectCalculation()
 	RelevantAttributesToCapture.Add(ItemStatics().WeaponSlashingDamageDef);
 	RelevantAttributesToCapture.Add(ItemStatics().WeaponBluntDamageDef);
 	RelevantAttributesToCapture.Add(ItemStatics().WeaponPiercingDamageDef);
+
+	RelevantAttributesToCapture.Add(ItemStatics().SlashingDamageResistanceDef);
+	RelevantAttributesToCapture.Add(ItemStatics().BluntDamageResistanceDef);
+	RelevantAttributesToCapture.Add(ItemStatics().PiercingDamageResistanceDef);
 }
 
 
@@ -119,6 +131,10 @@ void UItemEffectCalculation::Execute_Implementation(const FGameplayEffectCustomE
 	AddOutputModifier(ItemStatics().WeaponBluntDamageProperty,  ItemStats->BluntDamage);
 	AddOutputModifier(ItemStatics().WeaponPiercingDamageProperty,  ItemStats->PiercingDamage);
 	AddOutputModifier(ItemStatics().WeaponSlashingDamageProperty,  ItemStats->SlashingDamage);
+
+	AddOutputModifier(ItemStatics().BluntDamageResistanceProperty,  ItemStats->BluntDamage);
+	AddOutputModifier(ItemStatics().SlashingDamageResistanceProperty,  ItemStats->PiercingDamage);
+	AddOutputModifier(ItemStatics().PiercingDamageResistanceProperty,  ItemStats->SlashingDamage);
 }
 
 void UItemEffectCalculation::AddOutputModifier(FProperty* Property, const float Magnitude) const

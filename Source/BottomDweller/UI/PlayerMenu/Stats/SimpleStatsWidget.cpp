@@ -39,6 +39,10 @@ void USimpleStatsWidget::InitializeAttributes()
 	DefaultAttributes.Add(UBaseAttributeSet::GetBluntDamageAttribute().AttributeName);
 	DefaultAttributes.Add(UBaseAttributeSet::GetSlashingDamageAttribute().AttributeName);
 	DefaultAttributes.Add(UBaseAttributeSet::GetPiercingDamageAttribute().AttributeName);
+	
+	DefaultAttributes.Add(UBaseAttributeSet::GetBluntDamageResistanceAttribute().AttributeName);
+	DefaultAttributes.Add(UBaseAttributeSet::GetSlashingDamageResistanceAttribute().AttributeName);
+	DefaultAttributes.Add(UBaseAttributeSet::GetPiercingDamageResistanceAttribute().AttributeName);
 
 	HealthComposite.ValueAttribute = UBaseAttributeSet::GetHealthAttribute().AttributeName;
 	HealthComposite.MaxValueAttribute = UBaseAttributeSet::GetMaxHealthAttribute().AttributeName;

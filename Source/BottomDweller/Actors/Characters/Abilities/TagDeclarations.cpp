@@ -30,3 +30,7 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_Luck, "Attribute.Luck")
 UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_SlashingDamage, "Attribute.SlashingDamage")
 UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_BluntDamage, "Attribute.BluntDamage")
 UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_PiercingDamage, "Attribute.PiercingDamage")
+
+UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_SlashingDamageResistance, "Attribute.SlashingDamageResistance")
+UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_BluntDamageResistance, "Attribute.BluntDamageResistance")
+UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_PiercingDamageResistance, "Attribute.PiercingDamageResistance")
