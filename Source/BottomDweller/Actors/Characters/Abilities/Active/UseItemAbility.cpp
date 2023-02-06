@@ -75,6 +75,10 @@ void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)
 	AddSetByCaller(Tag_Attribute_SlashingDamage, ItemStatEffect->SlashingDamage);
 	AddSetByCaller(Tag_Attribute_BluntDamage, ItemStatEffect->BluntDamage);
 	AddSetByCaller(Tag_Attribute_PiercingDamage, ItemStatEffect->PiercingDamage);
+	
+	AddSetByCaller(Tag_Attribute_SlashingDamageResistance, ItemStatEffect->SlashingDamageResistance);
+	AddSetByCaller(Tag_Attribute_BluntDamageResistance, ItemStatEffect->BluntDamageResistance);
+	AddSetByCaller(Tag_Attribute_PiercingDamageResistance, ItemStatEffect->PiercingDamageResistance);
 }
 
 

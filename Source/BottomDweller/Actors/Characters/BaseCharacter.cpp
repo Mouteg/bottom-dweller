@@ -20,7 +20,6 @@ void ABaseCharacter::BeginPlay()
 	{
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 	}
-	Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
 }
 
 void ABaseCharacter::OnActorLoaded_Implementation()

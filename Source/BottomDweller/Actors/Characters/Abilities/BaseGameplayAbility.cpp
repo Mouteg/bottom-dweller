@@ -39,3 +39,12 @@ ABottomDwellerCharacter* UBaseGameplayAbility::GetBottomDwellerCharacterFromActo
 	}
 	return (CurrentActorInfo ? Cast<ABottomDwellerCharacter>(CurrentActorInfo->AvatarActor.Get()) : nullptr);
 }
+
+ABaseCharacter* UBaseGameplayAbility::GetBaseCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo) const
+{
+	if (ActorInfo)
+	{
+		return (ActorInfo ? Cast<ABaseCharacter>(ActorInfo->AvatarActor.Get()) : nullptr);
+	}
+	return (CurrentActorInfo ? Cast<ABaseCharacter>(CurrentActorInfo->AvatarActor.Get()) : nullptr);
+}

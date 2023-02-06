@@ -24,3 +24,33 @@ void UBaseAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 {
 	Super::PreAttributeChange(Attribute, NewValue);
 }
+
+// float UBaseAttributeSet::GetBluntDamageValue(const ABaseCharacter* Character)
+// {
+// 	if (IsValid(Character))
+// 	{
+// 		bool Found;
+// 		return Character->GetAbilitySystemComponent()->GetGameplayAttributeValue(GetBluntDamageAttribute(), Found);
+// 	}
+// 	return 0;
+// }
+//
+// float UBaseAttributeSet::GetSlashingDamageValue(const ABaseCharacter* Character)
+// {
+// 	if (IsValid(Character))
+// 	{
+// 		bool Found;
+// 		return Character->GetAbilitySystemComponent()->GetGameplayAttributeValue(GetSlashingDamageAttribute(), Found);
+// 	}
+// 	return 0;
+// }
+//
+// float UBaseAttributeSet::GetPiercingDamageValue(const ABaseCharacter* Character)
+// {
+// 	if (IsValid(Character))
+// 	{
+// 		bool Found;
+// 		return Character->GetAbilitySystemComponent()->GetGameplayAttributeValue(GetPiercingDamageAttribute(), Found);
+// 	}
+// 	return 0;
+// }

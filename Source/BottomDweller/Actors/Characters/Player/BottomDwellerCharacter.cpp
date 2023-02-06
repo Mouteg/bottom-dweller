@@ -5,6 +5,7 @@
 #include "BottomDweller/Actors/Components/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
+#include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PointLightComponent.h"
@@ -77,6 +78,12 @@ void ABottomDwellerCharacter::RecalculateDamage()
 	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetBluntDamageAttribute(), BluntDamage);
 	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetSlashingDamageAttribute(), SlashingDamage);
 	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetPiercingDamageAttribute(), PiercingDamage);
+}
+
+void ABottomDwellerCharacter::BeginPlay()
+{
+	Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
+	Super::BeginPlay();
 }
 
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)

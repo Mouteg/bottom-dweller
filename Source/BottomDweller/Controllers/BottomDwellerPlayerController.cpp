@@ -46,8 +46,9 @@ void ABottomDwellerPlayerController::Input_AbilityInputTagReleased(FGameplayTag 
 
 void ABottomDwellerPlayerController::InitializeHUD()
 {
-	if (UUserWidget* HUD = CreateWidget(this, HUDClass))
+	if (IsValid(HUDClass))
 	{
+		UUserWidget* HUD = CreateWidget(this, HUDClass);
 		HUD->AddToViewport();
 	}
 }

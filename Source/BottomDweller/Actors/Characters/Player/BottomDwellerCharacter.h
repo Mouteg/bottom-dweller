@@ -16,7 +16,7 @@ UCLASS(config=Game)
 class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 {
 	GENERATED_BODY()
-	
+
 	void InitActorComponents();
 
 	UPROPERTY(EditAnywhere)
@@ -24,7 +24,7 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 
 	UPROPERTY(EditAnywhere)
 	float AttackSensitivityMultiplier;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UPointLightComponent> PointLight;
 
@@ -36,45 +36,47 @@ class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraComponent> FollowCamera;
-	
+
 protected:
 	UFUNCTION(BlueprintCallable)
 	void Move(float ForwardValue, float RightValue);
-	
+
+	virtual void BeginPlay() override;
+
 public:
 	UPROPERTY(EditAnywhere)
 	float WalkSpeed;
-	
+
 	UPROPERTY(EditAnywhere)
 	float AttackWalkSpeed;
 
 	// Perhaps not component
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UWeaponComponent* WeaponComponent;
-	
+
 	ABottomDwellerCharacter();
-	
+
 	void RecalculateDamage();
-	
+
 	UFUNCTION(BlueprintCallable, BlueprintSetter)
 	void SetInventoryComponent(UInventoryComponent* NewInventoryComponent)
 	{
 		InventoryComponent = NewInventoryComponent;
 	}
-	
+
 	UFUNCTION(BlueprintCallable, BlueprintSetter)
 	void SetInteractionComponent(UInteractionComponent* NewInteractionComponent)
 	{
 		InteractionComponent = NewInteractionComponent;
 	}
-	
+
 
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
 	UInventoryComponent* GetInventoryComponent() const
 	{
 		return InventoryComponent;
 	}
-	
+
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
 	UInteractionComponent* GetInteractionComponent() const
 	{
@@ -83,10 +85,10 @@ public:
 
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 	float GetSensitivity();
-	
+
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	
+
 	virtual void OnActorLoaded_Implementation() override;
 	virtual void BeginAttack_Implementation() override;
 	virtual void EndAttack_Implementation() override;

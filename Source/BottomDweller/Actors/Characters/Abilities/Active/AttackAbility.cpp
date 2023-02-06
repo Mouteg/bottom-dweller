@@ -53,7 +53,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		WaitForComboOpeningTask->Activate();
 		bInitialized = false;
 	}
-	
+
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
@@ -127,10 +127,9 @@ void UAttackAbility::OnActorHit(FHitResult HitResult)
 
 	if (Actor->IsA(ABaseCharacter::StaticClass()))
 	{
-		bool Found;
-		UE_LOG(LogTemp, Warning, TEXT("%f"),
-			GetAbilitySystemComponentFromActorInfo()->GetGameplayAttributeValue(UBaseAttributeSet::GetBluntDamageAttribute(), Found)
-			);
+		float Damage = UBaseAttributeSet::GetBluntDamageValue(GetBaseCharacterFromActorInfo());
+		Damage += UBaseAttributeSet::GetSlashingDamageValue(GetBaseCharacterFromActorInfo());
+		Damage += UBaseAttributeSet::GetPiercingDamageValue(GetBaseCharacterFromActorInfo());
 		//deal damage
 	}
 }
