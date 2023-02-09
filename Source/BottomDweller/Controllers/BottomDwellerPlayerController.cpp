@@ -3,7 +3,14 @@
 
 #include "BottomDwellerPlayerController.h"
 #include "Blueprint/UserWidget.h"
+#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Characters/Abilities/BaseAbilitySystemComponent.h"
+
+ABottomDwellerPlayerController::ABottomDwellerPlayerController()
+{
+	Sensitivity = 0.65;
+	AttackSensitivityMultiplier = 0.2;
+}
 
 void ABottomDwellerPlayerController::BeginPlay()
 {
@@ -26,6 +33,15 @@ void ABottomDwellerPlayerController::SetupInputComponent()
 		&ThisClass::Input_AbilityInputTagReleased,
 		BindHandles
 	);
+}
+
+float ABottomDwellerPlayerController::GetSensitivity()
+{
+	if (AbilitySystemComponent->HasMatchingGameplayTag(Tag_Event_Attack))
+	{
+		return AttackSensitivityMultiplier;
+	}
+	return Sensitivity;
 }
 
 void ABottomDwellerPlayerController::Input_AbilityInputTagPressed(FGameplayTag Tag)

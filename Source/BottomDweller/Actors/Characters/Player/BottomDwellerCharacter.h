@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/InventorySupport.h"
 #include "BottomDwellerCharacter.generated.h"
 
 class UInteractionComponent;
@@ -13,18 +14,11 @@ class UCameraComponent;
 class UInventoryComponent;
 
 UCLASS(config=Game)
-class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
+class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker, public IInventorySupport
 {
 	GENERATED_BODY()
 
 	void InitActorComponents();
-
-	UPROPERTY(EditAnywhere)
-	float Sensitivity;
-
-	UPROPERTY(EditAnywhere)
-	float AttackSensitivityMultiplier;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UPointLightComponent> PointLight;
 
@@ -64,31 +58,22 @@ public:
 		InventoryComponent = NewInventoryComponent;
 	}
 
-	UFUNCTION(BlueprintCallable, BlueprintSetter)
-	void SetInteractionComponent(UInteractionComponent* NewInteractionComponent)
-	{
-		InteractionComponent = NewInteractionComponent;
-	}
-
-
-	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	UInventoryComponent* GetInventoryComponent() const
-	{
-		return InventoryComponent;
-	}
-
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
 	UInteractionComponent* GetInteractionComponent() const
 	{
 		return InteractionComponent;
 	}
 
-	UFUNCTION(BlueprintPure, BlueprintCallable)
-	float GetSensitivity();
-
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	
+	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
+	virtual UInventoryComponent* GetInventoryComponent_Implementation() override
+	{
+		return InventoryComponent;
+	}
+	
 	virtual void OnActorLoaded_Implementation() override;
 	virtual void BeginAttack_Implementation() override;
 	virtual void EndAttack_Implementation() override;

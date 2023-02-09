@@ -1,7 +1,6 @@
 #include "BottomDwellerCharacter.h"
 
 #include "PlayerAttributeSet.h"
-#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
@@ -19,8 +18,6 @@ ABottomDwellerCharacter::ABottomDwellerCharacter()
 
 void ABottomDwellerCharacter::InitActorComponents()
 {
-	Sensitivity = 0.65;
-	AttackSensitivityMultiplier = 0.2;
 	WalkSpeed = 350;
 	AttackWalkSpeed = 250;
 
@@ -40,6 +37,7 @@ void ABottomDwellerCharacter::InitActorComponents()
 	GetCharacterMovement()->bIgnoreBaseRotation = true;
 
 	bUseControllerRotationYaw = true;
+
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	InteractionComponent->Length = 500.f;
 
@@ -67,8 +65,8 @@ void ABottomDwellerCharacter::InitActorComponents()
 
 void ABottomDwellerCharacter::RecalculateDamage()
 {
-	const UPlayerAttributeSet* PlayerAttributeSet = Cast<const
-		UPlayerAttributeSet>(AbilitySystemComponent->GetAttributeSet(UPlayerAttributeSet::StaticClass()));
+	const UPlayerAttributeSet* PlayerAttributeSet =
+		Cast<const UPlayerAttributeSet>(AbilitySystemComponent->GetAttributeSet(UPlayerAttributeSet::StaticClass()));
 
 	const float BluntDamage = PlayerAttributeSet->GetWeaponBluntDamage() + PlayerAttributeSet->GetStrength();
 	const float SlashingDamage = PlayerAttributeSet->GetWeaponSlashingDamage() + PlayerAttributeSet->GetStrength() * 0.5 + PlayerAttributeSet->GetDexterity() *
@@ -102,15 +100,6 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 		AddMovementInput(DirectionForward, ForwardValue);
 		AddMovementInput(DirectionRight, RightValue);
 	}
-}
-
-float ABottomDwellerCharacter::GetSensitivity()
-{
-	if (AbilitySystemComponent->HasMatchingGameplayTag(Tag_Event_Attack))
-	{
-		return AttackSensitivityMultiplier;
-	}
-	return Sensitivity;
 }
 
 void ABottomDwellerCharacter::OnActorLoaded_Implementation()

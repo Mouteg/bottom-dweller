@@ -19,6 +19,7 @@ public class BottomDweller : ModuleRules
 			"EnhancedInput", 
 			"SlateCore" ,
 			"DeveloperSettings",
+			"AIModule"
 		});
 		
 		PublicDependencyModuleNames.AddRange(new[]

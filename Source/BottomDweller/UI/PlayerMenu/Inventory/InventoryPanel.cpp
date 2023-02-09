@@ -25,9 +25,9 @@ void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	if (const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)))
+	if (GetOwningPlayerPawn()->Implements<UInventorySupport>())
 	{
-		InventoryComponent = Character->GetInventoryComponent();
+		InventoryComponent = IInventorySupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
 		InventoryComponent->OnChange.AddUniqueDynamic(this, &UInventoryPanel::Refresh);
 	}
 	Refresh();

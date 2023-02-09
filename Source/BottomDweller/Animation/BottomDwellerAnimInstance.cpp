@@ -7,7 +7,6 @@
 void UBottomDwellerAnimInstance::InitializeWithAbilitySystem(UAbilitySystemComponent* ASC)
 {
 	check(ASC);
-
 	GameplayTagPropertyMap.Initialize(this, ASC);
 }
 
