@@ -1,4 +1,4 @@
-﻿// All rights reserved by Aboba Inc.
+// All rights reserved by Aboba Inc.
 
 #pragma once
 
