@@ -9,6 +9,7 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Ability_Sprint, "Ability.Sprint")
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_Gameplay_AbilityInputBlocked, "Gameplay.AbilityInputBlocked")
 UE_DEFINE_GAMEPLAY_TAG(Tag_Gameplay_StopMovement, "Gameplay.StopMovement")
+UE_DEFINE_GAMEPLAY_TAG(Tag_Gameplay_Dead, "Gameplay.Dead")
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_MaxHealth, "Attribute.MaxHealth")
 UE_DEFINE_GAMEPLAY_TAG(Tag_Attribute_Health, "Attribute.Health")

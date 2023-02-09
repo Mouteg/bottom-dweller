@@ -6,7 +6,7 @@
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
-class BOTTOMDWELLER_API UInteractionComponent : public UActorComponent
+class BOTTOMDWELLER_API UInteractionComponent final : public UActorComponent
 {
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInteract, AActor*, Interactor);
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInspect, FString, Description);

@@ -7,7 +7,7 @@
 #include "WeaponComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class BOTTOMDWELLER_API UWeaponComponent : public USkeletalMeshComponent
+class BOTTOMDWELLER_API UWeaponComponent final : public USkeletalMeshComponent
 {
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHit, FHitResult, HitResult)
@@ -38,6 +38,9 @@ private:
 	TArray<FName> Sockets;
 	TMap<FName, FVector> SocketLocations;
 	TArray<FHitResult> HitArray;
+	
+	UPROPERTY()
+	TArray<AActor*> ActorsToIgnore;
 	
 	UPROPERTY(VisibleAnywhere)	
 	bool bCanTrace;

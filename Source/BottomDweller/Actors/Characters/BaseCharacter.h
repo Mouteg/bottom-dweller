@@ -27,7 +27,7 @@ public:
 		return AbilitySystemComponent;
 	}
 
-	virtual UBaseAbilitySystemComponent* GetASCComponent_Implementation() override
+	virtual UBaseAbilitySystemComponent* GetASCComponent_Implementation() const override
 	{
 		return AbilitySystemComponent;
 	}
@@ -46,4 +46,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	UAbilitySet* AbilitySet;
+
+private:
+	void DeathTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 };

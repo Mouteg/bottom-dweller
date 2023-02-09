@@ -12,7 +12,7 @@ void UJumpAbility::InputReleased(
 )
 {
 	Super::InputReleased(Handle, ActorInfo, ActivationInfo);
-	if (ABaseCharacter* Character = GetCharacterFromActorInfo())
+	if (ACharacter* Character = GetCharacterFromActorInfo())
 	{
 		Character->StopJumping();
 		CancelAbility(Handle, ActorInfo, ActivationInfo, false);
@@ -27,7 +27,7 @@ void UJumpAbility::ActivateAbility(
 )
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-	if (ABaseCharacter* Character = GetCharacterFromActorInfo())
+	if (ACharacter* Character = GetCharacterFromActorInfo())
 	{
 		Character->Jump();
 	}
@@ -41,7 +41,7 @@ bool UJumpAbility::CanActivateAbility(
 	FGameplayTagContainer* OptionalRelevantTags
 ) const
 {
-	if (const ABaseCharacter* Character = GetCharacterFromActorInfo(ActorInfo))
+	if (const ACharacter* Character = GetCharacterFromActorInfo(ActorInfo))
 	{
 		return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags)
 			&& Character->CanJump();

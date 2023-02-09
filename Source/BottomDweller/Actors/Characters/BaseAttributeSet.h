@@ -47,7 +47,6 @@ public:
 	UBaseAttributeSet();
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Health;

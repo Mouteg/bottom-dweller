@@ -21,6 +21,7 @@ void UWeaponComponent::SetCanTrace(bool CanTrace)
 	if (bCanTrace)
 	{
 		HitArray.Empty();
+		ActorsToIgnore.Empty();
 	}
 }
 
@@ -37,7 +38,6 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 	if (bCanTrace && !Sockets.IsEmpty())
 	{
-		TArray<AActor*> ActorsToIgnore;
 		ActorsToIgnore.Add(GetOwner());
 
 		for (FName Socket : Sockets)
@@ -90,10 +90,8 @@ void UWeaponComponent::AddToHitArray(TArray<FHitResult> HitArrayToAdd)
 {
 	for (const FHitResult& Hit : HitArrayToAdd)
 	{
-		if (!HitArray.ContainsByPredicate([&](const FHitResult& Inner) {  return Inner.GetActor() == Hit.GetActor(); }))
-		{
-			HitArray.Add(Hit);
-			OnHit.Broadcast(Hit);
-		}
+		ActorsToIgnore.Add(Hit.GetActor());
+		HitArray.Add(Hit);
+		OnHit.Broadcast(Hit);
 	}
 }

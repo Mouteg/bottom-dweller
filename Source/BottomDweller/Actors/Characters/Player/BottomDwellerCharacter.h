@@ -50,13 +50,13 @@ public:
 
 	
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	virtual UInventoryComponent* GetInventoryComponent_Implementation() override
+	virtual UInventoryComponent* GetInventoryComponent_Implementation() const override
 	{
 		return InventoryComponent;
 	}
 	
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	virtual UCharacterMovementComponent* GetPawnMovementComponent_Implementation() override
+	virtual UCharacterMovementComponent* GetPawnMovementComponent_Implementation() const override
 	{
 		return GetCharacterMovement();
 	}

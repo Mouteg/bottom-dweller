@@ -30,7 +30,7 @@ struct FInventory_EquipmentState
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
+class BOTTOMDWELLER_API UInventoryComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 	

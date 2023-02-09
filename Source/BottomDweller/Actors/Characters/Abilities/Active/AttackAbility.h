@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float InPlayRate;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> DamageEffect;
+
 	virtual void InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 	                          const FGameplayAbilityActivationInfo ActivationInfo) override;
 
@@ -49,6 +52,7 @@ private:
 	bool CheckAnimations(const UWeaponItemDataAsset* Weapon) const;
 	void CreateComboOpeningTask();
 	void CreateAttackMontageTask(UAnimMontage* AttackMontage);
+	void DealDamage(const AActor* Target);
 
 	UPROPERTY()
 	TObjectPtr<UAbilityTask_PlayMontageAndWait> AttackMontageTask;

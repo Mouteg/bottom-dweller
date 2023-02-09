@@ -22,13 +22,13 @@ ABottomDwellerPlayerController* UBaseGameplayAbility::GetPlayerControllerFromAct
 	return (CurrentActorInfo ? Cast<ABottomDwellerPlayerController>(CurrentActorInfo->PlayerController.Get()) : nullptr);
 }
 
-ABaseCharacter* UBaseGameplayAbility::GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo) const
+ACharacter* UBaseGameplayAbility::GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo) const
 {
 	if (ActorInfo)
 	{
 		return (ActorInfo ? Cast<ABaseCharacter>(ActorInfo->AvatarActor.Get()) : nullptr);
 	}
-	return (CurrentActorInfo ? Cast<ABaseCharacter>(CurrentActorInfo->AvatarActor.Get()) : nullptr);
+	return (CurrentActorInfo ? Cast<ACharacter>(CurrentActorInfo->AvatarActor.Get()) : nullptr);
 }
 
 ABottomDwellerCharacter* UBaseGameplayAbility::GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo) const

@@ -8,6 +8,8 @@
 
 // typedef TFunction<void(EGameplayModEvaluationChannel, EGameplayModOp::Type, const FAggregatorMod&)> FEvaluateFunction;
 
+//------------------------------NOT USED------------------------------\\
+
 UCLASS()
 class BOTTOMDWELLER_API UItemEffectCalculation : public UGameplayEffectExecutionCalculation
 {

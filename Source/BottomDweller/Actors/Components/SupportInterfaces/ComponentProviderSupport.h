@@ -22,11 +22,11 @@ class BOTTOMDWELLER_API IComponentProviderSupport
 public:
 
 	UFUNCTION(BlueprintNativeEvent)
-	UBaseAbilitySystemComponent* GetASCComponent();
+	UBaseAbilitySystemComponent* GetASCComponent() const;
 
 	UFUNCTION(BlueprintNativeEvent)
-	UInventoryComponent* GetInventoryComponent();
+	UInventoryComponent* GetInventoryComponent() const;
 
 	UFUNCTION(BlueprintNativeEvent)
-	UCharacterMovementComponent* GetPawnMovementComponent();
+	UCharacterMovementComponent* GetPawnMovementComponent() const;
 };

@@ -32,14 +32,19 @@ class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility
 public:
 	UPROPERTY(EditDefaultsOnly, Category=Costs)
 	float Cost;
-	
+
 	EAbilityActivationPolicy GetActivationPolicy() const { return ActivationPolicy; }
-	UAbilitySystemComponent* GetAbilitySystemComponentFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
-	ABottomDwellerPlayerController* GetPlayerControllerFromActorInfo() const;
-	ABaseCharacter* GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
-	ABottomDwellerCharacter* GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
-	ABaseCharacter* GetBaseCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 	
+	UAbilitySystemComponent* GetAbilitySystemComponentFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
+	
+	ABottomDwellerPlayerController* GetPlayerControllerFromActorInfo() const;
+	
+	ACharacter* GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
+	
+	ABottomDwellerCharacter* GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
+	
+	ABaseCharacter* GetBaseCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Activation")
 	EAbilityActivationPolicy ActivationPolicy;

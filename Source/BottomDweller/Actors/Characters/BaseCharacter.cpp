@@ -3,6 +3,7 @@
 
 #include "BaseCharacter.h"
 
+#include "Abilities/TagDeclarations.h"
 #include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
 
 
@@ -19,6 +20,15 @@ void ABaseCharacter::BeginPlay()
 	if (AbilitySet && AbilitySystemComponent)
 	{
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
+		AbilitySystemComponent->RegisterGameplayTagEvent(Tag_Gameplay_Dead, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ThisClass::DeathTagChanged);
+	}
+}
+
+void ABaseCharacter::DeathTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	if (NewCount > 0)
+	{
+		Destroy();
 	}
 }
 

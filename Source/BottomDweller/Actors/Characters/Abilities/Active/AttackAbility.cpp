@@ -113,12 +113,9 @@ void UAttackAbility::OnActorHit(FHitResult HitResult)
 		UE_LOG(LogTemp, Warning, TEXT("Static mesh hit - canceling attack"));
 	}
 
-	if (Actor->IsA(ABaseCharacter::StaticClass()))
+	if (Actor->IsA(ABaseCharacter::StaticClass()) && DamageEffect)
 	{
-		float Damage = UBaseAttributeSet::GetBluntDamageValue(GetBaseCharacterFromActorInfo())
-			+ UBaseAttributeSet::GetSlashingDamageValue(GetBaseCharacterFromActorInfo())
-			+ UBaseAttributeSet::GetPiercingDamageValue(GetBaseCharacterFromActorInfo());
-		//deal damage
+		DealDamage(Actor);
 	}
 }
 
@@ -155,4 +152,13 @@ void UAttackAbility::CreateAttackMontageTask(UAnimMontage* AttackMontage)
 	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &ThisClass::AttackMontageEnded);
 	AttackMontageTask->OnCompleted.AddDynamic(this, &ThisClass::AttackCompleted);
 	AttackMontageTask->Activate();
+}
+
+void UAttackAbility::DealDamage(const AActor* Target)
+{
+	UBaseAbilitySystemComponent* ASC = IComponentProviderSupport::Execute_GetASCComponent(Target);
+	if (UGameplayEffect* EffectCDO = DamageEffect.GetDefaultObject())
+	{
+		GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectToTarget(EffectCDO, ASC);
+	}
 }
