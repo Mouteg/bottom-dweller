@@ -16,6 +16,18 @@ class BOTTOMDWELLER_API UUseItemAbility : public UBaseGameplayAbility
 {
 	GENERATED_BODY()
 
+public:
+
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
+	TSubclassOf<UGameplayEffect> InstantEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
+	TSubclassOf<UGameplayEffect> DurationEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
+	TSubclassOf<UGameplayEffect> InfiniteEffect;
+	
+private:
 	UUseItemAbility();
 	FGameplayEffectSpec* CurrentEffectSpec;
 
@@ -30,15 +42,4 @@ class BOTTOMDWELLER_API UUseItemAbility : public UBaseGameplayAbility
 		const FGameplayAbilityActivationInfo ActivationInfo,
 		const FGameplayEventData* TriggerEventData
 	) override;
-	
-public:
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
-	TSubclassOf<UGameplayEffect> InstantEffect;
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
-	TSubclassOf<UGameplayEffect> DurationEffect;
-
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
-	TSubclassOf<UGameplayEffect> InfiniteEffect;
 };

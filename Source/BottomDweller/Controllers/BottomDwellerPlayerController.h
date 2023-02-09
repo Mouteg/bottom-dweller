@@ -16,14 +16,11 @@ class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerControlle
 {
 	GENERATED_BODY()
 
+public:
+	void InitializeHUD();
+	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
 	ABottomDwellerPlayerController();
 	
-	UPROPERTY(EditAnywhere)
-	float Sensitivity;
-
-	UPROPERTY(EditAnywhere)
-	float AttackSensitivityMultiplier;
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -52,9 +49,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAbilityInputConfig> InputConfig;
 
-public:
-	void InitializeHUD();
-	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
+private:
+	
+	UPROPERTY(EditAnywhere)
+	float Sensitivity;
+
+	UPROPERTY(EditAnywhere)
+	float AttackSensitivityMultiplier;
 };
 
 

@@ -22,6 +22,7 @@ class BOTTOMDWELLER_API UWeaponAnimations : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
+
 public:
 	//TODO: Possibly many copies of AnimMontages
 	UPROPERTY(EditDefaultsOnly)
@@ -31,4 +32,8 @@ public:
 	{
 		return FPrimaryAssetId(TEXT("WeaponAnimations"), GetFName());
 	}
+	
+private:
+	UPROPERTY(EditDefaultsOnly, meta=(AssetBundles="Items"))
+	TArray<TSoftObjectPtr<UAnimMontage>> AnimMontages;
 };

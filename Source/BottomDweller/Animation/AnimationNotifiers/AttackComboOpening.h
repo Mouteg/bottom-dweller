@@ -15,8 +15,6 @@ class BOTTOMDWELLER_API UAttackComboOpening : public UAnimNotifyState
 {
 	GENERATED_BODY()
 
-	void SendEvent(AActor* Owner, bool bActivated);
-
 public:
 
 	UPROPERTY(EditAnywhere)
@@ -25,4 +23,8 @@ public:
 	virtual void NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration,
 		const FAnimNotifyEventReference& EventReference) override;
 	virtual void NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
+
+private:
+	void SendEvent(AActor* Owner, bool bActivated);
+
 };

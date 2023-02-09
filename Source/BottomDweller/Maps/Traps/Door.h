@@ -19,20 +19,12 @@ class BOTTOMDWELLER_API ADoor : public AActor, public IActivatable
 {
 	GENERATED_BODY()
 
-	bool IsTimerLocked;
-
-	void AutoClose();
-
-protected:
-	virtual void BeginPlay() override;
-	
 public:
-	
 	ADoor();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UStaticMeshComponent> MeshComponent;
-	
+
 	UPROPERTY(EditAnywhere)
 	EDoorOpenType OpenType;
 
@@ -47,13 +39,20 @@ public:
 
 	UPROPERTY(EditAnywhere, meta=(EditConditionHides, EditCondition="OpenType == EDoorOpenType::Slide"))
 	FVector OpenOffset;
-	
+
 	UPROPERTY(EditAnywhere, meta=(EditConditionHides, EditCondition="OpenType == EDoorOpenType::Rotation"))
 	FRotator OpenAngle;
-	
+
 	virtual void Activate_Implementation() override;
 
 	UFUNCTION()
 	void ChangeDoorState();
 
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	bool IsTimerLocked;
+
+	void AutoClose();
 };

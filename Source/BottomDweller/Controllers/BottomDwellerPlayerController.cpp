@@ -16,7 +16,7 @@ void ABottomDwellerPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (UBaseAbilitySystemComponent* ASC = IASCSupport::Execute_GetASCComponent(GetPawn()))
+	if (UBaseAbilitySystemComponent* ASC = IComponentProviderSupport::Execute_GetASCComponent(GetPawn()))
 	{
 		AbilitySystemComponent = ASC;
 	}

@@ -38,7 +38,6 @@ class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EGearSlots, Slot);
 	
 public:
-	// Sets default values for this component's properties
 	UInventoryComponent();
 
 	UFUNCTION()

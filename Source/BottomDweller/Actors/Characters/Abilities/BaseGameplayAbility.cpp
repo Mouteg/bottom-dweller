@@ -4,16 +4,17 @@
 #include "BaseGameplayAbility.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
 #include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
 
 
 UAbilitySystemComponent* UBaseGameplayAbility::GetAbilitySystemComponentFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo) const
 {
-	if (ActorInfo && ActorInfo->AvatarActor.Get()->Implements<UASCSupport>())
+	if (ActorInfo && ActorInfo->AvatarActor.Get()->Implements<UComponentProviderSupport>())
 	{
-		return IASCSupport::Execute_GetASCComponent(ActorInfo->AvatarActor.Get());
+		return IComponentProviderSupport::Execute_GetASCComponent(ActorInfo->AvatarActor.Get());
 	}
-	return (CurrentActorInfo ? IASCSupport::Execute_GetASCComponent(CurrentActorInfo->AvatarActor.Get()) : nullptr);
+	return (CurrentActorInfo ? IComponentProviderSupport::Execute_GetASCComponent(CurrentActorInfo->AvatarActor.Get()) : nullptr);
 }
 
 ABottomDwellerPlayerController* UBaseGameplayAbility::GetPlayerControllerFromActorInfo() const

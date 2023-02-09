@@ -13,8 +13,6 @@ class BOTTOMDWELLER_API UItemEffectCalculation : public UGameplayEffectExecution
 {
 	GENERATED_BODY()
 
-	mutable FGameplayEffectCustomExecutionOutput* CurrentOutExecutionOutput;
-	
 public:
 	UItemEffectCalculation();
 
@@ -22,5 +20,8 @@ public:
 
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	                                    OUT FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+
+private:
+	mutable FGameplayEffectCustomExecutionOutput* CurrentOutExecutionOutput;
 	
 };

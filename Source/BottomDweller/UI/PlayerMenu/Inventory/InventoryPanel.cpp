@@ -25,10 +25,10 @@ void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	if (GetOwningPlayerPawn()->Implements<UInventorySupport>())
+	if (GetOwningPlayerPawn()->Implements<UComponentProviderSupport>())
 	{
-		InventoryComponent = IInventorySupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
-		InventoryComponent->OnChange.AddUniqueDynamic(this, &UInventoryPanel::Refresh);
+		InventoryComponent = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
+		InventoryComponent->OnChange.AddUniqueDynamic(this, &ThisClass::Refresh);
 	}
 	Refresh();
 }

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
-#include "BottomDweller/Actors/Components/SupportInterfaces/InventorySupport.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
 #include "BottomDwellerCharacter.generated.h"
 
 class UInteractionComponent;
@@ -14,28 +14,9 @@ class UCameraComponent;
 class UInventoryComponent;
 
 UCLASS(config=Game)
-class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker, public IInventorySupport
+class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
 {
 	GENERATED_BODY()
-
-	void InitActorComponents();
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UPointLightComponent> PointLight;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInteractionComponent> InteractionComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
-	TObjectPtr<UInventoryComponent> InventoryComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCameraComponent> FollowCamera;
-
-protected:
-	UFUNCTION(BlueprintCallable)
-	void Move(float ForwardValue, float RightValue);
-
-	virtual void BeginPlay() override;
 
 public:
 	UPROPERTY(EditAnywhere)
@@ -74,9 +55,35 @@ public:
 		return InventoryComponent;
 	}
 	
+	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
+	virtual UCharacterMovementComponent* GetPawnMovementComponent_Implementation() override
+	{
+		return GetCharacterMovement();
+	}
+	
 	virtual void OnActorLoaded_Implementation() override;
 	virtual void BeginAttack_Implementation() override;
 	virtual void EndAttack_Implementation() override;
 	virtual void EnableWeaponTracing_Implementation() override;
 	virtual void DisableWeaponTracing_Implementation() override;
+
+protected:
+	UFUNCTION(BlueprintCallable)
+	void Move(float ForwardValue, float RightValue);
+
+	virtual void BeginPlay() override;
+
+private:
+	void InitActorComponents();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UPointLightComponent> PointLight;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInteractionComponent> InteractionComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
+	TObjectPtr<UInventoryComponent> InventoryComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCameraComponent> FollowCamera;
 };

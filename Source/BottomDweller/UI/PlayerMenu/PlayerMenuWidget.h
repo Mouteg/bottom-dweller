@@ -16,11 +16,6 @@ class BOTTOMDWELLER_API UPlayerMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-    UFUNCTION()
-	void SetStatsActive();
-	UFUNCTION()
-	void SetInventoryActive();
-
 public:
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -40,5 +35,11 @@ public:
 
 protected:
 	virtual void NativeConstruct() override;
+
+private:
 	
+	UFUNCTION()
+	void SetStatsActive();
+	UFUNCTION()
+	void SetInventoryActive();
 };

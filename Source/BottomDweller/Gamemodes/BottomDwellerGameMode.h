@@ -11,11 +11,12 @@ class ABottomDwellerGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-	void LoadPrimaryAssets();
-
 public:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	ABottomDwellerGameMode();
+
+private:
+	void LoadPrimaryAssets();
 };
 
 

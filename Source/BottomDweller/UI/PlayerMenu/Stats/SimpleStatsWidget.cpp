@@ -17,14 +17,14 @@ void USimpleStatsWidget::NativeConstruct()
 void USimpleStatsWidget::InitializeDelegates()
 {
 	TArray<FGameplayAttribute> OutAttributes;
-	UBaseAbilitySystemComponent* ASC = IASCSupport::Execute_GetASCComponent(GetOwningPlayerPawn());
+	UBaseAbilitySystemComponent* ASC = IComponentProviderSupport::Execute_GetASCComponent(GetOwningPlayerPawn());
 
 	if (!ASC) return;
 
 	ASC->GetAllAttributes(OutAttributes);
 	for (const FGameplayAttribute Attribute : OutAttributes)
 	{
-		ASC->GetGameplayAttributeValueChangeDelegate(Attribute).AddUObject(this, &USimpleStatsWidget::UpdateStats);
+		ASC->GetGameplayAttributeValueChangeDelegate(Attribute).AddUObject(this, &ThisClass::UpdateStats);
 		Attributes.Add(Attribute.AttributeName, ASC->GetNumericAttribute(Attribute));
 	}
 }

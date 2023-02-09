@@ -15,6 +15,16 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable,
 {
 	GENERATED_BODY()
 
+public:
+	// Sets default values for this actor's properties
+	AInteractableItem();
+
+	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void OnInteract_Implementation(AActor* Interactor) override;
+	virtual FString GetInspectorDescription_Implementation() const override;
+
+private:
+	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UItemDataAsset> InventoryItem;
 
@@ -26,13 +36,4 @@ class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable,
 
 	UPROPERTY(EditAnywhere)
 	FString InspectorDescription = TEXT("Press E to pick up");
-
-
-public:
-	// Sets default values for this actor's properties
-	AInteractableItem();
-
-	virtual void OnConstruction(const FTransform& Transform) override;
-	virtual void OnInteract_Implementation(AActor* Interactor) override;
-	virtual FString GetInspectorDescription_Implementation() const override;
 };

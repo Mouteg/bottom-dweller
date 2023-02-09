@@ -15,8 +15,8 @@ void UPlayerMenuWidget::NativeConstruct()
 	WidgetSwitcher->AddChild(InventoryUI);
 	WidgetSwitcher->AddChild(SimpleStatsWidget);
 	
-	StatsButton->OnClicked.AddDynamic(this, &UPlayerMenuWidget::SetStatsActive);
-	InventoryButton->OnClicked.AddDynamic(this, &UPlayerMenuWidget::SetInventoryActive);
+	StatsButton->OnClicked.AddDynamic(this, &ThisClass::SetStatsActive);
+	InventoryButton->OnClicked.AddDynamic(this, &ThisClass::SetInventoryActive);
 }
 
 

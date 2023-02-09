@@ -6,6 +6,7 @@
 #include "BottomDweller/Actors/Characters/Abilities/BaseGameplayAbility.h"
 #include "AttackAbility.generated.h"
 
+class UWeaponItemDataAsset;
 class UWeaponAnimations;
 class UAbilityTask_WaitGameplayEvent;
 class UAbilityTask_PlayMontageAndWait;
@@ -16,6 +17,28 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 {
 	GENERATED_BODY()
 
+public:
+	UAttackAbility();
+
+	UPROPERTY(EditAnywhere)
+	float InPlayRate;
+
+	virtual void InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+	                          const FGameplayAbilityActivationInfo ActivationInfo) override;
+
+	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+	                                const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
+	                                FGameplayTagContainer* OptionalRelevantTags) const override;
+
+protected:
+	virtual void ActivateAbility(
+		const FGameplayAbilitySpecHandle Handle,
+		const FGameplayAbilityActorInfo* ActorInfo,
+		const FGameplayAbilityActivationInfo ActivationInfo,
+		const FGameplayEventData* TriggerEventData
+	) override;
+
+private:
 	bool bInitialized;
 	bool bCombo;
 	bool bComboOpening;
@@ -23,12 +46,16 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 
 	EWeaponType CurrentWeaponType;
 
+	bool CheckAnimations(const UWeaponItemDataAsset* Weapon) const;
+	void CreateComboOpeningTask();
+	void CreateAttackMontageTask(UAnimMontage* AttackMontage);
+
 	UPROPERTY()
 	TObjectPtr<UAbilityTask_PlayMontageAndWait> AttackMontageTask;
-	
+
 	UPROPERTY()
 	TObjectPtr<UAbilityTask_WaitGameplayEvent> WaitForComboOpeningTask;
-	
+
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWeaponAnimations> WeaponAnimations;
 
@@ -40,25 +67,4 @@ class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
 	void SetComboOpening(FGameplayEventData Payload);
 	UFUNCTION()
 	void OnActorHit(FHitResult HitResult);
-	
-public:
-	UAttackAbility();
-
-	UPROPERTY(EditAnywhere)
-	float InPlayRate;
-
-	virtual void InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-	                          const FGameplayAbilityActivationInfo ActivationInfo) override;
-	
-	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-		const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const override;
-	
-protected:
-	virtual void ActivateAbility(
-		const FGameplayAbilitySpecHandle Handle,
-		const FGameplayAbilityActorInfo* ActorInfo,
-		const FGameplayAbilityActivationInfo ActivationInfo,
-		const FGameplayEventData* TriggerEventData
-	) override;
-	
 };

@@ -59,10 +59,10 @@ void USaveGameManager::WriteSaveGame(FString SlotName)
 		ActorData.ActorName = Actor->GetFName();
 		ActorData.Transform = Actor->GetActorTransform();
 
-		// if (Actor->Implements<UInventorySupport>() && )
+		// if (Actor->Implements<UComponentProviderSupport>() && )
 		// {
 		// 	FPlayerSaveData PlayerSaveData;
-		// 	PlayerSaveData.InventoryComponent = IInventorySupport::Execute_GetInventoryComponent(Actor)->GetInventoryComponent();
+		// 	PlayerSaveData.InventoryComponent = IComponentProviderSupport::Execute_GetInventoryComponent(Actor)->GetInventoryComponent();
 		// 	PlayerSaveData.ASC = IAbilitySystemInterface::GetAbilitySystemComponent()->GetAbilitySystemComponent();
 		// 	CurrentSaveGame->SavedPlayer = PlayerSaveData;
 		// }

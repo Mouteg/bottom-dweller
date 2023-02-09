@@ -11,11 +11,6 @@ UCLASS()
 class BOTTOMDWELLER_API USaveGameManager : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
-	
-	UPROPERTY()
-	TObjectPtr<UBottomDwellerSaveGame> CurrentSaveGame;
-	
-	FString CurrentSlotName;
 
 public:
 
@@ -32,4 +27,11 @@ public:
 	void DeleteSaveGame(FString SlotName);
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+
+private:
+	
+	UPROPERTY()
+	TObjectPtr<UBottomDwellerSaveGame> CurrentSaveGame;
+	
+	FString CurrentSlotName;
 };

@@ -16,10 +16,11 @@ class BOTTOMDWELLER_API UBottomDwellerAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 
-	virtual void InitializeWithAbilitySystem(UAbilitySystemComponent* ASC);
-	virtual void NativeInitializeAnimation() override;
-
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayTags")
 	FGameplayTagBlueprintPropertyMap GameplayTagPropertyMap;
+
+private:
+	virtual void InitializeWithAbilitySystem(UAbilitySystemComponent* ASC);
+	virtual void NativeInitializeAnimation() override;
 };

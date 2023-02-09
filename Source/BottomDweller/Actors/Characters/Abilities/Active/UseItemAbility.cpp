@@ -6,6 +6,7 @@
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 
 UUseItemAbility::UUseItemAbility()
@@ -51,7 +52,7 @@ void UUseItemAbility::MakeEffectSpec(UItemDataAsset* Item)
 	}
 	CurrentEffectSpec = Spec.Data.Get();
 	AddSetByCallers(&Item->ItemStatEffect);
-	IInventorySupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->UseItem(Item, *CurrentEffectSpec);
+	IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->UseItem(Item, *CurrentEffectSpec);
 }
 
 void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)

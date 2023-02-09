@@ -29,10 +29,6 @@ class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
 
-protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Activation")
-	EAbilityActivationPolicy ActivationPolicy;
-
 public:
 	UPROPERTY(EditDefaultsOnly, Category=Costs)
 	float Cost;
@@ -43,4 +39,8 @@ public:
 	ABaseCharacter* GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 	ABottomDwellerCharacter* GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 	ABaseCharacter* GetBaseCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
+	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Activation")
+	EAbilityActivationPolicy ActivationPolicy;
 };

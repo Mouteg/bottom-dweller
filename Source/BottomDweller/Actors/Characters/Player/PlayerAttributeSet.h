@@ -11,8 +11,6 @@ class BOTTOMDWELLER_API UPlayerAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
-	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxMana;
@@ -68,4 +66,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData WeaponPiercingDamage;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, WeaponPiercingDamage);
+
+private:
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 };

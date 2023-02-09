@@ -21,21 +21,23 @@ void USprintAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 bool USprintAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
 {
-	if (!GetBottomDwellerCharacterFromActorInfo(ActorInfo))
+	if (!ActorInfo->AvatarActor.Get()->Implements<UComponentProviderSupport>())
 	{
 		return false;
 	}
+	const UPawnMovementComponent* MovementComponent = IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get());
 	
-	return !GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsFalling()
-	&& GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsMovingOnGround()
-	&& Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
+	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags)
+	&& !MovementComponent->IsFalling()
+	&& MovementComponent->IsMovingOnGround();
 }
 
 void USprintAbility::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
                                    const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
 {
 	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
-	GetBottomDwellerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;
+	IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())
+	->MaxWalkSpeed = GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, true);
 }
 

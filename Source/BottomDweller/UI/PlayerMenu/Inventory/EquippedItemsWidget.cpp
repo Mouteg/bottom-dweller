@@ -22,9 +22,9 @@ void UEquippedItemsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (GetOwningPlayerPawn()->Implements<UInventorySupport>())
+	if (GetOwningPlayerPawn()->Implements<UComponentProviderSupport>())
 	{
-		InventoryComponent = IInventorySupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
+		InventoryComponent = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
 		InventoryComponent->OnEquipmentStateChange.AddUniqueDynamic(this, &UEquippedItemsWidget::Update);
 	}
 	InitSlots();

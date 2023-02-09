@@ -15,12 +15,6 @@ class BOTTOMDWELLER_API UItemDetailsPanel : public UUserWidget
 {
 	GENERATED_BODY()
 
-	UFUNCTION()
-	void LoadItemProperties(UItemDataAsset* Item);
-
-	UFUNCTION()
-	void CreateDetailsEntries(FItemStatEffect StatEffect);
-
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UVerticalBox> PropertiesContainer;
@@ -41,4 +35,12 @@ public:
 	void LoadDetails(UItemDataAsset* Item);
 
 	virtual bool Initialize() override;
+
+private:
+
+	UFUNCTION()
+	void LoadItemProperties(UItemDataAsset* Item);
+
+	UFUNCTION()
+	void CreateDetailsEntries(FItemStatEffect StatEffect);
 };

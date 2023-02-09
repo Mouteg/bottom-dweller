@@ -128,7 +128,7 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 
 void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 {
-	// UInventoryComponent* Component = UInventorySupport::GetInventoryComponent(GetOwner());
+	// UInventoryComponent* Component = UComponentProviderSupport::GetInventoryComponent(GetOwner());
 	// if (IsValid(Component))
 	// {
 	// 	Component->AddItem(..);
@@ -158,12 +158,12 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 
 void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot)
 {
-	if (!GetOwner()->Implements<UASCSupport>())
+	if (!GetOwner()->Implements<UComponentProviderSupport>())
 	{
 		return;
 	}
-	UBaseAbilitySystemComponent* ASC = IASCSupport::Execute_GetASCComponent(GetOwner());
-	const FActiveGameplayEffectHandle Handle = IASCSupport::Execute_GetASCComponent(GetOwner())->ApplyGameplayEffectSpecToSelf(Spec);
+	UBaseAbilitySystemComponent* ASC = IComponentProviderSupport::Execute_GetASCComponent(GetOwner());
+	const FActiveGameplayEffectHandle Handle = IComponentProviderSupport::Execute_GetASCComponent(GetOwner())->ApplyGameplayEffectSpecToSelf(Spec);
 
 	ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
 	

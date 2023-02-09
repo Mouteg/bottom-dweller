@@ -17,8 +17,6 @@ UCLASS()
 class BOTTOMDWELLER_API UEquippedItemsWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
-	TMap<EGearSlots, UEquippedItemSlot*> EquipSlots;
 
 public:
 	
@@ -39,4 +37,8 @@ public:
 protected:
 	void InitSlots();
 	virtual void NativeConstruct() override;
+
+private:
+	TMap<EGearSlots, UEquippedItemSlot*> EquipSlots;
+
 };

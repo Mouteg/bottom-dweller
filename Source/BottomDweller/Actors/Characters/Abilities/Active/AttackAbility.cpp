@@ -12,8 +12,9 @@
 #include "BottomDweller/Actors/Characters/BaseAttributeSet.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
 #include "Engine/StaticMeshActor.h"
-#include "GameFramework/PawnMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UAttackAbility::UAttackAbility()
 {
@@ -26,21 +27,17 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                         const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
                                         FGameplayTagContainer* OptionalRelevantTags) const
 {
-	if (!ActorInfo->AvatarActor->Implements<UInventorySupport>() || !ActorInfo->AvatarActor.Get())
+	if (!ActorInfo->AvatarActor.Get() || !ActorInfo->AvatarActor->Implements<UComponentProviderSupport>())
 	{
 		return false;
 	}
-	const UWeaponItemDataAsset* Weapon = IInventorySupport::Execute_GetInventoryComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
-	//move to func
-	if (
-		GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsFalling()
-		|| !IsValid(Weapon)
-		|| !IsValid(WeaponAnimations)
-		|| !WeaponAnimations->WeaponTypeAnimations.Contains(Weapon->WeaponType)
-		|| !(WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages.Num() > ComboCounter)
-		|| !WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter].IsValid()
-	) { return false; }
-	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
+
+	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetInventoryComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
+
+	return
+		!IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->IsFalling()
+		&& CheckAnimations(Weapon)
+		&& Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
 
 void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -50,32 +47,16 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 
 	if (!bInitialized)
 	{
-		//move to func
-		WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
-			this,
-			Tag_Event_Attack_ComboOpening
-		);
-		WaitForComboOpeningTask->EventReceived.AddDynamic(this, &UAttackAbility::SetComboOpening);
-		WaitForComboOpeningTask->Activate();
-		bInitialized = false;
+		CreateComboOpeningTask();
 	}
 
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
-	const UWeaponItemDataAsset* Weapon = IInventorySupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
 	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
 
-	//move to func
-	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
-		this,
-		TEXT("AttackMontageTask"),
-		AttackMontage,
-		InPlayRate
-	);
-	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &UAttackAbility::AttackMontageEnded);
-	AttackMontageTask->OnCompleted.AddDynamic(this, &UAttackAbility::AttackCompleted);
-	AttackMontageTask->Activate();
+	CreateAttackMontageTask(AttackMontage);
 }
 
 void UAttackAbility::InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -139,4 +120,39 @@ void UAttackAbility::OnActorHit(FHitResult HitResult)
 			+ UBaseAttributeSet::GetPiercingDamageValue(GetBaseCharacterFromActorInfo());
 		//deal damage
 	}
+}
+
+bool UAttackAbility::CheckAnimations(const UWeaponItemDataAsset* Weapon) const
+{
+	return
+		IsValid(Weapon)
+		&& IsValid(WeaponAnimations)
+		&& WeaponAnimations->WeaponTypeAnimations.Contains(Weapon->WeaponType)
+		&& (WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages.Num() > ComboCounter)
+		&& WeaponAnimations->WeaponTypeAnimations[Weapon->WeaponType].AnimMontages[ComboCounter].IsValid();
+}
+
+
+void UAttackAbility::CreateComboOpeningTask()
+{
+	WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
+		this,
+		Tag_Event_Attack_ComboOpening
+	);
+	WaitForComboOpeningTask->EventReceived.AddDynamic(this, &ThisClass::SetComboOpening);
+	WaitForComboOpeningTask->Activate();
+	bInitialized = false;
+}
+
+void UAttackAbility::CreateAttackMontageTask(UAnimMontage* AttackMontage)
+{
+	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
+		this,
+		TEXT("AttackMontageTask"),
+		AttackMontage,
+		InPlayRate
+	);
+	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &ThisClass::AttackMontageEnded);
+	AttackMontageTask->OnCompleted.AddDynamic(this, &ThisClass::AttackCompleted);
+	AttackMontageTask->Activate();
 }

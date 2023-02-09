@@ -16,6 +16,11 @@ class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemCompo
 public:
 	virtual void BeginPlay() override;
 	
+	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
+	void ClearAbilityInput();
+	void Input_AbilityInputTagPressed(const FGameplayTag& Tag);
+	void Input_AbilityInputTagReleased(const FGameplayTag& Tag);
+	
 private:
 	// Handles to abilities that had their input pressed this frame.
 	TArray<FGameplayAbilitySpecHandle> InputPressedSpecHandles;
@@ -25,11 +30,4 @@ private:
 	
 	// Handles to abilities that had their input released this frame.
 	TArray<FGameplayAbilitySpecHandle> InputReleasedSpecHandles;
-
-public:
-	
-	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
-	void ClearAbilityInput();
-	void Input_AbilityInputTagPressed(const FGameplayTag& Tag);
-	void Input_AbilityInputTagReleased(const FGameplayTag& Tag);
 };

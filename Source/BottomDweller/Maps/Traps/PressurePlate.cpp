@@ -23,7 +23,7 @@ APressurePlate::APressurePlate()
 void APressurePlate::BeginPlay()
 {
 	Super::BeginPlay();
-	OnActorBeginOverlap.AddDynamic(this, &APressurePlate::OnOverlap);
+	OnActorBeginOverlap.AddDynamic(this, &ThisClass::OnOverlap);
 }
 
 void APressurePlate::OnOverlap(AActor* ActorOverlapped, AActor* OtherActor)

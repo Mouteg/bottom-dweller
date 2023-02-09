@@ -14,12 +14,14 @@ class BOTTOMDWELLER_API ABaseController : public AAIController
 {
 	GENERATED_BODY()
 	
+
+protected:
+	virtual void BeginPlay() override;
+
+private:
 	UPROPERTY(EditDefaultsOnly)
 	UBehaviorTree* AIBehaviourTree = nullptr;
 	
 	UPROPERTY(VisibleAnywhere)
 	APawn* PlayerPawn = nullptr;
-
-protected:
-	virtual void BeginPlay() override;
 };
