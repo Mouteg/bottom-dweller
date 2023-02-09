@@ -26,7 +26,12 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                         const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
                                         FGameplayTagContainer* OptionalRelevantTags) const
 {
-	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetInventoryComponent()->GetEquipmentState().Weapon;
+	if (!ActorInfo->AvatarActor->Implements<UInventorySupport>() || !ActorInfo->AvatarActor.Get())
+	{
+		return false;
+	}
+	const UWeaponItemDataAsset* Weapon = IInventorySupport::Execute_GetInventoryComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
+	//move to func
 	if (
 		GetBottomDwellerCharacterFromActorInfo(ActorInfo)->GetMovementComponent()->IsFalling()
 		|| !IsValid(Weapon)
@@ -45,6 +50,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 
 	if (!bInitialized)
 	{
+		//move to func
 		WaitForComboOpeningTask = UAbilityTask_WaitGameplayEvent::WaitGameplayEvent(
 			this,
 			Tag_Event_Attack_ComboOpening
@@ -55,11 +61,12 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	}
 
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
-	const UWeaponItemDataAsset* Weapon = GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = IInventorySupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
-	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &UAttackAbility::OnActorHit);
+	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
 
+	//move to func
 	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
 		this,
 		TEXT("AttackMontageTask"),
@@ -112,7 +119,7 @@ void UAttackAbility::AttackCompleted()
 
 void UAttackAbility::SetComboOpening(FGameplayEventData Payload)
 {
-	bComboOpening = static_cast<bool>(Payload.EventMagnitude);
+	bComboOpening = Payload.EventMagnitude > 0;
 }
 
 void UAttackAbility::OnActorHit(FHitResult HitResult)
@@ -127,9 +134,9 @@ void UAttackAbility::OnActorHit(FHitResult HitResult)
 
 	if (Actor->IsA(ABaseCharacter::StaticClass()))
 	{
-		float Damage = UBaseAttributeSet::GetBluntDamageValue(GetBaseCharacterFromActorInfo());
-		Damage += UBaseAttributeSet::GetSlashingDamageValue(GetBaseCharacterFromActorInfo());
-		Damage += UBaseAttributeSet::GetPiercingDamageValue(GetBaseCharacterFromActorInfo());
+		float Damage = UBaseAttributeSet::GetBluntDamageValue(GetBaseCharacterFromActorInfo())
+			+ UBaseAttributeSet::GetSlashingDamageValue(GetBaseCharacterFromActorInfo())
+			+ UBaseAttributeSet::GetPiercingDamageValue(GetBaseCharacterFromActorInfo());
 		//deal damage
 	}
 }

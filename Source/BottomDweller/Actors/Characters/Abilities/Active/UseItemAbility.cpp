@@ -39,6 +39,7 @@ void UUseItemAbility::MakeEffectSpec(UItemDataAsset* Item)
 	case EItemType::Gear:
 		{
 			Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
+			// Spec.Data->
 			break;
 		}
 	case EItemType::Consumable:
@@ -50,7 +51,7 @@ void UUseItemAbility::MakeEffectSpec(UItemDataAsset* Item)
 	}
 	CurrentEffectSpec = Spec.Data.Get();
 	AddSetByCallers(&Item->ItemStatEffect);
-	GetBottomDwellerCharacterFromActorInfo()->GetInventoryComponent()->UseItem(Item, *CurrentEffectSpec);
+	IInventorySupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->UseItem(Item, *CurrentEffectSpec);
 }
 
 void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)

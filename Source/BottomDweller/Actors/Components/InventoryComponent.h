@@ -9,15 +9,9 @@
 #include "InventoryComponent.generated.h"
 
 class UGameplayEffect;
+class UWeaponItemDataAsset;
 
-USTRUCT(BlueprintType)
-struct FInventory_EquipmentState
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere)
-	class UWeaponItemDataAsset* Weapon = nullptr;
-};
+//Enum -> struct -> class
 
 UENUM(BlueprintType)
 enum class EGearSlots : uint8
@@ -26,26 +20,23 @@ enum class EGearSlots : uint8
 	None,
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EGearSlots, Slot);
+USTRUCT(BlueprintType)
+struct FInventory_EquipmentState
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UWeaponItemDataAsset> Weapon;
+};
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BOTTOMDWELLER_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 	
-	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EGearSlots, Slot);
 	
-	void ChangeWeapon(UWeaponItemDataAsset* Item);
-
-	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot);
-	
-	UPROPERTY(EditAnywhere)
-	FInventory_EquipmentState EquipmentState;
-
-	UPROPERTY()
-	TMap<TSoftObjectPtr<UItemDataAsset>, int32> InventoryContent;
-
 public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
@@ -75,4 +66,18 @@ public:
 	// Sort
 	// Transfer between two
 	// Drag & drop
+	
+private:
+	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
+	
+	void ChangeWeapon(UWeaponItemDataAsset* Item);
+
+	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot);
+	
+	UPROPERTY(EditAnywhere)
+	FInventory_EquipmentState EquipmentState;
+
+	UPROPERTY()
+	TMap<TSoftObjectPtr<UItemDataAsset>, int32> InventoryContent;
+
 };

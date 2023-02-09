@@ -19,6 +19,7 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 	if (Quantity <= 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item Quantity <= 0"))
+		return 0;
 	}
 
 	if (!Item)
@@ -47,7 +48,9 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 	{
 		AmountToReturn = IsContained ? Quantity : Quantity - 1;
 		if (!IsContained)
+		{
 			InventoryContent.Add(Item, 1);
+		}
 	}
 
 	OnChange.Broadcast();
@@ -92,13 +95,14 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 			break;
 		}
 	default:
+		UE_LOG(LogTemp, Warning, TEXT("Unrecognized item type"));
 		return;
 	}
 }
 
 void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 {
-	if (!Item || !Cast<UGearItemDataAsset>(Item))
+	if (!IsValid(Item) || !Cast<UGearItemDataAsset>(Item))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Only gear can be equipped"));
 		return;
@@ -113,6 +117,7 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 		}
 
 	default:
+		UE_LOG(LogTemp, Warning, TEXT("Unrecognized item type"));
 		return;
 	}
 
@@ -123,6 +128,11 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 
 void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 {
+	// UInventoryComponent* Component = UInventorySupport::GetInventoryComponent(GetOwner());
+	// if (IsValid(Component))
+	// {
+	// 	Component->AddItem(..);
+	// }
 	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
 	if (!Item || !Character || !Character->WeaponComponent)
 	{
@@ -148,20 +158,19 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 
 void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot)
 {
-	ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
-	UBaseAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
-	const FActiveGameplayEffectHandle Handle = ASC->ApplyGameplayEffectSpecToSelf(Spec);
-	Character->RecalculateDamage();
-	
-	if (Spec.Duration == FGameplayEffectConstants::INSTANT_APPLICATION)
+	if (!GetOwner()->Implements<UASCSupport>())
 	{
 		return;
 	}
+	UBaseAbilitySystemComponent* ASC = IASCSupport::Execute_GetASCComponent(GetOwner());
+	const FActiveGameplayEffectHandle Handle = IASCSupport::Execute_GetASCComponent(GetOwner())->ApplyGameplayEffectSpecToSelf(Spec);
 
-	if (ActiveItemHandles.Contains(Slot))
-	{
-		Character->GetAbilitySystemComponent()->RemoveActiveGameplayEffect(ActiveItemHandles[Slot]);
-	}
+	ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
 	
+	if (ActiveItemHandles.Contains(Slot) && Spec.Duration == FGameplayEffectConstants::INFINITE_DURATION)
+	{
+		ASC->RemoveActiveGameplayEffect(ActiveItemHandles[Slot]);
+	}
 	ActiveItemHandles.Add(Slot, Handle);
+	Character->RecalculateDamage();
 }

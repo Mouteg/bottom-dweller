@@ -2,7 +2,6 @@
 
 
 #include "BaseGameplayAbility.h"
-
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
@@ -10,11 +9,11 @@
 
 UAbilitySystemComponent* UBaseGameplayAbility::GetAbilitySystemComponentFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo) const
 {
-	if (ActorInfo && Cast<ABaseCharacter>(ActorInfo->AvatarActor.Get()))
+	if (ActorInfo && ActorInfo->AvatarActor.Get()->Implements<UASCSupport>())
 	{
-		return Cast<ABaseCharacter>(ActorInfo->AvatarActor.Get())->GetAbilitySystemComponent();
+		return IASCSupport::Execute_GetASCComponent(ActorInfo->AvatarActor.Get());
 	}
-	return (CurrentActorInfo ? Cast<ABaseCharacter>(CurrentActorInfo->AvatarActor.Get())->GetAbilitySystemComponent() : nullptr);
+	return (CurrentActorInfo ? IASCSupport::Execute_GetASCComponent(CurrentActorInfo->AvatarActor.Get()) : nullptr);
 }
 
 ABottomDwellerPlayerController* UBaseGameplayAbility::GetPlayerControllerFromActorInfo() const

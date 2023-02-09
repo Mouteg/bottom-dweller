@@ -16,12 +16,21 @@ class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerControlle
 {
 	GENERATED_BODY()
 
+	ABottomDwellerPlayerController();
+	
+	UPROPERTY(EditAnywhere)
+	float Sensitivity;
+
+	UPROPERTY(EditAnywhere)
+	float AttackSensitivityMultiplier;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	
-	UBaseAbilitySystemComponent* GetAbilitySystem() const { return Cast<ABaseCharacter>(GetCharacter())->GetAbilitySystemComponent(); }
-	
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	float GetSensitivity();
+
 	void Input_AbilityInputTagPressed(FGameplayTag Tag);
 	void Input_AbilityInputTagReleased(FGameplayTag Tag);
 
@@ -33,6 +42,7 @@ protected:
 		ReleasedFuncType ReleasedFunc,
 		TArray<uint32>& BindHandles
 	);
+	
 	UPROPERTY()
 	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
 	

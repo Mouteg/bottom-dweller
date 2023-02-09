@@ -12,7 +12,7 @@
 	FORCEINLINE static float Get##PropertyName##Value(ABaseCharacter* Character) \
 	{ \
 		ensure(Character); \
-		UBaseAbilitySystemComponent* AbilityComp = Character->GetAbilitySystemComponent(); \
+		UBaseAbilitySystemComponent* AbilityComp = IASCSupport::Execute_GetASCComponent(Character); \
 		if (ensure(AbilityComp)) \
 		{ \
 			bool Found; \

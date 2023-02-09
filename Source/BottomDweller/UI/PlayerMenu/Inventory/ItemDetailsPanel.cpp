@@ -38,9 +38,9 @@ void UItemDetailsPanel::LoadItemProperties(UItemDataAsset* Item)
 	PropertiesContainer->ClearChildren();
 	UTextEntry* Entry = CreateWidget<UTextEntry>(this, DetailsEntryWidget);
 	//Make an enum of default props ?
-	Entry->SetProperty("Cost", FString::SanitizeFloat(Item->Cost, 0), FLinearColor::Yellow);
 	PropertiesContainer->AddChild(Entry);
 	CreateDetailsEntries(Item->ItemStatEffect);
+	Entry->SetProperty("Cost", FString::FromInt(Item->Cost), FLinearColor::Yellow);
 }
 
 void UItemDetailsPanel::CreateDetailsEntries(FItemStatEffect StatEffect)

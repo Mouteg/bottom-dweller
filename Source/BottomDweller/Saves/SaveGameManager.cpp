@@ -8,6 +8,7 @@
 #include "Saveable.h"
 #include "SaveGameSettings.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
@@ -58,13 +59,13 @@ void USaveGameManager::WriteSaveGame(FString SlotName)
 		ActorData.ActorName = Actor->GetFName();
 		ActorData.Transform = Actor->GetActorTransform();
 
-		if (ABottomDwellerCharacter* PlayerCharacter = Cast<ABottomDwellerCharacter>(Actor))
-		{
-			FPlayerSaveData PlayerSaveData;
-			PlayerSaveData.InventoryComponent = PlayerCharacter->GetInventoryComponent();
-			PlayerSaveData.ASC = PlayerCharacter->GetAbilitySystemComponent();
-			CurrentSaveGame->SavedPlayer = PlayerSaveData;
-		}
+		// if (Actor->Implements<UInventorySupport>() && )
+		// {
+		// 	FPlayerSaveData PlayerSaveData;
+		// 	PlayerSaveData.InventoryComponent = IInventorySupport::Execute_GetInventoryComponent(Actor)->GetInventoryComponent();
+		// 	PlayerSaveData.ASC = IAbilitySystemInterface::GetAbilitySystemComponent()->GetAbilitySystemComponent();
+		// 	CurrentSaveGame->SavedPlayer = PlayerSaveData;
+		// }
 		
 		FMemoryWriter MemWriter(ActorData.ByteData);
 
@@ -85,6 +86,8 @@ void USaveGameManager::DeleteSaveGame(FString SlotName)
 
 void USaveGameManager::LoadSaveGame(FString SlotName)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Loading game..."));
+
 	SetSlotName(SlotName);
 	
 	if (!UGameplayStatics::DoesSaveGameExist(CurrentSlotName, 0))
@@ -121,11 +124,11 @@ void USaveGameManager::LoadSaveGame(FString SlotName)
 				ActorExists = true;
 				Actor->SetActorTransform(ActorData.Transform);
 
-				if (ABottomDwellerCharacter* PlayerCharacter = Cast<ABottomDwellerCharacter>(Actor))
-				{
-					PlayerCharacter->SetInventoryComponent(CurrentSaveGame->SavedPlayer.InventoryComponent);
-					PlayerCharacter->SetAbilitySystemComponent(CurrentSaveGame->SavedPlayer.ASC);
-				}
+				// if (ABottomDwellerCharacter* PlayerCharacter = Cast<ABottomDwellerCharacter>(Actor))
+				// {
+				// 	PlayerCharacter->SetInventoryComponent(CurrentSaveGame->SavedPlayer.InventoryComponent);
+				// 	PlayerCharacter->SetAbilitySystemComponent(CurrentSaveGame->SavedPlayer.ASC);
+				// }
 
 				FMemoryReader MemReader(ActorData.ByteData);
 				

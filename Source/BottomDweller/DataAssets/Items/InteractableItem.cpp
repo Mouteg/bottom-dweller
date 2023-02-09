@@ -29,11 +29,9 @@ void AInteractableItem::OnConstruction(const FTransform& Transform)
 
 void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
 {
-	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(Interactor);
-	UInventoryComponent* InventoryComponent = Character->GetInventoryComponent();
-	if (Character && InventoryComponent)
+	if (Interactor && Interactor->Implements<UInventorySupport>())
 	{
-		Quantity = InventoryComponent->AddItem(InventoryItem, Quantity);
+		Quantity = IInventorySupport::Execute_GetInventoryComponent(Interactor)->AddItem(InventoryItem, Quantity);
 	}
 	if (Quantity <= 0)
 	{

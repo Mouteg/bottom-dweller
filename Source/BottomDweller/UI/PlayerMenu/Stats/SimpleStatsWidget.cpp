@@ -17,7 +17,7 @@ void USimpleStatsWidget::NativeConstruct()
 void USimpleStatsWidget::InitializeDelegates()
 {
 	TArray<FGameplayAttribute> OutAttributes;
-	UBaseAbilitySystemComponent* ASC = Cast<ABottomDwellerCharacter>(GetOwningPlayerPawn())->GetAbilitySystemComponent();
+	UBaseAbilitySystemComponent* ASC = IASCSupport::Execute_GetASCComponent(GetOwningPlayerPawn());
 
 	if (!ASC) return;
 
