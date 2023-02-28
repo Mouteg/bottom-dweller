@@ -32,11 +32,11 @@ void UEquippedItemsWidget::NativeConstruct()
 
 void UEquippedItemsWidget::InitSlots()
 {
-	WeaponSlot->EquipmentSlot = EGearSlots::Weapon;
+	WeaponSlot->EquipmentSlot = EItemType::Weapon;
 	EquipSlots.Add(WeaponSlot->EquipmentSlot, WeaponSlot);
 }
 
-void UEquippedItemsWidget::Update(UItemDataAsset* Item, EGearSlots GearSlot)
+void UEquippedItemsWidget::Update(UItemDataAsset* Item, EItemType GearSlot)
 {
 	//Move so it only happens once, cant use construct. Create player menu widget
 	if (ItemDetailsPanel)

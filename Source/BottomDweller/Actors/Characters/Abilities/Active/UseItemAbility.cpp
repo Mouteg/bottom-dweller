@@ -37,7 +37,13 @@ void UUseItemAbility::MakeEffectSpec(UItemDataAsset* Item)
 	FGameplayEffectSpecHandle Spec;
 	switch (Item->ItemType)
 	{
-	case EItemType::Gear:
+	case EItemType::Weapon:
+		{
+			Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
+			// Spec.Data->
+			break;
+		}
+	case EItemType::Armor:
 		{
 			Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
 			// Spec.Data->

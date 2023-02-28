@@ -79,10 +79,10 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 {
 	switch (Item->ItemType)
 	{
-	case EItemType::Gear:
+	case EItemType::Weapon:
 		{
-			Equip(Item, EGearSlots::Weapon);
-			ApplyGameplayEffectSpec(Spec, EGearSlots::Weapon);
+			Equip(Item, EItemType::Weapon);
+			ApplyGameplayEffectSpec(Spec, EItemType::Weapon);
 			break;
 		}
 	case EItemType::Consumable:
@@ -91,7 +91,7 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 			{
 				RemoveItem(Item);
 			}
-			ApplyGameplayEffectSpec(Spec, EGearSlots::None);
+			ApplyGameplayEffectSpec(Spec, EItemType::Consumable);
 			break;
 		}
 	default:
@@ -100,7 +100,7 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 	}
 }
 
-void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
+void UInventoryComponent::Equip(UItemDataAsset* Item, const EItemType Slot)
 {
 	if (!IsValid(Item) || !Cast<UGearItemDataAsset>(Item))
 	{
@@ -109,7 +109,7 @@ void UInventoryComponent::Equip(UItemDataAsset* Item, const EGearSlots Slot)
 	}
 	switch (Slot)
 	{
-	case EGearSlots::Weapon:
+	case EItemType::Weapon:
 		{
 			UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
 			ChangeWeapon(WeaponItem);
@@ -138,7 +138,7 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 	{
 		return;
 	}
-	
+
 	if (Item->SkeletalMesh.Get())
 	{
 		Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
@@ -148,7 +148,7 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 	{
 		Character->WeaponComponent->SetVisibility(false);
 	}
-	
+
 	if (EquipmentState.Weapon)
 	{
 		AddItem(EquipmentState.Weapon);
@@ -156,7 +156,7 @@ void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 	EquipmentState.Weapon = Item;
 }
 
-void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot)
+void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EItemType Slot)
 {
 	if (!GetOwner()->Implements<UComponentProviderSupport>())
 	{
@@ -166,7 +166,7 @@ void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spe
 	const FActiveGameplayEffectHandle Handle = IComponentProviderSupport::Execute_GetASCComponent(GetOwner())->ApplyGameplayEffectSpecToSelf(Spec);
 
 	ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
-	
+
 	if (ActiveItemHandles.Contains(Slot) && Spec.Duration == FGameplayEffectConstants::INFINITE_DURATION)
 	{
 		ASC->RemoveActiveGameplayEffect(ActiveItemHandles[Slot]);

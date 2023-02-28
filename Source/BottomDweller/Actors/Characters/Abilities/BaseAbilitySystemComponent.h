@@ -6,8 +6,6 @@
 #include "AbilitySystemComponent.h"
 #include "BaseAbilitySystemComponent.generated.h"
 
-enum class EGearSlots : uint8;
-
 UCLASS()
 class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemComponent
 {
@@ -15,19 +13,19 @@ class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemCompo
 
 public:
 	virtual void BeginPlay() override;
-	
+
 	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
 	void ClearAbilityInput();
 	void Input_AbilityInputTagPressed(const FGameplayTag& Tag);
 	void Input_AbilityInputTagReleased(const FGameplayTag& Tag);
-	
+
 private:
 	// Handles to abilities that had their input pressed this frame.
 	TArray<FGameplayAbilitySpecHandle> InputPressedSpecHandles;
 
 	// Handles to abilities that had their input released this frame.
 	TArray<FGameplayAbilitySpecHandle> InputHeldSpecHandles;
-	
+
 	// Handles to abilities that had their input released this frame.
 	TArray<FGameplayAbilitySpecHandle> InputReleasedSpecHandles;
 };

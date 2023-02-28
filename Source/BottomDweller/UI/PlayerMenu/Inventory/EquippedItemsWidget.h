@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "BottomDweller/Actors/Characters/Abilities/BaseAbilitySystemComponent.h"
 #include "EquippedItemsWidget.generated.h"
 
+enum class EItemType : uint8;
 class UItemDetailsPanel;
 class UItemDataAsset;
 class UInventorySlotWidget;
@@ -19,26 +19,24 @@ class BOTTOMDWELLER_API UEquippedItemsWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	
 	virtual bool Initialize() override;
-	
+
 	UPROPERTY()
 	TObjectPtr<UInventoryComponent> InventoryComponent;
-	
+
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UEquippedItemSlot> WeaponSlot;
-	
+
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
-	
+
 	UFUNCTION()
-	void Update(UItemDataAsset* Item, EGearSlots GearSlot);
-	
+	void Update(UItemDataAsset* Item, EItemType GearSlot);
+
 protected:
 	void InitSlots();
 	virtual void NativeConstruct() override;
 
 private:
-	TMap<EGearSlots, UEquippedItemSlot*> EquipSlots;
-
+	TMap<EItemType, UEquippedItemSlot*> EquipSlots;
 };

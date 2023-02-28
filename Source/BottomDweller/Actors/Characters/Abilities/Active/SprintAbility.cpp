@@ -36,8 +36,8 @@ void USprintAbility::CancelAbility(const FGameplayAbilitySpecHandle Handle, cons
                                    const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
 {
 	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
-	IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())
-	->MaxWalkSpeed = GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;
+	IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->MaxWalkSpeed
+	= GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, true);
 }
 

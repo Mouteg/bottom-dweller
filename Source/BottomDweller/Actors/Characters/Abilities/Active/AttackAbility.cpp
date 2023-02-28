@@ -51,6 +51,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	}
 
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
+	
 	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
 	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
@@ -106,7 +107,7 @@ void UAttackAbility::SetComboOpening(FGameplayEventData Payload)
 void UAttackAbility::OnActorHit(FHitResult HitResult)
 {
 	const AActor* Actor = HitResult.GetActor();
-	if (Actor->IsA(AStaticMeshActor::StaticClass()))
+	if (Actor->IsA(AStaticMeshActor::StaticClass())) //add stop on static object other than  static meshes
 	{
 		//Play cancel montage
 		CancelAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false);

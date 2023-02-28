@@ -13,13 +13,6 @@ class UWeaponItemDataAsset;
 
 //Enum -> struct -> class
 
-UENUM(BlueprintType)
-enum class EGearSlots : uint8
-{
-	Weapon,
-	None,
-};
-
 USTRUCT(BlueprintType)
 struct FInventory_EquipmentState
 {
@@ -35,7 +28,7 @@ class BOTTOMDWELLER_API UInventoryComponent final : public UActorComponent
 	GENERATED_BODY()
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EGearSlots, Slot);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EItemType, Slot);
 	
 public:
 	UInventoryComponent();
@@ -54,7 +47,7 @@ public:
 	void UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec);
 
 	UFUNCTION(BlueprintCallable)
-	void Equip(UItemDataAsset* Item, EGearSlots Slot);
+	void Equip(UItemDataAsset* Item, EItemType Slot);
 	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnChange OnChange;
@@ -67,11 +60,11 @@ public:
 	// Drag & drop
 	
 private:
-	TMap<EGearSlots, FActiveGameplayEffectHandle> ActiveItemHandles;
+	TMap<EItemType, FActiveGameplayEffectHandle> ActiveItemHandles;
 	
 	void ChangeWeapon(UWeaponItemDataAsset* Item);
 
-	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EGearSlots Slot);
+	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EItemType Slot);
 	
 	UPROPERTY(EditAnywhere)
 	FInventory_EquipmentState EquipmentState;
