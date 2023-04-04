@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemDataAsset.h"
 #include "GearItemDataAsset.generated.h"
 
 UCLASS()

@@ -24,8 +24,8 @@ void UEquippedItemsWidget::NativeConstruct()
 
 	if (GetOwningPlayerPawn()->Implements<UComponentProviderSupport>())
 	{
-		InventoryComponent = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
-		InventoryComponent->OnEquipmentStateChange.AddUniqueDynamic(this, &UEquippedItemsWidget::Update);
+		EquipmentComponent = IComponentProviderSupport::Execute_GetEquipmentComponent(GetOwningPlayerPawn());
+		EquipmentComponent->OnEquipmentStateChange.AddUniqueDynamic(this, &UEquippedItemsWidget::Update);
 	}
 	InitSlots();
 }

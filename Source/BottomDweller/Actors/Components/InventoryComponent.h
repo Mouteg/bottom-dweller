@@ -3,24 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/ActorComponent.h"
 #include "GameplayEffectTypes.h"
 #include "InventoryComponent.generated.h"
 
+class UEquipmentComponent;
+class UItemDataAsset;
 class UGameplayEffect;
 class UWeaponItemDataAsset;
+enum class EItemType : uint8;
 
 //Enum -> struct -> class
-
-USTRUCT(BlueprintType)
-struct FInventory_EquipmentState
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<UWeaponItemDataAsset> Weapon;
-};
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BOTTOMDWELLER_API UInventoryComponent final : public UActorComponent
@@ -28,13 +21,9 @@ class BOTTOMDWELLER_API UInventoryComponent final : public UActorComponent
 	GENERATED_BODY()
 	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChange);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EItemType, Slot);
 	
 public:
 	UInventoryComponent();
-
-	UFUNCTION()
-	FInventory_EquipmentState GetEquipmentState() const { return EquipmentState; }
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryContent; }
 
 	UFUNCTION(BlueprintCallable)
@@ -45,15 +34,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec);
-
-	UFUNCTION(BlueprintCallable)
-	void Equip(UItemDataAsset* Item, EItemType Slot);
 	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnChange OnChange;
+	
+	virtual void BeginPlay() override;
 
-	UPROPERTY()
-	FOnEquipmentStateChange OnEquipmentStateChange;
 	// Add / remove
 	// Sort
 	// Transfer between two
@@ -62,14 +48,11 @@ public:
 private:
 	TMap<EItemType, FActiveGameplayEffectHandle> ActiveItemHandles;
 	
-	void ChangeWeapon(UWeaponItemDataAsset* Item);
-
 	void ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EItemType Slot);
-	
-	UPROPERTY(EditAnywhere)
-	FInventory_EquipmentState EquipmentState;
 
 	UPROPERTY()
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> InventoryContent;
+
+	TObjectPtr<UEquipmentComponent> EquipmentComponent;
 
 };

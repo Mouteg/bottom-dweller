@@ -61,6 +61,12 @@ public:
 		return GetCharacterMovement();
 	}
 	
+	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
+	virtual UEquipmentComponent* GetEquipmentComponent_Implementation() const override
+	{
+		return EquipmentComponent;
+	}
+
 	virtual void OnActorLoaded_Implementation() override;
 	virtual void BeginAttack_Implementation() override;
 	virtual void EndAttack_Implementation() override;
@@ -81,8 +87,11 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInteractionComponent> InteractionComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), SaveGame)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInventoryComponent> InventoryComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UEquipmentComponent> EquipmentComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraComponent> FollowCamera;

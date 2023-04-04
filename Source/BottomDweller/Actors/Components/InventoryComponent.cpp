@@ -3,7 +3,7 @@
 
 #include "InventoryComponent.h"
 
-#include "WeaponComponent.h"
+#include "EquipmentComponent.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
@@ -12,6 +12,12 @@
 UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+}
+
+void UInventoryComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	EquipmentComponent = IComponentProviderSupport::Execute_GetEquipmentComponent(GetOwner());
 }
 
 int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
@@ -77,83 +83,22 @@ void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Qua
 
 void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec)
 {
-	switch (Item->ItemType)
+	if (IsValid(EquipmentComponent) && Item->IsA(UGearItemDataAsset::StaticClass()))
 	{
-	case EItemType::Weapon:
-		{
-			Equip(Item, EItemType::Weapon);
-			ApplyGameplayEffectSpec(Spec, EItemType::Weapon);
-			break;
-		}
-	case EItemType::Consumable:
-		{
-			if (const UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item); !ConsumableItem->bIsInfinite)
-			{
-				RemoveItem(Item);
-			}
-			ApplyGameplayEffectSpec(Spec, EItemType::Consumable);
-			break;
-		}
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("Unrecognized item type"));
-		return;
+		EquipmentComponent->Equip(Item);
 	}
-}
-
-void UInventoryComponent::Equip(UItemDataAsset* Item, const EItemType Slot)
-{
-	if (!IsValid(Item) || !Cast<UGearItemDataAsset>(Item))
+	else if (const UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item); ConsumableItem && !ConsumableItem->bIsInfinite)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Only gear can be equipped"));
-		return;
-	}
-	switch (Slot)
-	{
-	case EItemType::Weapon:
-		{
-			UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
-			ChangeWeapon(WeaponItem);
-			break;
-		}
-
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("Unrecognized item type"));
-		return;
-	}
-
-	RemoveItem(Item);
-	OnEquipmentStateChange.Broadcast(Item, Slot);
-	OnChange.Broadcast();
-}
-
-void UInventoryComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
-{
-	// UInventoryComponent* Component = UComponentProviderSupport::GetInventoryComponent(GetOwner());
-	// if (IsValid(Component))
-	// {
-	// 	Component->AddItem(..);
-	// }
-	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
-	if (!Item || !Character || !Character->WeaponComponent)
-	{
-		return;
-	}
-
-	if (Item->SkeletalMesh.Get())
-	{
-		Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
-		Character->WeaponComponent->SetVisibility(true);
+		RemoveItem(Item);
 	}
 	else
 	{
-		Character->WeaponComponent->SetVisibility(false);
+		UE_LOG(LogTemp, Warning, TEXT("Unrecognized item type"));
+		return;
 	}
 
-	if (EquipmentState.Weapon)
-	{
-		AddItem(EquipmentState.Weapon);
-	}
-	EquipmentState.Weapon = Item;
+	ApplyGameplayEffectSpec(Spec, Item->ItemType);
+	OnChange.Broadcast();
 }
 
 void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EItemType Slot)

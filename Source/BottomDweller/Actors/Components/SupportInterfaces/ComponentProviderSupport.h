@@ -6,6 +6,7 @@
 #include "UObject/Interface.h"
 #include "ComponentProviderSupport.generated.h"
 
+class UEquipmentComponent;
 class UBaseAbilitySystemComponent;
 class UInventoryComponent;
 
@@ -29,4 +30,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	UCharacterMovementComponent* GetPawnMovementComponent() const;
+	
+	UFUNCTION(BlueprintNativeEvent)
+	UEquipmentComponent* GetEquipmentComponent() const;
 };

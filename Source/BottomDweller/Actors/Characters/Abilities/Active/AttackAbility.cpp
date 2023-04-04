@@ -11,6 +11,7 @@
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 #include "BottomDweller/Actors/Characters/BaseAttributeSet.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
+#include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
 #include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
 #include "Engine/StaticMeshActor.h"
@@ -32,7 +33,7 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
 		return false;
 	}
 
-	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetInventoryComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetEquipmentComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
 
 	return
 		!IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->IsFalling()
@@ -52,7 +53,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	
-	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetEquipmentComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
 	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();

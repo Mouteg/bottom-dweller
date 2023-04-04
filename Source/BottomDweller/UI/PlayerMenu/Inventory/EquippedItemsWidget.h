@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "EquippedItemsWidget.generated.h"
 
 enum class EItemType : uint8;
@@ -22,7 +23,7 @@ public:
 	virtual bool Initialize() override;
 
 	UPROPERTY()
-	TObjectPtr<UInventoryComponent> InventoryComponent;
+	TObjectPtr<UEquipmentComponent> EquipmentComponent;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UEquippedItemSlot> WeaponSlot;

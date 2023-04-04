@@ -1,6 +1,7 @@
 #include "BottomDwellerCharacter.h"
 
 #include "PlayerAttributeSet.h"
+#include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "BottomDweller/Actors/Components/InteractionComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
@@ -42,6 +43,7 @@ void ABottomDwellerCharacter::InitActorComponents()
 	InteractionComponent->Length = 500.f;
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("EquipmentComponent"));
 
 	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon"));
 	WeaponComponent->SetupAttachment(GetMesh(), TEXT("hand_r_weapon_socket"));
