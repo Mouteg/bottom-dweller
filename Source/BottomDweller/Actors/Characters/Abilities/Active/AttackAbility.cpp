@@ -4,7 +4,6 @@
 #include "AttackAbility.h"
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Animation/WeaponAnimations.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
@@ -13,7 +12,9 @@
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
-#include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
+#include "..\..\..\Components\SupportInterfaces\ASCProviderSupport.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/EquipmentComponentProvider.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/PawnMovementComponentProvider.h"
 #include "Engine/StaticMeshActor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -28,15 +29,15 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                         const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
                                         FGameplayTagContainer* OptionalRelevantTags) const
 {
-	if (!ActorInfo->AvatarActor.Get() || !ActorInfo->AvatarActor->Implements<UComponentProviderSupport>())
+	if (!ActorInfo->AvatarActor.Get() || !ActorInfo->AvatarActor->Implements<UEquipmentComponentProvider>())
 	{
 		return false;
 	}
 
-	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetEquipmentComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = IEquipmentComponentProvider::Execute_GetEquipmentComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
 
 	return
-		!IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->IsFalling()
+		!IPawnMovementComponentProvider::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->IsFalling()
 		&& CheckAnimations(Weapon)
 		&& Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
@@ -53,7 +54,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
 	
-	const UWeaponItemDataAsset* Weapon = IComponentProviderSupport::Execute_GetEquipmentComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
 	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
@@ -158,7 +159,7 @@ void UAttackAbility::CreateAttackMontageTask(UAnimMontage* AttackMontage)
 
 void UAttackAbility::DealDamage(const AActor* Target)
 {
-	UBaseAbilitySystemComponent* ASC = IComponentProviderSupport::Execute_GetASCComponent(Target);
+	UBaseAbilitySystemComponent* ASC = IASCProviderSupport::Execute_GetASCComponent(Target);
 	if (UGameplayEffect* EffectCDO = DamageEffect.GetDefaultObject())
 	{
 		GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectToTarget(EffectCDO, ASC);

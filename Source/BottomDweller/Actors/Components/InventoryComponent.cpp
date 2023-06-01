@@ -7,7 +7,7 @@
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
-#include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
+#include "SupportInterfaces/EquipmentComponentProvider.h"
 
 UInventoryComponent::UInventoryComponent()
 {
@@ -17,7 +17,7 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	EquipmentComponent = IComponentProviderSupport::Execute_GetEquipmentComponent(GetOwner());
+	EquipmentComponent = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwner());
 }
 
 int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
@@ -103,12 +103,12 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 
 void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EItemType Slot)
 {
-	if (!GetOwner()->Implements<UComponentProviderSupport>())
+	if (!GetOwner()->Implements<UASCProviderSupport>())
 	{
 		return;
 	}
-	UBaseAbilitySystemComponent* ASC = IComponentProviderSupport::Execute_GetASCComponent(GetOwner());
-	const FActiveGameplayEffectHandle Handle = IComponentProviderSupport::Execute_GetASCComponent(GetOwner())->ApplyGameplayEffectSpecToSelf(Spec);
+	UBaseAbilitySystemComponent* ASC = IASCProviderSupport::Execute_GetASCComponent(GetOwner());
+	const FActiveGameplayEffectHandle Handle = IASCProviderSupport::Execute_GetASCComponent(GetOwner())->ApplyGameplayEffectSpecToSelf(Spec);
 
 	ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
 

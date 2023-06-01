@@ -5,7 +5,8 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
-#include "BottomDweller/Actors/Components/SupportInterfaces/ComponentProviderSupport.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/EquipmentComponentProvider.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/PawnMovementComponentProvider.h"
 #include "BottomDwellerCharacter.generated.h"
 
 class UInteractionComponent;
@@ -14,7 +15,12 @@ class UCameraComponent;
 class UInventoryComponent;
 
 UCLASS(config=Game)
-class ABottomDwellerCharacter : public ABaseCharacter, public IMeleeAttacker
+class ABottomDwellerCharacter :
+public ABaseCharacter,
+public IMeleeAttacker,
+public IInventoryComponentProvider,
+public IEquipmentComponentProvider,
+public IPawnMovementComponentProvider
 {
 	GENERATED_BODY()
 

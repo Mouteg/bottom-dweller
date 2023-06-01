@@ -18,7 +18,7 @@ UEquipmentComponent::UEquipmentComponent()
 void UEquipmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	InventoryComponent = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwner());
+	InventoryComponent = IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwner());
 }
 
 

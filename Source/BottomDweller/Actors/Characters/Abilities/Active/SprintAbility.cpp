@@ -4,6 +4,7 @@
 #include "SprintAbility.h"
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/PawnMovementComponentProvider.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 USprintAbility::USprintAbility()
@@ -21,11 +22,11 @@ void USprintAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 bool USprintAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
 {
-	if (!ActorInfo->AvatarActor.Get()->Implements<UComponentProviderSupport>())
+	if (!ActorInfo->AvatarActor.Get()->Implements<UPawnMovementComponentProvider>())
 	{
 		return false;
 	}
-	const UPawnMovementComponent* MovementComponent = IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get());
+	const UPawnMovementComponent* MovementComponent = IPawnMovementComponentProvider::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get());
 	
 	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags)
 	&& !MovementComponent->IsFalling()
@@ -36,7 +37,7 @@ void USprintAbility::CancelAbility(const FGameplayAbilitySpecHandle Handle, cons
                                    const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
 {
 	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
-	IComponentProviderSupport::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->MaxWalkSpeed
+	IPawnMovementComponentProvider::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->MaxWalkSpeed
 	= GetBottomDwellerCharacterFromActorInfo()->WalkSpeed;
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, true);
 }

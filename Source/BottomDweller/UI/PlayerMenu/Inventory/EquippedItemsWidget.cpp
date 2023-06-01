@@ -4,7 +4,7 @@
 #include "EquippedItemsWidget.h"
 #include "EquippedItemSlot.h"
 #include "ItemDetailsPanel.h"
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Actors/Components/SupportInterfaces/EquipmentComponentProvider.h"
 
 bool UEquippedItemsWidget::Initialize()
 {
@@ -20,9 +20,9 @@ void UEquippedItemsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (GetOwningPlayerPawn()->Implements<UComponentProviderSupport>())
+	if (GetOwningPlayerPawn()->Implements<UEquipmentComponentProvider>())
 	{
-		EquipmentComponent = IComponentProviderSupport::Execute_GetEquipmentComponent(GetOwningPlayerPawn());
+		EquipmentComponent = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwningPlayerPawn());
 		EquipmentComponent->OnEquipmentStateChange.AddUniqueDynamic(this, &UEquippedItemsWidget::Update);
 	}
 	InitSlots();

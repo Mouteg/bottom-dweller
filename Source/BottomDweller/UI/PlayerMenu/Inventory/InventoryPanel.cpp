@@ -23,9 +23,9 @@ void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	if (GetOwningPlayerPawn()->Implements<UComponentProviderSupport>())
+	if (GetOwningPlayerPawn()->Implements<UInventoryComponentProvider>())
 	{
-		InventoryComponent = IComponentProviderSupport::Execute_GetInventoryComponent(GetOwningPlayerPawn());
+		InventoryComponent = IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwningPlayerPawn());
 		InventoryComponent->OnChange.AddUniqueDynamic(this, &ThisClass::Refresh);
 	}
 	Refresh();
@@ -33,7 +33,7 @@ void UInventoryPanel::NativeConstruct()
 
 void UInventoryPanel::Refresh()
 {
-	if (!InventoryComponent || !ItemDetailsPanel) return;
+	if (!IsValid(InventoryComponent) || !IsValid(ItemDetailsPanel)) return;
 
 	InventorySlots->ClearChildren();
 	ItemDetailsPanel->SetVisibility(ESlateVisibility::Hidden);

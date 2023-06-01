@@ -29,9 +29,9 @@ void AInteractableItem::OnConstruction(const FTransform& Transform)
 
 void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
 {
-	if (Interactor && Interactor->Implements<UComponentProviderSupport>())
+	if (Interactor && Interactor->Implements<UInventoryComponentProvider>())
 	{
-		Quantity = IComponentProviderSupport::Execute_GetInventoryComponent(Interactor)->AddItem(InventoryItem, Quantity);
+		Quantity = IInventoryComponentProvider::Execute_GetInventoryComponent(Interactor)->AddItem(InventoryItem, Quantity);
 	}
 	if (Quantity <= 0)
 	{
