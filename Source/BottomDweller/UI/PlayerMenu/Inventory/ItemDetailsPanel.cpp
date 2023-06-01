@@ -7,7 +7,6 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
-#include "UObject/UnrealTypePrivate.h"
 
 bool UItemDetailsPanel::Initialize()
 {

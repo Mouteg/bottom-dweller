@@ -20,13 +20,31 @@ public:
 	void InitializeHUD();
 	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
 	ABottomDwellerPlayerController();
+
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	float GetBodyPitch() const
+	{
+		return BodyPitch;
+	}
+	
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	float GetSensitivity();
+
+	UFUNCTION(BlueprintCallable)
+	void SwitchGameMenuVisibility();
+
+	UFUNCTION(BlueprintCallable)
+	void SetGameMenuVisible();
+
+	UFUNCTION(BlueprintCallable)
+	void SetGameMenuHidden();
 	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	
-	UFUNCTION(BlueprintPure, BlueprintCallable)
-	float GetSensitivity();
+
+	UFUNCTION(BlueprintCallable)
+	void AddCameraInput(float X, float Y);
 
 	void Input_AbilityInputTagPressed(FGameplayTag Tag);
 	void Input_AbilityInputTagReleased(FGameplayTag Tag);
@@ -39,23 +57,40 @@ protected:
 		ReleasedFuncType ReleasedFunc,
 		TArray<uint32>& BindHandles
 	);
-	
+
 	UPROPERTY()
 	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
-	
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> HUDClass;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> HUDClass;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> PlayerMenuWidgetSwitcherClass;
+	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAbilityInputConfig> InputConfig;
 
 private:
-	
 	UPROPERTY(EditAnywhere)
 	float Sensitivity;
 
+	UPROPERTY(VisibleAnywhere)
+	float BodyPitch;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> PlayerMenuWidgetSwitcher;
+
+	UPROPERTY(EditAnywhere)
+	float MaxBodyPitch;
+	
+	UPROPERTY(EditAnywhere)
+	float MinBodyPitch;
+
 	UPROPERTY(EditAnywhere)
 	float AttackSensitivityMultiplier;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputMappingContext* GameContext;
 };
 
 
@@ -83,7 +118,8 @@ void ABottomDwellerPlayerController::BindAbilityActions(
 				if (ReleasedFunc)
 				{
 					BindHandles.Add(
-						PlayerEnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, Action.InputTag).GetHandle());
+						PlayerEnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, Action.InputTag).
+						                              GetHandle());
 				}
 			}
 		}

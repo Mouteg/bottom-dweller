@@ -4,7 +4,6 @@
 #include "BaseCharacter.h"
 
 #include "Abilities/TagDeclarations.h"
-#include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
 
 
 ABaseCharacter::ABaseCharacter()
