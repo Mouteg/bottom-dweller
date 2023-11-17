@@ -10,6 +10,7 @@
 
 struct FGameplayTag;
 class UBaseAbilitySystemComponent;
+class UInventoryPanel;
 
 UCLASS()
 class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerController
@@ -18,7 +19,11 @@ class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerControlle
 
 public:
 	void InitializeHUD();
+	
 	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
+	
+	void OpenContainer(TObjectPtr<UInventoryComponent> Object);
+	
 	ABottomDwellerPlayerController();
 
 	UFUNCTION(BlueprintPure, BlueprintCallable)
@@ -69,6 +74,7 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAbilityInputConfig> InputConfig;
+	
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -79,6 +85,8 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UUserWidget> PlayerMenuWidgetSwitcher;
+	
+	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
 
 	UPROPERTY(EditAnywhere)
 	float MaxBodyPitch;

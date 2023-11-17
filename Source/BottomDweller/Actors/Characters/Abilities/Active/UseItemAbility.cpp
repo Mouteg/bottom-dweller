@@ -18,7 +18,7 @@ UUseItemAbility::UUseItemAbility()
 }
 
 void UUseItemAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-									  const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+                                      const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	UItemDataAsset* Item = CastChecked<UItemDataAsset>(TriggerEventData->OptionalObject);
@@ -28,7 +28,14 @@ void UUseItemAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, c
 		return;
 	}
 
-	MakeEffectSpec(Item);
+	if (ACharacter* CharacterFromActorInfo = GetCharacterFromActorInfo(); TriggerEventData->Instigator == CharacterFromActorInfo)
+	{
+		MakeEffectSpec(Item);
+	}
+	else
+	{
+		IInventoryComponentProvider::Execute_GetInventoryComponent(CharacterFromActorInfo)->AddItem(Item);
+	}
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
 }
 
@@ -66,24 +73,24 @@ void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)
 	AddSetByCaller(Tag_Attribute_MaxHealth, ItemStatEffect->MaxHealth);
 	AddSetByCaller(Tag_Attribute_Health, ItemStatEffect->Health);
 	AddSetByCaller(Tag_Attribute_HealthRegen, ItemStatEffect->HealthRegen);
-	
+
 	AddSetByCaller(Tag_Attribute_MaxMana, ItemStatEffect->MaxMana);
 	AddSetByCaller(Tag_Attribute_Mana, ItemStatEffect->Mana);
 	AddSetByCaller(Tag_Attribute_ManaRegen, ItemStatEffect->ManaRegen);
-	
+
 	AddSetByCaller(Tag_Attribute_MaxStamina, ItemStatEffect->MaxStamina);
 	AddSetByCaller(Tag_Attribute_Stamina, ItemStatEffect->Stamina);
 	AddSetByCaller(Tag_Attribute_StaminaRegen, ItemStatEffect->StaminaRegen);
-	
+
 	AddSetByCaller(Tag_Attribute_Strength, ItemStatEffect->Strength);
 	AddSetByCaller(Tag_Attribute_Dexterity, ItemStatEffect->Dexterity);
 	AddSetByCaller(Tag_Attribute_Intelligence, ItemStatEffect->Intelligence);
 	AddSetByCaller(Tag_Attribute_Luck, ItemStatEffect->Luck);
-	
+
 	AddSetByCaller(Tag_Attribute_SlashingDamage, ItemStatEffect->SlashingDamage);
 	AddSetByCaller(Tag_Attribute_BluntDamage, ItemStatEffect->BluntDamage);
 	AddSetByCaller(Tag_Attribute_PiercingDamage, ItemStatEffect->PiercingDamage);
-	
+
 	AddSetByCaller(Tag_Attribute_SlashingDamageResistance, ItemStatEffect->SlashingDamageResistance);
 	AddSetByCaller(Tag_Attribute_BluntDamageResistance, ItemStatEffect->BluntDamageResistance);
 	AddSetByCaller(Tag_Attribute_PiercingDamageResistance, ItemStatEffect->PiercingDamageResistance);

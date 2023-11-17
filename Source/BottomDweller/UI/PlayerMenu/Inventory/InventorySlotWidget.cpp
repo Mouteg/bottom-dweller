@@ -15,7 +15,7 @@ bool UInventorySlotWidget::Initialize()
 {
 	const bool bSuccess = Super::Initialize();
 	if (!bSuccess) return false;
-	DoubleClickEventTag = Tag_Event_UseItem;
+	UseItemEventTag = Tag_Event_UseItem;
 
 	return bSuccess;
 }
@@ -33,7 +33,11 @@ void UInventorySlotWidget::SetItem(UItemDataAsset* InventoryItem, int32 ItemQuan
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cant load item thumbnail"));
 	}
-	QuantityText->SetText(FText::AsNumber(Quantity));
+	
+	if (Quantity > 1)
+	{
+		QuantityText->SetText(FText::AsNumber(Quantity));
+	}
 }
 
 void UInventorySlotWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -62,10 +66,9 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InG
 	if (Item)
 	{
 		FGameplayEventData EventData;
-		EventData.Instigator = GetOwningPlayer();
+		EventData.Instigator = Instigator;
 		EventData.OptionalObject = Item;
-
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), DoubleClickEventTag, EventData);
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), UseItemEventTag, EventData);
 	}
 	return Super::NativeOnMouseButtonDoubleClick(InGeometry, InMouseEvent);
 }

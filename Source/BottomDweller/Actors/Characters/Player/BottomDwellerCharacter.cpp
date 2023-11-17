@@ -82,8 +82,8 @@ void ABottomDwellerCharacter::RecalculateDamage()
 
 void ABottomDwellerCharacter::BeginPlay()
 {
-	Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
 	Super::BeginPlay();
+	Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
 }
 
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)

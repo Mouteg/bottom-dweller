@@ -14,10 +14,13 @@ bool UInventoryUI::Initialize()
 	if (!ensure(EquippedItemsWidget != nullptr)) return false;
 	if (!ensure(InventoryPanel != nullptr)) return false;
 	if (!ensure(ItemDetailsPanel != nullptr)) return false;
+	if (!ensure(ContainerInventoryPanel != nullptr)) return false;
 	
-	if (EquippedItemsWidget && InventoryPanel && ItemDetailsPanel)
+	if (EquippedItemsWidget && InventoryPanel && ItemDetailsPanel && ContainerInventoryPanel)
 	{
 		InventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
+		ContainerInventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
+		InventoryPanel->Instigator = GetOwningPlayerPawn();
 		EquippedItemsWidget->ItemDetailsPanel = ItemDetailsPanel;
 	}
 	

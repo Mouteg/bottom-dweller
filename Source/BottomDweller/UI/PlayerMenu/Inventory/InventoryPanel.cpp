@@ -23,9 +23,17 @@ void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	if (GetOwningPlayerPawn()->Implements<UInventoryComponentProvider>())
+	if (IsValid(Instigator) &&  Instigator->Implements<UInventoryComponentProvider>())
 	{
-		InventoryComponent = IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwningPlayerPawn());
+		SetInventory(IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwningPlayerPawn()));
+	}
+}
+
+void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent)
+{
+	if (IsValid(Instigator) &&  Instigator->Implements<UInventoryComponentProvider>())
+	{
+		InventoryComponent = NewInventoryComponent;
 		InventoryComponent->OnChange.AddUniqueDynamic(this, &ThisClass::Refresh);
 	}
 	Refresh();
@@ -42,6 +50,7 @@ void UInventoryPanel::Refresh()
 	{
 		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
 		InventorySlots->AddChild(InventorySlot);
+		InventorySlot->Instigator = Instigator;
 		InventorySlot->SetItem(Pair.Key.Get(), Pair.Value);
 		InventorySlot->ItemDetailsPanel = ItemDetailsPanel;
 	}

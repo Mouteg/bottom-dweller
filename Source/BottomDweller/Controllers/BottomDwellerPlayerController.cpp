@@ -6,6 +6,9 @@
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 #include "BottomDweller/Actors/Characters/Abilities/BaseAbilitySystemComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Blueprint/WidgetTree.h"
+#include "BottomDweller/UI/PlayerMenu/Inventory/InventoryPanel.h"
 
 ABottomDwellerPlayerController::ABottomDwellerPlayerController()
 {
@@ -98,23 +101,6 @@ void ABottomDwellerPlayerController::Input_AbilityInputTagReleased(FGameplayTag 
 	}
 }
 
-void ABottomDwellerPlayerController::InitializeHUD()
-{
-	if (IsValid(HUDClass))
-	{
-		UUserWidget* HUD = CreateWidget(this, HUDClass);
-		HUD->AddToViewport();
-	}
-	
-	
-	if (IsValid(PlayerMenuWidgetSwitcherClass))
-	{
-		PlayerMenuWidgetSwitcher = CreateWidget(this, PlayerMenuWidgetSwitcherClass);
-		PlayerMenuWidgetSwitcher->AddToViewport();
-		PlayerMenuWidgetSwitcher->SetVisibility(ESlateVisibility::Hidden);
-	}
-}
-
 void ABottomDwellerPlayerController::PostProcessInput(const float DeltaTime, const bool bGamePaused)
 {
 	Super::PostProcessInput(DeltaTime, bGamePaused);
@@ -122,4 +108,47 @@ void ABottomDwellerPlayerController::PostProcessInput(const float DeltaTime, con
 	{
 		AbilitySystemComponent->ProcessAbilityInput(DeltaTime, bGamePaused);
 	}
+}
+
+
+void ABottomDwellerPlayerController::InitializeHUD()
+{
+	if (IsValid(HUDClass))
+	{
+		UUserWidget* HUD = CreateWidget(this, HUDClass);
+		HUD->AddToViewport();
+	}
+
+
+	if (IsValid(PlayerMenuWidgetSwitcherClass))
+	{
+		PlayerMenuWidgetSwitcher = CreateWidget(this, PlayerMenuWidgetSwitcherClass);
+		PlayerMenuWidgetSwitcher->AddToViewport();
+		PlayerMenuWidgetSwitcher->SetVisibility(ESlateVisibility::Hidden);
+
+		// TArray<UWidget*> a;
+		// PlayerMenuWidgetSwitcher->WidgetTree->FindWidget("InventoryUI");
+		// for (const auto Widget : a)
+		// {
+		// 	UE_LOG(LogTemp, Warning, TEXT("%s"), *Widget->GetName());
+		// }
+		// if (UWidget* ContainerInventoryPanelWidget = PlayerMenuWidgetSwitcher->WidgetTree->FindWidget("ContainerInventoryPanel"))
+		// {
+		// 	ContainerInventoryPanel = Cast<UInventoryPanel>(ContainerInventoryPanelWidget);
+		// }
+	}
+}
+
+void ABottomDwellerPlayerController::OpenContainer(TObjectPtr<UInventoryComponent> InventoryComponent)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Opened"));
+
+	if (IsValid(ContainerInventoryPanel))
+	{
+		ContainerInventoryPanel->SetInventory(InventoryComponent);
+	}
+
+	// Open container menu
+	// Set slots
+	// Set container widget visible
 }

@@ -29,6 +29,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	TObjectPtr<UInventoryPanel> InventoryPanel;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;

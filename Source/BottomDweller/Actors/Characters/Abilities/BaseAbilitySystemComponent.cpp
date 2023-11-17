@@ -1,6 +1,5 @@
 ﻿// All rights reserved by Aboba Inc.
 #include "BaseAbilitySystemComponent.h"
-#include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BaseGameplayAbility.h"
 #include "TagDeclarations.h"
 

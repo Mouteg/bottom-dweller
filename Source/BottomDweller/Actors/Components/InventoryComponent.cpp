@@ -17,7 +17,10 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	EquipmentComponent = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwner());
+	if (GetOwner()->Implements<UEquipmentComponentProvider>())
+	{
+		EquipmentComponent = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwner());
+	}
 }
 
 int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)

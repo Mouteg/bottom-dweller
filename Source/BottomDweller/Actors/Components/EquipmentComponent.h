@@ -47,8 +47,11 @@ protected:
 
 private:
 	void ChangeWeapon(UWeaponItemDataAsset* Item);
+	
 	UPROPERTY(EditAnywhere)
 	FInventory_EquipmentState EquipmentState;
+	
+	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<UInventoryComponent> InventoryComponent;
 
 };

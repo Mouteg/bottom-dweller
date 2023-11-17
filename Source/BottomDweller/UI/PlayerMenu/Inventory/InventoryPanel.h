@@ -28,7 +28,10 @@ public:
 
 	UPROPERTY()
 	TObjectPtr<UInventoryComponent> InventoryComponent;
-
+	
+	UPROPERTY()
+	TObjectPtr<AActor> Instigator;
+	
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 
@@ -40,6 +43,8 @@ public:
 	UFUNCTION()
 	void Refresh();
 	
+	void SetInventory(UInventoryComponent* NewInventoryComponent);
+
 protected:
 	virtual void NativeConstruct() override;
 };
