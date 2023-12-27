@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
 #include "BottomDweller/Actors/Characters/MeleeAttacker.h"
-#include "BottomDweller/Actors/Components/SupportInterfaces/EquipmentComponentProvider.h"
 #include "BottomDweller/Actors/Components/SupportInterfaces/PawnMovementComponentProvider.h"
 #include "BottomDwellerCharacter.generated.h"
 
@@ -18,8 +17,6 @@ UCLASS(config=Game)
 class ABottomDwellerCharacter :
 public ABaseCharacter,
 public IMeleeAttacker,
-public IInventoryComponentProvider,
-public IEquipmentComponentProvider,
 public IPawnMovementComponentProvider
 {
 	GENERATED_BODY()
@@ -53,24 +50,11 @@ public:
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-	
-	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	virtual UInventoryComponent* GetInventoryComponent_Implementation() const override
-	{
-		return InventoryComponent;
-	}
 	
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
 	virtual UCharacterMovementComponent* GetPawnMovementComponent_Implementation() const override
 	{
 		return GetCharacterMovement();
-	}
-	
-	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	virtual UEquipmentComponent* GetEquipmentComponent_Implementation() const override
-	{
-		return EquipmentComponent;
 	}
 
 	virtual void OnActorLoaded_Implementation() override;

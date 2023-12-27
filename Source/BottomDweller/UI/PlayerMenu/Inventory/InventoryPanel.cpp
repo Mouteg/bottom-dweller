@@ -4,8 +4,9 @@
 #include "InventoryPanel.h"
 #include "InventorySlotWidget.h"
 #include "ItemDetailsPanel.h"
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
+#include "BottomDweller/Controllers/PlayerInventoryController.h"
+#include "BottomDweller/Util/UUtils.h"
 #include "Components/WrapBox.h"
 
 bool UInventoryPanel::Initialize()
@@ -22,20 +23,14 @@ bool UInventoryPanel::Initialize()
 void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
-	if (IsValid(Instigator) &&  Instigator->Implements<UInventoryComponentProvider>())
-	{
-		SetInventory(IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwningPlayerPawn()));
-	}
+
+	SetInventory(UUtils::GetInventorySubsystem(GetWorld())->InventoryComponent);
 }
 
 void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent)
 {
-	if (IsValid(Instigator) &&  Instigator->Implements<UInventoryComponentProvider>())
-	{
-		InventoryComponent = NewInventoryComponent;
-		InventoryComponent->OnChange.AddUniqueDynamic(this, &ThisClass::Refresh);
-	}
+	InventoryComponent = NewInventoryComponent;
+	InventoryComponent->OnChange.AddUniqueDynamic(this, &ThisClass::Refresh);
 	Refresh();
 }
 
@@ -50,7 +45,6 @@ void UInventoryPanel::Refresh()
 	{
 		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
 		InventorySlots->AddChild(InventorySlot);
-		InventorySlot->Instigator = Instigator;
 		InventorySlot->SetItem(Pair.Key.Get(), Pair.Value);
 		InventorySlot->ItemDetailsPanel = ItemDetailsPanel;
 	}

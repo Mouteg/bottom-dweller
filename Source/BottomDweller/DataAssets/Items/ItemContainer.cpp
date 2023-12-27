@@ -11,7 +11,7 @@ AItemContainer::AItemContainer()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
-	
+
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Container Mesh");
 	SetRootComponent(StaticMeshComponent);
 	StaticMeshComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);

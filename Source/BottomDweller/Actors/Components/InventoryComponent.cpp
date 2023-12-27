@@ -3,11 +3,12 @@
 
 #include "InventoryComponent.h"
 
-#include "EquipmentComponent.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Controllers/PlayerInventoryController.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
-#include "SupportInterfaces/EquipmentComponentProvider.h"
+#include "BottomDweller/Util/UUtils.h"
+#include "Kismet/GameplayStatics.h"
 
 UInventoryComponent::UInventoryComponent()
 {
@@ -17,10 +18,6 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GetOwner()->Implements<UEquipmentComponentProvider>())
-	{
-		EquipmentComponent = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwner());
-	}
 }
 
 int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
@@ -86,9 +83,9 @@ void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Qua
 
 void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec)
 {
-	if (IsValid(EquipmentComponent) && Item->IsA(UGearItemDataAsset::StaticClass()))
+	if (Item->IsA(UGearItemDataAsset::StaticClass()))
 	{
-		EquipmentComponent->Equip(Item);
+		UUtils::GetInventorySubsystem(GetWorld())->Equip(Item);
 	}
 	else if (const UUsableItemDataAsset* ConsumableItem = Cast<UUsableItemDataAsset>(Item); ConsumableItem && !ConsumableItem->bIsInfinite)
 	{

@@ -4,10 +4,12 @@
 #include "UseItemAbility.h"
 
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
-#include "..\..\..\Components\SupportInterfaces\ASCProviderSupport.h"
+#include "BottomDweller/Controllers/PlayerInventoryController.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
+#include "BottomDweller/Util/UUtils.h"
+
+class UPlayerInventoryController;
 
 UUseItemAbility::UUseItemAbility()
 {
@@ -28,18 +30,16 @@ void UUseItemAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, c
 		return;
 	}
 
-	if (ACharacter* CharacterFromActorInfo = GetCharacterFromActorInfo(); TriggerEventData->Instigator == CharacterFromActorInfo)
-	{
-		MakeEffectSpec(Item);
-	}
-	else
-	{
-		IInventoryComponentProvider::Execute_GetInventoryComponent(CharacterFromActorInfo)->AddItem(Item);
-	}
+	MakeEffectSpecAndUseItem(Item);
+	// Not sure why i wrote this, if something breaks - try this
+	// else
+	// {
+	// 	UUtils::GetInventorySubsystem(GetWorld())->AddItem(Item);
+	// }
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
 }
 
-void UUseItemAbility::MakeEffectSpec(UItemDataAsset* Item)
+void UUseItemAbility::MakeEffectSpecAndUseItem(UItemDataAsset* Item)
 {
 	FGameplayEffectSpecHandle Spec;
 	switch (Item->ItemType)
@@ -65,7 +65,7 @@ void UUseItemAbility::MakeEffectSpec(UItemDataAsset* Item)
 	}
 	CurrentEffectSpec = Spec.Data.Get();
 	AddSetByCallers(&Item->ItemStatEffect);
-	IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwningActorFromActorInfo())->UseItem(Item, *CurrentEffectSpec);
+	UUtils::GetInventorySubsystem(GetWorld())->UseItem(Item, *CurrentEffectSpec);
 }
 
 void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)

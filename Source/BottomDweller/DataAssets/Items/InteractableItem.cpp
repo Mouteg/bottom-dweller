@@ -3,9 +3,9 @@
 
 #include "InteractableItem.h"
 
-#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Actors/Components/InventoryComponent.h"
+#include "BottomDweller/Controllers/PlayerInventoryController.h"
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
+#include "BottomDweller/Util/UUtils.h"
 
 
 // Sets default values
@@ -29,10 +29,7 @@ void AInteractableItem::OnConstruction(const FTransform& Transform)
 
 void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
 {
-	if (Interactor && Interactor->Implements<UInventoryComponentProvider>())
-	{
-		Quantity = IInventoryComponentProvider::Execute_GetInventoryComponent(Interactor)->AddItem(InventoryItem, Quantity);
-	}
+	Quantity = UUtils::GetInventorySubsystem(GetWorld())->AddItem(InventoryItem, Quantity);
 	if (Quantity <= 0)
 	{
 		Destroy();

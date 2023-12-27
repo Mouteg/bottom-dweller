@@ -10,11 +10,11 @@
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 #include "BottomDweller/Actors/Characters/BaseAttributeSet.h"
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
-#include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
 #include "..\..\..\Components\SupportInterfaces\ASCProviderSupport.h"
-#include "BottomDweller/Actors/Components/SupportInterfaces/EquipmentComponentProvider.h"
 #include "BottomDweller/Actors/Components/SupportInterfaces/PawnMovementComponentProvider.h"
+#include "BottomDweller/Controllers/PlayerInventoryController.h"
+#include "BottomDweller/Util/UUtils.h"
 #include "Engine/StaticMeshActor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -29,15 +29,16 @@ bool UAttackAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                         const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
                                         FGameplayTagContainer* OptionalRelevantTags) const
 {
-	if (!ActorInfo->AvatarActor.Get() || !ActorInfo->AvatarActor->Implements<UEquipmentComponentProvider>())
+	AActor* Actor = ActorInfo->AvatarActor.Get();
+	if (!Actor)
 	{
 		return false;
 	}
 
-	const UWeaponItemDataAsset* Weapon = IEquipmentComponentProvider::Execute_GetEquipmentComponent(ActorInfo->AvatarActor.Get())->GetEquipmentState().Weapon;
+	const UWeaponItemDataAsset* Weapon = UUtils::GetInventorySubsystem(Actor->GetWorld())->GetEquipmentState().Weapon;
 
 	return
-		!IPawnMovementComponentProvider::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get())->IsFalling()
+		!IPawnMovementComponentProvider::Execute_GetPawnMovementComponent(Actor)->IsFalling()
 		&& CheckAnimations(Weapon)
 		&& Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
@@ -53,8 +54,8 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	}
 
 	ApplyCost(Handle, ActorInfo, ActivationInfo);
-	
-	const UWeaponItemDataAsset* Weapon = IEquipmentComponentProvider::Execute_GetEquipmentComponent(GetOwningActorFromActorInfo())->GetEquipmentState().Weapon;
+
+	const UWeaponItemDataAsset* Weapon = UUtils::GetInventorySubsystem(GetWorld())->GetEquipmentState().Weapon;
 	CurrentWeaponType = Weapon->WeaponType;
 	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();

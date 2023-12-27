@@ -7,7 +7,6 @@
 #include "AbilitySystemInterface.h"
 #include "Abilities/AbilitySet.h"
 #include "..\Components\SupportInterfaces\ASCProviderSupport.h"
-#include "..\Components\SupportInterfaces\InventoryComponentProvider.h"
 #include "BottomDweller/Saves/Saveable.h"
 #include "BaseCharacter.generated.h"
 
@@ -15,10 +14,10 @@ class UBaseAbilitySystemComponent;
 
 UCLASS(Abstract)
 class BOTTOMDWELLER_API ABaseCharacter :
-public ACharacter,
-public IAbilitySystemInterface,
-public IASCProviderSupport,
-public ISaveable
+	public ACharacter,
+	public IAbilitySystemInterface,
+	public IASCProviderSupport,
+	public ISaveable
 
 {
 	GENERATED_BODY()
@@ -43,7 +42,7 @@ public:
 	{
 		AbilitySystemComponent = NewAbilitySystemComponent;
 	}
-	
+
 protected:
 	virtual void BeginPlay() override;
 

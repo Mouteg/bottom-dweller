@@ -26,9 +26,6 @@ public:
 	int32 Quantity;
 	
 	UPROPERTY()
-	TObjectPtr<const AActor> Instigator;
-	
-	UPROPERTY()
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))

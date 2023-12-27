@@ -20,7 +20,6 @@ bool UInventoryUI::Initialize()
 	{
 		InventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
 		ContainerInventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
-		InventoryPanel->Instigator = GetOwningPlayerPawn();
 		EquippedItemsWidget->ItemDetailsPanel = ItemDetailsPanel;
 	}
 	

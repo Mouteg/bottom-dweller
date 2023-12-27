@@ -31,7 +31,7 @@ private:
 	UUseItemAbility();
 	FGameplayEffectSpec* CurrentEffectSpec;
 
-	void MakeEffectSpec(UItemDataAsset* Item);
+	void MakeEffectSpecAndUseItem(UItemDataAsset* Item);
 	void AddSetByCallers(const FItemStatEffect* ItemStatEffect);
 	void AddSetByCaller(FGameplayTag Tag, float Magnitude);
 	

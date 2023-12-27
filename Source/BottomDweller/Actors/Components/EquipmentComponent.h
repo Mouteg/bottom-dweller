@@ -16,7 +16,7 @@ USTRUCT(BlueprintType)
 struct FInventory_EquipmentState
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UWeaponItemDataAsset> Weapon;
 };
@@ -25,7 +25,7 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BOTTOMDWELLER_API UEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
-	
+
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EItemType, Slot);
 
 public:
@@ -37,21 +37,17 @@ public:
 
 	UFUNCTION()
 	FInventory_EquipmentState GetEquipmentState() const { return EquipmentState; }
-	
+
 	UPROPERTY()
 	FOnEquipmentStateChange OnEquipmentStateChange;
-	
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 private:
 	void ChangeWeapon(UWeaponItemDataAsset* Item);
-	
+
 	UPROPERTY(EditAnywhere)
 	FInventory_EquipmentState EquipmentState;
-	
-	UPROPERTY(VisibleDefaultsOnly)
-	TObjectPtr<UInventoryComponent> InventoryComponent;
-
 };

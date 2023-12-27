@@ -53,6 +53,4 @@ private:
 	UPROPERTY()
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> InventoryContent;
 
-	TObjectPtr<UEquipmentComponent> EquipmentComponent;
-
 };

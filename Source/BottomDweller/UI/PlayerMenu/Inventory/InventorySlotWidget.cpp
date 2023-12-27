@@ -66,7 +66,6 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InG
 	if (Item)
 	{
 		FGameplayEventData EventData;
-		EventData.Instigator = Instigator;
 		EventData.OptionalObject = Item;
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), UseItemEventTag, EventData);
 	}

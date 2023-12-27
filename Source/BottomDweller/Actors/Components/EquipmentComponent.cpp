@@ -2,12 +2,12 @@
 
 
 #include "EquipmentComponent.h"
-#include "InventoryComponent.h"
 #include "WeaponComponent.h"
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
+#include "BottomDweller/Controllers/PlayerInventoryController.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
-#include "BottomDweller/UI/PlayerMenu/Inventory/EquippedItemSlot.h"
+#include "BottomDweller/Util/UUtils.h"
 
 
 UEquipmentComponent::UEquipmentComponent()
@@ -18,7 +18,6 @@ UEquipmentComponent::UEquipmentComponent()
 void UEquipmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	InventoryComponent = IInventoryComponentProvider::Execute_GetInventoryComponent(GetOwner());
 }
 
 
@@ -44,7 +43,7 @@ void UEquipmentComponent::Equip(UItemDataAsset* Item)
 		return;
 	}
 
-	InventoryComponent->RemoveItem(Item);
+	UUtils::GetInventorySubsystem(GetWorld())->RemoveItem(Item);
 	OnEquipmentStateChange.Broadcast(Item, Item->ItemType);
 }
 
@@ -68,8 +67,7 @@ void UEquipmentComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
 
 	if (EquipmentState.Weapon)
 	{
-		InventoryComponent->AddItem(EquipmentState.Weapon);
+		UUtils::GetInventorySubsystem(GetWorld())->AddItem(EquipmentState.Weapon);
 	}
 	EquipmentState.Weapon = Item;
 }
-

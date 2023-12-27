@@ -29,9 +29,6 @@ public:
 	UPROPERTY()
 	TObjectPtr<UInventoryComponent> InventoryComponent;
 	
-	UPROPERTY()
-	TObjectPtr<AActor> Instigator;
-	
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 
