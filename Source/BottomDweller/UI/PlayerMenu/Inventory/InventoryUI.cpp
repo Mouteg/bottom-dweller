@@ -5,6 +5,8 @@
 
 #include "EquippedItemsWidget.h"
 #include "InventoryPanel.h"
+#include "BottomDweller/Util/UUtils.h"
+#include "Kismet/GameplayStatics.h"
 
 bool UInventoryUI::Initialize()
 {
@@ -15,18 +17,22 @@ bool UInventoryUI::Initialize()
 	if (!ensure(InventoryPanel != nullptr)) return false;
 	if (!ensure(ItemDetailsPanel != nullptr)) return false;
 	if (!ensure(ContainerInventoryPanel != nullptr)) return false;
-	
+
 	if (EquippedItemsWidget && InventoryPanel && ItemDetailsPanel && ContainerInventoryPanel)
 	{
 		InventoryPanel->SetItemDetailsPanel(ItemDetailsPanel);
 		ContainerInventoryPanel->SetItemDetailsPanel(ItemDetailsPanel);
 		EquippedItemsWidget->SetItemDetailsPanel(ItemDetailsPanel);
 	}
-	
+
 	return bSuccess;
 }
 
 void UInventoryUI::NativePreConstruct()
 {
-	Super::NativeConstruct();
+	if (IsValid(UGameplayStatics::GetGameInstance(GetWorld())))
+	{
+		UUtils::GetInventorySubsystem(GetWorld())->SetContainerInventoryPanel(ContainerInventoryPanel);
+	}
+	Super::NativePreConstruct();
 }

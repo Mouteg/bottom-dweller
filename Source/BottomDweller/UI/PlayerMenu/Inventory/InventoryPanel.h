@@ -25,7 +25,7 @@ public:
 	UFUNCTION()
 	void Refresh();
 	
-	void SetInventory(UInventoryComponent* NewInventoryComponent);
+	void SetInventory(UInventoryComponent* NewInventoryComponent, FString ContainerName = "Inventory");
 	
 	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel)
 	{

@@ -25,7 +25,7 @@ public:
 	virtual void Deinitialize() override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
-	void OpenContainer(TObjectPtr<UInventoryComponent> Object);
+	void OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, FString ContainerName);
 
 	UFUNCTION(BlueprintCallable)
 	void Equip(UItemDataAsset* Item);
@@ -68,6 +68,11 @@ public:
 	UEquipmentComponent* GetEquipmentComponent() const
 	{
 		return EquipmentComponent;
+	}
+	
+	void SetContainerInventoryPanel(const TObjectPtr<UInventoryPanel> Inventory)
+	{
+		ContainerInventoryPanel = Inventory;
 	}
 
 private:

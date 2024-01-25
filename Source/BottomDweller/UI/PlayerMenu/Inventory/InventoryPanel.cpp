@@ -7,6 +7,7 @@
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Controllers/PlayerInventoryController.h"
 #include "BottomDweller/Util/UUtils.h"
+#include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
 
 bool UInventoryPanel::Initialize()
@@ -27,9 +28,10 @@ void UInventoryPanel::NativeConstruct()
 	SetInventory(UUtils::GetInventorySubsystem(GetWorld())->GetInventoryComponent());
 }
 
-void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent)
+void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent, FString ContainerName)
 {
 	InventoryComponent = NewInventoryComponent;
+	InventoryDisplayName->SetText(FText::FromString(ContainerName));
 	InventoryComponent->OnChange.AddUniqueDynamic(this, &ThisClass::Refresh);
 	Refresh();
 }

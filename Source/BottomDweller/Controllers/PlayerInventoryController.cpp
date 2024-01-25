@@ -36,13 +36,11 @@ void UPlayerInventoryController::UseItem(UItemDataAsset* Item, FGameplayEffectSp
 }
 
 
-void UPlayerInventoryController::OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent)
+void UPlayerInventoryController::OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, FString ContainerName)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Opened"));
-
 	if (IsValid(ContainerInventoryPanel))
 	{
-		ContainerInventoryPanel->SetInventory(ContainerInventoryComponent);
+		ContainerInventoryPanel->SetInventory(ContainerInventoryComponent, ContainerName);
 	}
 
 	// Open container menu

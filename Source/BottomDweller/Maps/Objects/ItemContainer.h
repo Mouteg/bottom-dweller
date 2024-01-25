@@ -19,7 +19,18 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite)
 	TObjectPtr<UStaticMeshComponent> StaticMeshComponent;
+
+	UFUNCTION(BlueprintGetter)
+	FString GetContainerName() const
+	{
+		return ContainerName;
+	}
 	
+	UFUNCTION(BlueprintSetter)
+	void SetContainerName(const FString Name)
+	{
+		ContainerName = Name;
+	}
 	virtual void OnInteract_Implementation(AActor* Interactor) override;
 	AItemContainer();
 
@@ -30,4 +41,7 @@ protected:
 private:
 	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<UInventoryComponent> InventoryComponent;
+
+	UPROPERTY()
+	FString ContainerName;
 };

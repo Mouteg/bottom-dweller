@@ -2,9 +2,8 @@
 
 
 #include "ItemContainer.h"
-#include "ItemDataAsset.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
-#include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
+#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "BottomDweller/Util/UUtils.h"
 #include "Engine/AssetManager.h"
 
@@ -17,19 +16,20 @@ AItemContainer::AItemContainer()
 	SetRootComponent(StaticMeshComponent);
 	StaticMeshComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
 	StaticMeshComponent->SetRenderCustomDepth(true);
+	ContainerName = "Chest";
 }
 
 void AItemContainer::OnInteract_Implementation(AActor* Interactor)
 {
 	if (IsValid(Interactor))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Opened inter"));
-		UUtils::GetInventorySubsystem(GetWorld())->OpenContainer(InventoryComponent);
+		UUtils::GetInventorySubsystem(GetWorld())->OpenContainer(InventoryComponent, ContainerName);
 	}
 }
 
 void AItemContainer::BeginPlay()
 {
+	//For testing purposes
 	InventoryComponent->AddItem(Cast<UItemDataAsset>(UAssetManager::Get().GetPrimaryAssetObject(FPrimaryAssetId("UsableItem:DA_Potion"))));
 	Super::BeginPlay();
 }
