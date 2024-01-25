@@ -18,9 +18,9 @@ bool UInventoryUI::Initialize()
 	
 	if (EquippedItemsWidget && InventoryPanel && ItemDetailsPanel && ContainerInventoryPanel)
 	{
-		InventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
-		ContainerInventoryPanel->ItemDetailsPanel = ItemDetailsPanel;
-		EquippedItemsWidget->ItemDetailsPanel = ItemDetailsPanel;
+		InventoryPanel->SetItemDetailsPanel(ItemDetailsPanel);
+		ContainerInventoryPanel->SetItemDetailsPanel(ItemDetailsPanel);
+		EquippedItemsWidget->SetItemDetailsPanel(ItemDetailsPanel);
 	}
 	
 	return bSuccess;

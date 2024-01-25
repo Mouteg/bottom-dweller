@@ -16,6 +16,13 @@ class BOTTOMDWELLER_API UInventorySlotWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	
+	virtual bool Initialize() override;
+
+	void InitSlot(UItemDetailsPanel* ItemDetailsPanel, UItemDataAsset* InventoryItem, int32 ItemQuantity = 1);
+
+protected:
+	
 	UPROPERTY(EditDefaultsOnly)
 	FGameplayTag UseItemEventTag;
 
@@ -33,13 +40,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UTextBlock> QuantityText;
-
-
-	virtual bool Initialize() override;
-
-	void SetItem(UItemDataAsset* InventoryItem, int32 ItemQuantity = 1);
-
-protected:
+	
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;

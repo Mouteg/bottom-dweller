@@ -18,7 +18,7 @@ class BOTTOMDWELLER_API UEquippedItemSlot : public UInventorySlotWidget
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	EItemType EquipmentSlot;
+	EItemType EquipmentType;
 
 protected:
 	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;

@@ -22,6 +22,15 @@ class BOTTOMDWELLER_API UEquippedItemsWidget : public UUserWidget
 public:
 	virtual bool Initialize() override;
 
+	UFUNCTION()
+	void Update(UItemDataAsset* Item, EItemType GearSlot);
+	
+	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel)
+	{
+		ItemDetailsPanel = DetailsPanel;
+	}
+protected:
+	
 	UPROPERTY()
 	TObjectPtr<UEquipmentComponent> EquipmentComponent;
 
@@ -30,12 +39,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
-
-	UFUNCTION()
-	void Update(UItemDataAsset* Item, EItemType GearSlot);
-
-protected:
 	void InitSlots();
+	
 	virtual void NativeConstruct() override;
 
 private:

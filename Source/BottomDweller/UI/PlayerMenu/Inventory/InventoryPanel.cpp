@@ -24,7 +24,7 @@ void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	SetInventory(UUtils::GetInventorySubsystem(GetWorld())->InventoryComponent);
+	SetInventory(UUtils::GetInventorySubsystem(GetWorld())->GetInventoryComponent());
 }
 
 void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent)
@@ -45,7 +45,6 @@ void UInventoryPanel::Refresh()
 	{
 		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
 		InventorySlots->AddChild(InventorySlot);
-		InventorySlot->SetItem(Pair.Key.Get(), Pair.Value);
-		InventorySlot->ItemDetailsPanel = ItemDetailsPanel;
+		InventorySlot->InitSlot(ItemDetailsPanel, Pair.Key.Get(), Pair.Value);
 	}
 }

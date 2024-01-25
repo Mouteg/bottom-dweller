@@ -21,15 +21,16 @@ void UEquippedItemsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	EquipmentComponent = UUtils::GetInventorySubsystem(GetWorld())->EquipmentComponent;
+	EquipmentComponent = UUtils::GetInventorySubsystem(GetWorld())->GetEquipmentComponent();
 	EquipmentComponent->OnEquipmentStateChange.AddUniqueDynamic(this, &UEquippedItemsWidget::Update);
 	InitSlots();
 }
 
 void UEquippedItemsWidget::InitSlots()
 {
-	WeaponSlot->EquipmentSlot = EItemType::Weapon;
-	EquipSlots.Add(WeaponSlot->EquipmentSlot, WeaponSlot);
+	WeaponSlot->EquipmentType = EItemType::Weapon;
+	// Add other slots e.g. armor/lantern whatever
+	EquipSlots.Add(WeaponSlot->EquipmentType, WeaponSlot);
 }
 
 void UEquippedItemsWidget::Update(UItemDataAsset* Item, EItemType GearSlot)
@@ -37,7 +38,6 @@ void UEquippedItemsWidget::Update(UItemDataAsset* Item, EItemType GearSlot)
 	//Move so it only happens once, cant use construct. Create player menu widget
 	if (ItemDetailsPanel)
 	{
-		EquipSlots[GearSlot]->ItemDetailsPanel = ItemDetailsPanel;
+		EquipSlots[GearSlot]->InitSlot(ItemDetailsPanel, Item);
 	}
-	EquipSlots[GearSlot]->SetItem(Item);
 }

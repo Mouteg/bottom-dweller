@@ -13,6 +13,20 @@ UCLASS()
 class BOTTOMDWELLER_API ABottomDwellerHUD final : public AHUD
 {
 	GENERATED_BODY()
-
+public:
 	ABottomDwellerHUD();
+	void InitializeHUD();
+	bool IsMenuVisible() const;
+	void SetGameMenuVisible();
+	void SetGameMenuHidden();
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> HUDClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> PlayerMenuWidgetSwitcherClass;
+
+	UPROPERTY()
+	TObjectPtr<UUserWidget> PlayerMenuWidgetSwitcher;
 };

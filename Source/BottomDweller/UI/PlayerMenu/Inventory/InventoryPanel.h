@@ -19,6 +19,19 @@ class BOTTOMDWELLER_API UInventoryPanel : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+
+	virtual bool Initialize() override;
+
+	UFUNCTION()
+	void Refresh();
+	
+	void SetInventory(UInventoryComponent* NewInventoryComponent);
+	
+	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel)
+	{
+		ItemDetailsPanel = DetailsPanel;
+	}
+protected:
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UWrapBox> InventorySlots;
@@ -34,14 +47,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UInventorySlotWidget> SlotWidget;
-
-	virtual bool Initialize() override;
-
-	UFUNCTION()
-	void Refresh();
 	
-	void SetInventory(UInventoryComponent* NewInventoryComponent);
-
-protected:
 	virtual void NativeConstruct() override;
 };

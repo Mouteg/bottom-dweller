@@ -20,8 +20,9 @@ bool UInventorySlotWidget::Initialize()
 	return bSuccess;
 }
 
-void UInventorySlotWidget::SetItem(UItemDataAsset* InventoryItem, int32 ItemQuantity)
+void UInventorySlotWidget::InitSlot(UItemDetailsPanel* detailsPanel,UItemDataAsset* InventoryItem, int32 ItemQuantity)
 {
+	ItemDetailsPanel = detailsPanel;
 	Item = InventoryItem;
 	Quantity = ItemQuantity;
 

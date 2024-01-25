@@ -8,6 +8,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PlayerInventoryController.generated.h"
 
+class UInventoryPanel;
 class UInventoryComponent;
 /**
  * 
@@ -18,8 +19,13 @@ class BOTTOMDWELLER_API UPlayerInventoryController : public UGameInstanceSubsyst
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
+
 	virtual void Deinitialize() override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+
+	void OpenContainer(TObjectPtr<UInventoryComponent> Object);
 
 	UFUNCTION(BlueprintCallable)
 	void Equip(UItemDataAsset* Item);
@@ -39,9 +45,37 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec);
 
+	UFUNCTION()
+	void InitSubsystem(UInventoryComponent* Inventory, UEquipmentComponent* Equipment)
+	{
+		InventoryComponent = Inventory;
+		EquipmentComponent = Equipment;
+	}
+
+	UFUNCTION()
+	UInventoryPanel* GetContainerInventoryPanel() const
+	{
+		return ContainerInventoryPanel;
+	}
+	
+	UFUNCTION()
+	UInventoryComponent* GetInventoryComponent() const
+	{
+		return InventoryComponent;
+	}
+
+	UFUNCTION()
+	UEquipmentComponent* GetEquipmentComponent() const
+	{
+		return EquipmentComponent;
+	}
+
+private:
 	UPROPERTY()
 	TObjectPtr<UInventoryComponent> InventoryComponent;
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentComponent> EquipmentComponent;
+
+public:
 };

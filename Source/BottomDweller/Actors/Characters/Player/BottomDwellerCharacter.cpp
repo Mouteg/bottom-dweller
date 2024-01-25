@@ -7,6 +7,7 @@
 #include "BottomDweller/Actors/Components/WeaponComponent.h"
 #include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
 #include "BottomDweller/Controllers/PlayerInventoryController.h"
+#include "BottomDweller/UI/BottomDwellerHUD.h"
 #include "BottomDweller/Util/UUtils.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -87,11 +88,10 @@ void ABottomDwellerCharacter::RecalculateDamage()
 void ABottomDwellerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
-	PlayerInventoryController->InventoryComponent = InventoryComponent;
-	PlayerInventoryController->EquipmentComponent = EquipmentComponent;
-
-	Cast<ABottomDwellerPlayerController>(GetController())->InitializeHUD();
+	UPlayerInventoryController* PlayerInventorySubsystem = UUtils::GetInventorySubsystem(GetWorld());
+	PlayerInventorySubsystem->InitSubsystem(InventoryComponent, EquipmentComponent);
+	
+	Cast<ABottomDwellerHUD>(Cast<APlayerController>(GetController())->GetHUD())->InitializeHUD();
 }
 
 void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)

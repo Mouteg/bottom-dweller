@@ -5,6 +5,7 @@
 #include "ItemDataAsset.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
 #include "BottomDweller/Controllers/BottomDwellerPlayerController.h"
+#include "BottomDweller/Util/UUtils.h"
 #include "Engine/AssetManager.h"
 
 AItemContainer::AItemContainer()
@@ -23,9 +24,7 @@ void AItemContainer::OnInteract_Implementation(AActor* Interactor)
 	if (IsValid(Interactor))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Opened inter"));
-
-		ABottomDwellerPlayerController* BottomDwellerPlayerController = Cast<ABottomDwellerPlayerController>(Interactor->GetInstigatorController());
-		BottomDwellerPlayerController->OpenContainer(InventoryComponent);
+		UUtils::GetInventorySubsystem(GetWorld())->OpenContainer(InventoryComponent);
 	}
 }
 

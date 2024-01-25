@@ -10,7 +10,6 @@
 
 struct FGameplayTag;
 class UBaseAbilitySystemComponent;
-class UInventoryPanel;
 
 UCLASS()
 class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerController
@@ -18,12 +17,8 @@ class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerControlle
 	GENERATED_BODY()
 
 public:
-	void InitializeHUD();
-	
 	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
-	
-	void OpenContainer(TObjectPtr<UInventoryComponent> Object);
-	
+
 	ABottomDwellerPlayerController();
 
 	UFUNCTION(BlueprintPure, BlueprintCallable)
@@ -31,7 +26,7 @@ public:
 	{
 		return BodyPitch;
 	}
-	
+
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 	float GetSensitivity();
 
@@ -43,7 +38,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetGameMenuHidden();
-	
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -67,14 +62,7 @@ protected:
 	TObjectPtr<UBaseAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> HUDClass;
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> PlayerMenuWidgetSwitcherClass;
-	
-	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAbilityInputConfig> InputConfig;
-	
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -83,14 +71,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float BodyPitch;
 
-	UPROPERTY()
-	TObjectPtr<UUserWidget> PlayerMenuWidgetSwitcher;
-	
-	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
-
 	UPROPERTY(EditAnywhere)
 	float MaxBodyPitch;
-	
+
 	UPROPERTY(EditAnywhere)
 	float MinBodyPitch;
 
