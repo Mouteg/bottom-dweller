@@ -28,7 +28,7 @@ void UInventoryPanel::NativeConstruct()
 	SetInventory(UUtils::GetInventorySubsystem(GetWorld())->GetInventoryComponent());
 }
 
-void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent, FString ContainerName)
+void UInventoryPanel::SetInventory(UInventoryComponent* NewInventoryComponent, const FString& ContainerName)
 {
 	InventoryComponent = NewInventoryComponent;
 	InventoryDisplayName->SetText(FText::FromString(ContainerName));
@@ -48,5 +48,7 @@ void UInventoryPanel::Refresh()
 		UInventorySlotWidget* InventorySlot = CreateWidget<UInventorySlotWidget>(this, SlotWidget);
 		InventorySlots->AddChild(InventorySlot);
 		InventorySlot->InitSlot(ItemDetailsPanel, Pair.Key.Get(), Pair.Value);
+		InventorySlot->SetInventoryComponent(InventoryComponent);
+		
 	}
 }

@@ -65,7 +65,8 @@ void UUseItemAbility::MakeEffectSpecAndUseItem(UItemDataAsset* Item)
 	}
 	CurrentEffectSpec = Spec.Data.Get();
 	AddSetByCallers(&Item->ItemStatEffect);
-	UUtils::GetInventorySubsystem(GetWorld())->UseItem(Item, *CurrentEffectSpec);
+	
+	UUtils::GetInventorySubsystem(GetWorld())->GetInventoryComponent()->UseItem(Item, *CurrentEffectSpec);
 }
 
 void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)

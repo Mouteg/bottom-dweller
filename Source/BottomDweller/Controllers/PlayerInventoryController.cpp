@@ -3,7 +3,10 @@
 
 #include "PlayerInventoryController.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "BottomDwellerPlayerController.h"
+#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
+#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "BottomDweller/UI/PlayerMenu/Inventory/InventoryPanel.h"
 #include "BottomDweller/Util/UUtils.h"
 
@@ -15,6 +18,7 @@ void UPlayerInventoryController::Deinitialize()
 void UPlayerInventoryController::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
+	UseItemEventTag = Tag_Event_UseItem;
 }
 
 void UPlayerInventoryController::Equip(UItemDataAsset* Item)
@@ -32,9 +36,11 @@ void UPlayerInventoryController::RemoveItem(const UItemDataAsset* Item, const in
 	InventoryComponent->RemoveItem(Item, Quantity);
 }
 
-void UPlayerInventoryController::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec)
+void UPlayerInventoryController::UseItem(UItemDataAsset* Item)
 {
-	InventoryComponent->UseItem(Item, Spec);
+	FGameplayEventData EventData;
+	EventData.OptionalObject = Item;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(UUtils::GetPlayerController(GetWorld())->GetCharacter(), UseItemEventTag, EventData);
 }
 
 

@@ -19,6 +19,10 @@ class BOTTOMDWELLER_API UPlayerInventoryController : public UGameInstanceSubsyst
 	GENERATED_BODY()
 
 public:
+	
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTag UseItemEventTag;
+	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
 
@@ -43,7 +47,7 @@ public:
 	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
-	void UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec);
+	void UseItem(UItemDataAsset* Item);
 
 	UFUNCTION()
 	void InitSubsystem(UInventoryComponent* Inventory, UEquipmentComponent* Equipment)
@@ -57,7 +61,7 @@ public:
 	{
 		return ContainerInventoryPanel;
 	}
-	
+
 	UFUNCTION()
 	UInventoryComponent* GetInventoryComponent() const
 	{
@@ -69,7 +73,7 @@ public:
 	{
 		return EquipmentComponent;
 	}
-	
+
 	void SetContainerInventoryPanel(const TObjectPtr<UInventoryPanel> Inventory)
 	{
 		ContainerInventoryPanel = Inventory;

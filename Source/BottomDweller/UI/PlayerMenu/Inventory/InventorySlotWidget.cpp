@@ -6,23 +6,20 @@
 #include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
-#include "AbilitySystemBlueprintLibrary.h"
 #include "ItemDetailsPanel.h"
-#include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
-#include "GameFramework/Character.h"
+#include "BottomDweller/Util/UUtils.h"
 
 bool UInventorySlotWidget::Initialize()
 {
 	const bool bSuccess = Super::Initialize();
 	if (!bSuccess) return false;
-	UseItemEventTag = Tag_Event_UseItem;
 
 	return bSuccess;
 }
 
-void UInventorySlotWidget::InitSlot(UItemDetailsPanel* detailsPanel,UItemDataAsset* InventoryItem, int32 ItemQuantity)
+void UInventorySlotWidget::InitSlot(UItemDetailsPanel* DetailsPanel, UItemDataAsset* InventoryItem, const int32 ItemQuantity)
 {
-	ItemDetailsPanel = detailsPanel;
+	ItemDetailsPanel = DetailsPanel;
 	Item = InventoryItem;
 	Quantity = ItemQuantity;
 
@@ -34,7 +31,7 @@ void UInventorySlotWidget::InitSlot(UItemDetailsPanel* detailsPanel,UItemDataAss
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cant load item thumbnail"));
 	}
-	
+
 	if (Quantity > 1)
 	{
 		QuantityText->SetText(FText::AsNumber(Quantity));
@@ -66,9 +63,17 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InG
 {
 	if (Item)
 	{
-		FGameplayEventData EventData;
-		EventData.OptionalObject = Item;
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwningPlayer()->GetCharacter(), UseItemEventTag, EventData);
+		UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
+		// If we clicked on container slot or player INV slot
+		if (PlayerInventoryController->GetInventoryComponent() == InventoryComponent)
+		{
+			PlayerInventoryController->UseItem(Item);
+		}
+		else
+		{
+			PlayerInventoryController->AddItem(Item, Quantity);
+			InventoryComponent->RemoveItem(Item, Quantity);
+		}
 	}
 	return Super::NativeOnMouseButtonDoubleClick(InGeometry, InMouseEvent);
 }
