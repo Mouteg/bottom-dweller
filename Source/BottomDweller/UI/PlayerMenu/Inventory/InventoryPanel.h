@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryPanel.generated.h"
 
+class UButton;
 class UTextBlock;
 class UWrapBox;
 class UInventorySlotWidget;
@@ -24,6 +25,9 @@ public:
 	UFUNCTION()
 	void Refresh();
 
+	UFUNCTION()
+	void TakeAll();
+
 	void SetInventory(UInventoryComponent* NewInventoryComponent, const FString& ContainerName = "Inventory");
 
 	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel)
@@ -37,6 +41,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UTextBlock> InventoryDisplayName;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	TObjectPtr<UButton> TakeAllButton;
 
 	UPROPERTY()
 	TObjectPtr<UInventoryComponent> InventoryComponent;

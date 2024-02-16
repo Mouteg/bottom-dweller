@@ -31,6 +31,11 @@ int32 UPlayerInventoryController::AddItem(UItemDataAsset* Item, const int32 Quan
 	return InventoryComponent->AddItem(Item, Quantity);
 }
 
+void UPlayerInventoryController::AddItems(UInventoryComponent* Inventory)
+{
+	return InventoryComponent->AddItems(Inventory);
+}
+
 void UPlayerInventoryController::RemoveItem(const UItemDataAsset* Item, const int32 Quantity)
 {
 	InventoryComponent->RemoveItem(Item, Quantity);

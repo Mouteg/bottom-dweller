@@ -28,6 +28,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
+	
+	UFUNCTION(BlueprintCallable)
+	void AddItems(UInventoryComponent* Inventory);
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);

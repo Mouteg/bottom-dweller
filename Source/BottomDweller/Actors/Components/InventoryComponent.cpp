@@ -8,7 +8,6 @@
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "BottomDweller/DataAssets/Items/UsableItemDataAsset.h"
 #include "BottomDweller/Util/UUtils.h"
-#include "Kismet/GameplayStatics.h"
 
 UInventoryComponent::UInventoryComponent()
 {
@@ -60,7 +59,16 @@ int32 UInventoryComponent::AddItem(UItemDataAsset* Item, const int32 Quantity)
 	}
 
 	OnChange.Broadcast();
-	return AmountToReturn;
+	return Quantity -AmountToReturn;
+}
+
+void UInventoryComponent::AddItems(UInventoryComponent* Inventory)
+{
+	for (auto ItemQuantityPair : Inventory->GetInventoryContent())
+	{
+		const int32 ItemsAdded = AddItem(ItemQuantityPair.Key.Get(), ItemQuantityPair.Value);
+		Inventory->RemoveItem(ItemQuantityPair.Key.Get(), ItemsAdded);
+	}
 }
 
 void UInventoryComponent::RemoveItem(const UItemDataAsset* Item, const int32 Quantity)

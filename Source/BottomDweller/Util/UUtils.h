@@ -10,4 +10,7 @@ public:
 	static UPlayerInventoryController* GetInventorySubsystem(const UWorld* WorldContextObject);
 	static UPlayerInventoryController* GetInventorySubsystem(const AActor* Actor);
 	static ABottomDwellerPlayerController* GetPlayerController(const UWorld* World);
+
+	// Example: "UsableItem:DA_Potion"
+	static UItemDataAsset* GetItemDataAsset(const FString& ItemName);
 };

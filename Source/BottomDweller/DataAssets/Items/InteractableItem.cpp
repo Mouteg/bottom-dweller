@@ -29,7 +29,7 @@ void AInteractableItem::OnConstruction(const FTransform& Transform)
 
 void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
 {
-	Quantity = UUtils::GetInventorySubsystem(GetWorld())->AddItem(InventoryItem, Quantity);
+	Quantity -= UUtils::GetInventorySubsystem(GetWorld())->AddItem(InventoryItem, Quantity);
 	if (Quantity <= 0)
 	{
 		Destroy();

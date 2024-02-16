@@ -3,9 +3,7 @@
 
 #include "ItemContainer.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
-#include "BottomDweller/DataAssets/Items/ItemDataAsset.h"
 #include "BottomDweller/Util/UUtils.h"
-#include "Engine/AssetManager.h"
 
 AItemContainer::AItemContainer()
 {
@@ -30,6 +28,6 @@ void AItemContainer::OnInteract_Implementation(AActor* Interactor)
 void AItemContainer::BeginPlay()
 {
 	//For testing purposes
-	InventoryComponent->AddItem(Cast<UItemDataAsset>(UAssetManager::Get().GetPrimaryAssetObject(FPrimaryAssetId("UsableItem:DA_Potion"))));
+	InventoryComponent->AddItem(UUtils::GetItemDataAsset("UsableItem:DA_Potion"), 500);
 	Super::BeginPlay();
 }

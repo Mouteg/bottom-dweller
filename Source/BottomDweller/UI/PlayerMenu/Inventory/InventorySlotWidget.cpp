@@ -71,8 +71,8 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InG
 		}
 		else
 		{
-			PlayerInventoryController->AddItem(Item, Quantity);
-			InventoryComponent->RemoveItem(Item, Quantity);
+			const int32 ItemsAdded = PlayerInventoryController->AddItem(Item, Quantity);
+			InventoryComponent->RemoveItem(Item, ItemsAdded);
 		}
 	}
 	return Super::NativeOnMouseButtonDoubleClick(InGeometry, InMouseEvent);

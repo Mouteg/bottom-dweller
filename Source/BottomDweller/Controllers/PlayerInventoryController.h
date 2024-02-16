@@ -40,8 +40,12 @@ public:
 	UFUNCTION()
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryComponent->GetInventoryContent(); }
 
+	// Adds item, returns how many was added
 	UFUNCTION(BlueprintCallable)
 	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
+	
+	UFUNCTION(BlueprintCallable)
+	void AddItems(UInventoryComponent* Inventory);
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
