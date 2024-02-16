@@ -51,7 +51,7 @@ private:
 
 	bool CheckAnimations(const UWeaponItemDataAsset* Weapon) const;
 	void CreateComboOpeningTask();
-	void CreateAttackMontageTask(UAnimMontage* AttackMontage);
+	void CreateAttackMontageTask(UAnimMontage* AttackMontage, float AttackSpeed);
 	void DealDamage(const AActor* Target);
 
 	UPROPERTY()

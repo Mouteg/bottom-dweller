@@ -60,7 +60,7 @@ void UAttackAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 	GetBottomDwellerCharacterFromActorInfo()->WeaponComponent->OnHit.AddUniqueDynamic(this, &ThisClass::OnActorHit);
 	UAnimMontage* AttackMontage = WeaponAnimations->WeaponTypeAnimations[CurrentWeaponType].AnimMontages[ComboCounter].Get();
 
-	CreateAttackMontageTask(AttackMontage);
+	CreateAttackMontageTask(AttackMontage, Weapon->AttackSpeed);
 }
 
 void UAttackAbility::InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -145,13 +145,13 @@ void UAttackAbility::CreateComboOpeningTask()
 	bInitialized = false;
 }
 
-void UAttackAbility::CreateAttackMontageTask(UAnimMontage* AttackMontage)
+void UAttackAbility::CreateAttackMontageTask(UAnimMontage* AttackMontage, float AttackSpeed)
 {
 	AttackMontageTask = UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(
 		this,
 		TEXT("AttackMontageTask"),
 		AttackMontage,
-		InPlayRate
+		AttackSpeed
 	);
 	AttackMontageTask->OnBlendOut.AddUniqueDynamic(this, &ThisClass::AttackMontageEnded);
 	AttackMontageTask->OnCompleted.AddDynamic(this, &ThisClass::AttackCompleted);
