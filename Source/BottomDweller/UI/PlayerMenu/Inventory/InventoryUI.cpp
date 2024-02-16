@@ -22,6 +22,7 @@ bool UInventoryUI::Initialize()
 	{
 		InventoryPanel->SetItemDetailsPanel(ItemDetailsPanel);
 		ContainerInventoryPanel->SetItemDetailsPanel(ItemDetailsPanel);
+		ContainerInventoryPanel->SetVisibility(ESlateVisibility::Hidden);
 		EquippedItemsWidget->SetItemDetailsPanel(ItemDetailsPanel);
 	}
 

@@ -3,7 +3,9 @@
 
 #include "PlayerInventoryController.h"
 
+#include "BottomDwellerPlayerController.h"
 #include "BottomDweller/UI/PlayerMenu/Inventory/InventoryPanel.h"
+#include "BottomDweller/Util/UUtils.h"
 
 void UPlayerInventoryController::Deinitialize()
 {
@@ -36,10 +38,13 @@ void UPlayerInventoryController::UseItem(UItemDataAsset* Item, FGameplayEffectSp
 }
 
 
-void UPlayerInventoryController::OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, FString ContainerName)
+void UPlayerInventoryController::OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName)
 {
 	if (IsValid(ContainerInventoryPanel))
 	{
+		ABottomDwellerPlayerController* BottomDwellerPlayerController = UUtils::GetPlayerController(GetWorld());
+		BottomDwellerPlayerController->SetGameMenuVisible();
+		ContainerInventoryPanel->SetVisibility(ESlateVisibility::Visible);
 		ContainerInventoryPanel->SetInventory(ContainerInventoryComponent, ContainerName);
 	}
 
