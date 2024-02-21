@@ -8,46 +8,40 @@
 #include "EquipmentComponent.generated.h"
 
 
+class UGearItemDataAsset;
 class UWeaponItemDataAsset;
 class UItemDataAsset;
 enum class EItemType : uint8;
 
-USTRUCT(BlueprintType)
-struct FInventory_EquipmentState
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<UWeaponItemDataAsset> Weapon;
-};
-
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class BOTTOMDWELLER_API UEquipmentComponent : public UActorComponent
-{
+class BOTTOMDWELLER_API UEquipmentComponent : public UActorComponent {
 	GENERATED_BODY()
 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UItemDataAsset*, Item, EItemType, Slot);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentStateChange, UGearItemDataAsset*, Item, EItemType, Slot);
 
 public:
 	// Sets default values for this component's properties
 	UEquipmentComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void Equip(UItemDataAsset* Item);
+	void Equip(UGearItemDataAsset* Item);
 
-	UFUNCTION()
-	FInventory_EquipmentState GetEquipmentState() const { return EquipmentState; }
+	void Unequip(EItemType ItemType);
 
 	UPROPERTY()
 	FOnEquipmentStateChange OnEquipmentStateChange;
+
+	FORCEINLINE TMap<EItemType, UGearItemDataAsset*> GetEquipmentState() const {
+		return EquipmentState;
+	}
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 private:
-	void ChangeWeapon(UWeaponItemDataAsset* Item);
+	void ChangeEquipment(UGearItemDataAsset* Item);
 
 	UPROPERTY(EditAnywhere)
-	FInventory_EquipmentState EquipmentState;
+	TMap<EItemType, UGearItemDataAsset*> EquipmentState;
 };

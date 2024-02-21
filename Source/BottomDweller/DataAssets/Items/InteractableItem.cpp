@@ -9,8 +9,7 @@
 
 
 // Sets default values
-AInteractableItem::AInteractableItem()
-{
+AInteractableItem::AInteractableItem() {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Item mesh");
@@ -18,25 +17,20 @@ AInteractableItem::AInteractableItem()
 	StaticMesh->SetRenderCustomDepth(true);
 }
 
-void AInteractableItem::OnConstruction(const FTransform& Transform)
-{
+void AInteractableItem::OnConstruction(const FTransform& Transform) {
 	Super::OnConstruction(Transform);
-	if (InventoryItem && StaticMesh)
-	{
+	if (InventoryItem && StaticMesh) {
 		StaticMesh->SetStaticMesh(InventoryItem->Mesh.Get());
 	}
 }
 
-void AInteractableItem::OnInteract_Implementation(AActor* Interactor)
-{
+void AInteractableItem::OnInteract_Implementation(AActor* Interactor) {
 	Quantity -= UUtils::GetInventorySubsystem(GetWorld())->AddItem(InventoryItem, Quantity);
-	if (Quantity <= 0)
-	{
+	if (Quantity <= 0) {
 		Destroy();
 	}
 }
 
-FString AInteractableItem::GetInspectorDescription_Implementation() const
-{
+FString AInteractableItem::GetInspectorDescription_Implementation() const {
 	return InspectorDescription;
 }

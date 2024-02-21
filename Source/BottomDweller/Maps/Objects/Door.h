@@ -8,15 +8,13 @@
 #include "Door.generated.h"
 
 UENUM(BlueprintType)
-enum class EDoorOpenType : uint8
-{
+enum class EDoorOpenType : uint8 {
 	Rotation,
 	Slide
 };
 
 UCLASS()
-class BOTTOMDWELLER_API ADoor : public AActor, public IActivatable
-{
+class BOTTOMDWELLER_API ADoor : public AActor, public IActivatable {
 	GENERATED_BODY()
 
 public:

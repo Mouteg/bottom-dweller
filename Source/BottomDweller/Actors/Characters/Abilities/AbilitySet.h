@@ -11,12 +11,10 @@
 class UBaseGameplayAbility;
 
 USTRUCT(BlueprintType)
-struct FAbilitySet_GameplayAbility
-{
+struct FAbilitySet_GameplayAbility {
 	GENERATED_BODY()
 
 public:
-
 	// Gameplay ability to grant.
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UBaseGameplayAbility> Ability = nullptr;
@@ -31,12 +29,10 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FAbilitySet_GameplayEffect
-{
+struct FAbilitySet_GameplayEffect {
 	GENERATED_BODY()
 
 public:
-
 	// Gameplay effect to grant.
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> GameplayEffect = nullptr;
@@ -47,24 +43,20 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FAbilitySet_AttributeSet
-{
+struct FAbilitySet_AttributeSet {
 	GENERATED_BODY()
 
 public:
 	// Gameplay effect to grant.
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UAttributeSet> AttributeSet;
-
 };
 
 USTRUCT(BlueprintType)
-struct FAbilitySet_GrantedHandles
-{
+struct FAbilitySet_GrantedHandles {
 	GENERATED_BODY()
 
 public:
-
 	void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle);
 	void AddGameplayEffectHandle(const FActiveGameplayEffectHandle& Handle);
 	void AddAttributeSet(UAttributeSet* Set);
@@ -72,7 +64,6 @@ public:
 	void TakeFromAbilitySystem(UBaseAbilitySystemComponent* ASC);
 
 protected:
-
 	// Handles to the granted abilities.
 	UPROPERTY()
 	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
@@ -87,15 +78,13 @@ protected:
 };
 
 UCLASS()
-class BOTTOMDWELLER_API UAbilitySet : public UPrimaryDataAsset
-{
+class BOTTOMDWELLER_API UAbilitySet : public UPrimaryDataAsset {
 	GENERATED_BODY()
+
 public:
-	
 	void GiveToAbilitySystem(UBaseAbilitySystemComponent* ASC, FAbilitySet_GrantedHandles* OutGrantedHandles = nullptr, UObject* SourceObject = nullptr) const;
 
 protected:
-
 	// Gameplay abilities to grant when this ability set is granted.
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay Abilities", meta=(TitleProperty=Ability))
 	TArray<FAbilitySet_GameplayAbility> GrantedGameplayAbilities;

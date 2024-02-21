@@ -11,8 +11,7 @@
 
 class UPlayerInventoryController;
 
-UUseItemAbility::UUseItemAbility()
-{
+UUseItemAbility::UUseItemAbility() {
 	FAbilityTriggerData TriggerData;
 	TriggerData.TriggerSource = EGameplayAbilityTriggerSource::GameplayEvent;
 	TriggerData.TriggerTag = Tag_Event_UseItem;
@@ -20,13 +19,11 @@ UUseItemAbility::UUseItemAbility()
 }
 
 void UUseItemAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-                                      const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
-{
+                                      const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	UItemDataAsset* Item = CastChecked<UItemDataAsset>(TriggerEventData->OptionalObject);
 
-	if (!Item)
-	{
+	if (!Item) {
 		return;
 	}
 
@@ -39,38 +36,32 @@ void UUseItemAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, c
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);
 }
 
-void UUseItemAbility::MakeEffectSpecAndUseItem(UItemDataAsset* Item)
-{
+void UUseItemAbility::MakeEffectSpecAndUseItem(UItemDataAsset* Item) {
 	FGameplayEffectSpecHandle Spec;
-	switch (Item->ItemType)
-	{
-	case EItemType::Weapon:
-		{
-			Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
-			// Spec.Data->
-			break;
-		}
-	case EItemType::Armor:
-		{
-			Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
-			// Spec.Data->
-			break;
-		}
-	case EItemType::Consumable:
-		{
-			Spec = MakeOutgoingGameplayEffectSpec(InstantEffect);
-			break;
-		}
+	switch (Item->ItemType) {
+	case EItemType::Weapon: {
+		Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
+		// Spec.Data->
+		break;
+	}
+	case EItemType::Armor: {
+		Spec = MakeOutgoingGameplayEffectSpec(InfiniteEffect);
+		// Spec.Data->
+		break;
+	}
+	case EItemType::Consumable: {
+		Spec = MakeOutgoingGameplayEffectSpec(InstantEffect);
+		break;
+	}
 	default: return;
 	}
 	CurrentEffectSpec = Spec.Data.Get();
 	AddSetByCallers(&Item->ItemStatEffect);
-	
+
 	UUtils::GetInventorySubsystem(GetWorld())->GetInventoryComponent()->UseItem(Item, *CurrentEffectSpec);
 }
 
-void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)
-{
+void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect) {
 	AddSetByCaller(Tag_Attribute_MaxHealth, ItemStatEffect->MaxHealth);
 	AddSetByCaller(Tag_Attribute_Health, ItemStatEffect->Health);
 	AddSetByCaller(Tag_Attribute_HealthRegen, ItemStatEffect->HealthRegen);
@@ -98,7 +89,6 @@ void UUseItemAbility::AddSetByCallers(const FItemStatEffect* ItemStatEffect)
 }
 
 
-void UUseItemAbility::AddSetByCaller(FGameplayTag Tag, float Magnitude)
-{
+void UUseItemAbility::AddSetByCaller(FGameplayTag Tag, float Magnitude) {
 	CurrentEffectSpec->SetByCallerTagMagnitudes.Add(Tag, Magnitude);
 }

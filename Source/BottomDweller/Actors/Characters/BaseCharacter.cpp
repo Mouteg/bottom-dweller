@@ -6,32 +6,25 @@
 #include "Abilities/TagDeclarations.h"
 
 
-ABaseCharacter::ABaseCharacter()
-{
+ABaseCharacter::ABaseCharacter() {
 	PrimaryActorTick.bCanEverTick = false;
 
 	AbilitySystemComponent = CreateDefaultSubobject<UBaseAbilitySystemComponent>(TEXT("Ability System Component"));
 }
 
-void ABaseCharacter::BeginPlay()
-{
+void ABaseCharacter::BeginPlay() {
 	Super::BeginPlay();
-	if (AbilitySet && AbilitySystemComponent)
-	{
+	if (AbilitySet && AbilitySystemComponent) {
 		AbilitySet->GiveToAbilitySystem(AbilitySystemComponent, nullptr, this);
 		AbilitySystemComponent->RegisterGameplayTagEvent(Tag_Gameplay_Dead, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ThisClass::DeathTagChanged);
 	}
 }
 
-void ABaseCharacter::DeathTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
-{
-	if (NewCount > 0)
-	{
+void ABaseCharacter::DeathTagChanged(const FGameplayTag CallbackTag, int32 NewCount) {
+	if (NewCount > 0) {
 		Destroy();
 	}
 }
 
-void ABaseCharacter::OnActorLoaded_Implementation()
-{
-	
+void ABaseCharacter::OnActorLoaded_Implementation() {
 }

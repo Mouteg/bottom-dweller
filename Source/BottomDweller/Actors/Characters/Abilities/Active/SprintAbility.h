@@ -10,8 +10,7 @@
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API USprintAbility : public UBaseGameplayAbility
-{
+class BOTTOMDWELLER_API USprintAbility : public UBaseGameplayAbility {
 	GENERATED_BODY()
 
 public:

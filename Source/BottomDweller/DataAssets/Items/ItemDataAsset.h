@@ -8,16 +8,14 @@
 
 
 UENUM(BlueprintType)
-enum class EItemType : uint8
-{
+enum class EItemType : uint8 {
 	Weapon UMETA(DisplayName = "Weapon"),
 	Armor UMETA(DisplayName = "Armor"),
 	Consumable UMETA(DisplayName = "Usable")
 };
 
 USTRUCT(BlueprintType)
-struct FItemStatEffect
-{
+struct FItemStatEffect {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, Category=Health)
@@ -26,21 +24,21 @@ struct FItemStatEffect
 	float Health = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Health)
 	float HealthRegen = 0;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
 	float MaxStamina = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
 	float Stamina = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
 	float StaminaRegen = 0;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category=Mana)
 	float MaxMana = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Mana)
 	float Mana = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Mana)
 	float ManaRegen = 0;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
 	float Dexterity = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
@@ -49,7 +47,7 @@ struct FItemStatEffect
 	float Intelligence = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Attributes)
 	float Luck = 0;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
 	float SlashingDamage = 0;
 	UPROPERTY(EditDefaultsOnly, Category=Damage)
@@ -66,15 +64,13 @@ struct FItemStatEffect
 };
 
 UCLASS(Abstract)
-class BOTTOMDWELLER_API UItemDataAsset : public UBaseDataAsset
-{
+class BOTTOMDWELLER_API UItemDataAsset : public UBaseDataAsset {
 	GENERATED_BODY()
 
 public:
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EItemType ItemType;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FName DisplayName;
 
@@ -83,13 +79,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<UTexture2D> Thumbnail;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<UStaticMesh> Mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FItemStatEffect ItemStatEffect;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float Cost;
 

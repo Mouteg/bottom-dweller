@@ -13,8 +13,7 @@ class UAbilityTask_PlayMontageAndWait;
 enum class EWeaponType : uint8;
 
 UCLASS()
-class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility
-{
+class BOTTOMDWELLER_API UAttackAbility : public UBaseGameplayAbility {
 	GENERATED_BODY()
 
 public:

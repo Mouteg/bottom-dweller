@@ -13,19 +13,19 @@ public class BottomDweller : ModuleRules
 			"Core",
 			"CoreUObject",
 			"Engine",
-			"InputCore", 
-			"HeadMountedDisplay", 
-			"UMG", 
-			"EnhancedInput", 
-			"SlateCore" ,
+			"InputCore",
+			"HeadMountedDisplay",
+			"UMG",
+			"EnhancedInput",
+			"SlateCore",
 			"DeveloperSettings",
 			"AIModule"
 		});
-		
+
 		PublicDependencyModuleNames.AddRange(new[]
 		{
-			"GameplayAbilities", 
-			"GameplayTags", 
+			"GameplayAbilities",
+			"GameplayTags",
 			"GameplayTasks"
 		});
 	}

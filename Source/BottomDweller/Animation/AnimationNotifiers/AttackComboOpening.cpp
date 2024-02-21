@@ -8,13 +8,11 @@
 #include "BottomDweller/Actors/Characters/Abilities/TagDeclarations.h"
 
 
-void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated)
-{
-	if (!Owner->GetOwner())
-	{
+void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated) {
+	if (!Owner->GetOwner()) {
 		return;
 	}
-	
+
 	FGameplayEventData EventData;
 	EventData.Instigator = Owner->GetOwner();
 	EventData.EventMagnitude = bActivated;
@@ -22,15 +20,12 @@ void UAttackComboOpening::SendEvent(AActor* Owner, bool bActivated)
 }
 
 void UAttackComboOpening::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration,
-                                      const FAnimNotifyEventReference& EventReference)
-{
+                                      const FAnimNotifyEventReference& EventReference) {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
 	SendEvent(MeshComp->GetOwner(), true);
 }
 
-void UAttackComboOpening::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
-{
+void UAttackComboOpening::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) {
 	Super::NotifyEnd(MeshComp, Animation, EventReference);
 	SendEvent(MeshComp->GetOwner(), false);
-
 }

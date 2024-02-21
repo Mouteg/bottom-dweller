@@ -7,16 +7,14 @@
 #include "GearItemDataAsset.generated.h"
 
 UCLASS()
-class BOTTOMDWELLER_API UGearItemDataAsset : public UItemDataAsset
-{
+class BOTTOMDWELLER_API UGearItemDataAsset : public UItemDataAsset {
 	GENERATED_BODY()
-	
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AssetBundles="Items"))
 	TSoftObjectPtr<USkeletalMesh> SkeletalMesh;
 
-	virtual FPrimaryAssetId GetPrimaryAssetId() const override
-	{
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override {
 		return FPrimaryAssetId(TEXT("GearItem"), GetFName());
 	}
 };

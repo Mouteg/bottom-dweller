@@ -5,20 +5,19 @@
 #include "CoreMinimal.h"
 #include "InventoryPanel.h"
 #include "Blueprint/UserWidget.h"
+#include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
 #include "InventorySlotWidget.generated.h"
 
 class UBorder;
 
 UCLASS()
-class BOTTOMDWELLER_API UInventorySlotWidget : public UUserWidget
-{
+class BOTTOMDWELLER_API UInventorySlotWidget : public UUserWidget {
 	GENERATED_BODY()
 
 public:
 	virtual bool Initialize() override;
 
-	void SetInventoryComponent(const TObjectPtr<UInventoryComponent>& OwnerInventoryComponent)
-	{
+	void SetInventoryComponent(const TObjectPtr<UInventoryComponent>& OwnerInventoryComponent) {
 		InventoryComponent = OwnerInventoryComponent;
 	}
 

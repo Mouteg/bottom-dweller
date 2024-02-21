@@ -10,9 +10,9 @@
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API ABottomDwellerHUD final : public AHUD
-{
+class BOTTOMDWELLER_API ABottomDwellerHUD final : public AHUD {
 	GENERATED_BODY()
+
 public:
 	ABottomDwellerHUD();
 	void InitializeHUD();

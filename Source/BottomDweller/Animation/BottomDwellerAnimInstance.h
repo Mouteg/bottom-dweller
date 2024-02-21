@@ -12,8 +12,7 @@ class UAbilitySystemComponent;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UBottomDwellerAnimInstance : public UAnimInstance
-{
+class BOTTOMDWELLER_API UBottomDwellerAnimInstance : public UAnimInstance {
 	GENERATED_BODY()
 
 protected:

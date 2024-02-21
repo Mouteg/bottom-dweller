@@ -3,11 +3,9 @@
 
 #include "BottomDwellerAbilitySystemGlobals.h"
 
-UBottomDwellerAbilitySystemGlobals::UBottomDwellerAbilitySystemGlobals()
-{
+UBottomDwellerAbilitySystemGlobals::UBottomDwellerAbilitySystemGlobals() {
 }
 
-FGameplayEffectContext* UBottomDwellerAbilitySystemGlobals::AllocGameplayEffectContext() const
-{
+FGameplayEffectContext* UBottomDwellerAbilitySystemGlobals::AllocGameplayEffectContext() const {
 	return new FCustomGameplayEffectContext();
 }

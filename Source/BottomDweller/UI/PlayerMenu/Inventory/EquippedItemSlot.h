@@ -12,8 +12,7 @@ enum class EItemType : uint8;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UEquippedItemSlot : public UInventorySlotWidget
-{
+class BOTTOMDWELLER_API UEquippedItemSlot : public UInventorySlotWidget {
 	GENERATED_BODY()
 
 public:

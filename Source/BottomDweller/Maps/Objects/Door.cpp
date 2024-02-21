@@ -3,8 +3,7 @@
 
 #include "Door.h"
 
-ADoor::ADoor()
-{
+ADoor::ADoor() {
 	PrimaryActorTick.bCanEverTick = false;
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door Mesh"));
 	SetRootComponent(MeshComponent);
@@ -14,51 +13,41 @@ ADoor::ADoor()
 }
 
 // Called when the game starts or when spawned
-void ADoor::BeginPlay()
-{
+void ADoor::BeginPlay() {
 	Super::BeginPlay();
 }
 
 
-void ADoor::AutoClose()
-{
+void ADoor::AutoClose() {
 	IsTimerLocked = false;
 	ChangeDoorState();
 }
 
-void ADoor::Activate_Implementation()
-{
-	if (IsTimerLocked)
-	{
+void ADoor::Activate_Implementation() {
+	if (IsTimerLocked) {
 		return;
 	}
 
 	ChangeDoorState();
 
-	if (bAutoClose)
-	{
+	if (bAutoClose) {
 		FTimerHandle TimerHandle;
 		IsTimerLocked = true;
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &ADoor::AutoClose, Delay, false);
 	}
 }
 
-void ADoor::ChangeDoorState()
-{
-	switch (OpenType)
-	{
-	case EDoorOpenType::Rotation:
-		{
-			SetActorRelativeRotation(GetActorRotation() + (bIsOpened ? OpenAngle.GetInverse() : OpenAngle));
-			break;
-		}
-	case EDoorOpenType::Slide:
-		{
-			SetActorLocation(GetActorLocation() + (bIsOpened ? -OpenOffset : OpenOffset));
-			break;
-		}
+void ADoor::ChangeDoorState() {
+	switch (OpenType) {
+	case EDoorOpenType::Rotation: {
+		SetActorRelativeRotation(GetActorRotation() + (bIsOpened ? OpenAngle.GetInverse() : OpenAngle));
+		break;
+	}
+	case EDoorOpenType::Slide: {
+		SetActorLocation(GetActorLocation() + (bIsOpened ? -OpenOffset : OpenOffset));
+		break;
+	}
 	default: ;
 	}
 	bIsOpened = !bIsOpened;
 }
-

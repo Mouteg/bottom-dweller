@@ -3,7 +3,6 @@
 
 #include "SaveGameSettings.h"
 
-USaveGameSettings::USaveGameSettings()
-{
+USaveGameSettings::USaveGameSettings() {
 	SaveSlotName = "SaveGame01";
 }

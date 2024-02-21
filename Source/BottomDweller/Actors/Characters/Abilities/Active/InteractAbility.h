@@ -7,8 +7,7 @@
 #include "InteractAbility.generated.h"
 
 UCLASS()
-class BOTTOMDWELLER_API UInteractAbility : public UBaseGameplayAbility
-{
+class BOTTOMDWELLER_API UInteractAbility : public UBaseGameplayAbility {
 	GENERATED_BODY()
 
 protected:

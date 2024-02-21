@@ -7,8 +7,7 @@
 #include "BaseAbilitySystemComponent.generated.h"
 
 UCLASS()
-class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemComponent
-{
+class BOTTOMDWELLER_API UBaseAbilitySystemComponent : public UAbilitySystemComponent {
 	GENERATED_BODY()
 
 public:

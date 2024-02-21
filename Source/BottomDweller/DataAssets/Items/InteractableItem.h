@@ -11,8 +11,7 @@
 class UItemDataAsset;
 
 UCLASS()
-class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable, public ISaveable
-{
+class BOTTOMDWELLER_API AInteractableItem : public AActor, public IInteractable, public ISaveable {
 	GENERATED_BODY()
 
 public:
@@ -24,7 +23,6 @@ public:
 	virtual FString GetInspectorDescription_Implementation() const override;
 
 private:
-	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UItemDataAsset> InventoryItem;
 

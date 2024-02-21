@@ -4,20 +4,16 @@
 #include "BottomDwellerAnimInstance.h"
 #include "AbilitySystemGlobals.h"
 
-void UBottomDwellerAnimInstance::InitializeWithAbilitySystem(UAbilitySystemComponent* ASC)
-{
+void UBottomDwellerAnimInstance::InitializeWithAbilitySystem(UAbilitySystemComponent* ASC) {
 	check(ASC);
 	GameplayTagPropertyMap.Initialize(this, ASC);
 }
 
-void UBottomDwellerAnimInstance::NativeInitializeAnimation()
-{
+void UBottomDwellerAnimInstance::NativeInitializeAnimation() {
 	Super::NativeInitializeAnimation();
 
-	if (AActor* OwningActor = GetOwningActor())
-	{
-		if (UAbilitySystemComponent* ASC = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor))
-		{
+	if (AActor* OwningActor = GetOwningActor()) {
+		if (UAbilitySystemComponent* ASC = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor)) {
 			InitializeWithAbilitySystem(ASC);
 		}
 	}

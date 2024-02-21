@@ -17,13 +17,11 @@
 
 class UPlayerInventoryController;
 
-ABottomDwellerCharacter::ABottomDwellerCharacter()
-{
+ABottomDwellerCharacter::ABottomDwellerCharacter() {
 	InitActorComponents();
 }
 
-void ABottomDwellerCharacter::InitActorComponents()
-{
+void ABottomDwellerCharacter::InitActorComponents() {
 	WalkSpeed = 350;
 	AttackWalkSpeed = 250;
 
@@ -70,8 +68,7 @@ void ABottomDwellerCharacter::InitActorComponents()
 	PointLight->SetupAttachment(FollowCamera);
 }
 
-void ABottomDwellerCharacter::RecalculateDamage()
-{
+void ABottomDwellerCharacter::RecalculateDamage() {
 	const UPlayerAttributeSet* PlayerAttributeSet =
 		Cast<const UPlayerAttributeSet>(AbilitySystemComponent->GetAttributeSet(UPlayerAttributeSet::StaticClass()));
 
@@ -85,19 +82,16 @@ void ABottomDwellerCharacter::RecalculateDamage()
 	AbilitySystemComponent->SetNumericAttributeBase(UBaseAttributeSet::GetPiercingDamageAttribute(), PiercingDamage);
 }
 
-void ABottomDwellerCharacter::BeginPlay()
-{
+void ABottomDwellerCharacter::BeginPlay() {
 	Super::BeginPlay();
 	UPlayerInventoryController* PlayerInventorySubsystem = UUtils::GetInventorySubsystem(GetWorld());
 	PlayerInventorySubsystem->InitSubsystem(InventoryComponent, EquipmentComponent);
-	
+
 	Cast<ABottomDwellerHUD>(Cast<APlayerController>(GetController())->GetHUD())->InitializeHUD();
 }
 
-void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
-{
-	if ((Controller != nullptr) && (ForwardValue != 0.0f || RightValue != 0.0f))
-	{
+void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue) {
+	if ((Controller != nullptr) && (ForwardValue != 0.0f || RightValue != 0.0f)) {
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -112,27 +106,22 @@ void ABottomDwellerCharacter::Move(float ForwardValue, float RightValue)
 	}
 }
 
-void ABottomDwellerCharacter::OnActorLoaded_Implementation()
-{
+void ABottomDwellerCharacter::OnActorLoaded_Implementation() {
 	Super::OnActorLoaded_Implementation();
 }
 
-void ABottomDwellerCharacter::BeginAttack_Implementation()
-{
+void ABottomDwellerCharacter::BeginAttack_Implementation() {
 	GetCharacterMovement()->MaxWalkSpeed = AttackWalkSpeed;
 }
 
-void ABottomDwellerCharacter::EndAttack_Implementation()
-{
+void ABottomDwellerCharacter::EndAttack_Implementation() {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
-void ABottomDwellerCharacter::EnableWeaponTracing_Implementation()
-{
+void ABottomDwellerCharacter::EnableWeaponTracing_Implementation() {
 	WeaponComponent->SetCanTrace(true);
 }
 
-void ABottomDwellerCharacter::DisableWeaponTracing_Implementation()
-{
+void ABottomDwellerCharacter::DisableWeaponTracing_Implementation() {
 	WeaponComponent->SetCanTrace(false);
 }

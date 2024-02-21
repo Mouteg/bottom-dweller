@@ -14,15 +14,13 @@ class UInventoryComponent;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UPlayerInventoryController : public UGameInstanceSubsystem
-{
+class BOTTOMDWELLER_API UPlayerInventoryController : public UGameInstanceSubsystem {
 	GENERATED_BODY()
 
 public:
-	
 	UPROPERTY(EditDefaultsOnly)
 	FGameplayTag UseItemEventTag;
-	
+
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
 
@@ -32,10 +30,15 @@ public:
 	void OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName);
 
 	UFUNCTION(BlueprintCallable)
-	void Equip(UItemDataAsset* Item);
+	void Equip(UGearItemDataAsset* Item);
 
-	UFUNCTION()
-	FInventory_EquipmentState GetEquipmentState() const { return EquipmentComponent->GetEquipmentState(); }
+	UFUNCTION(BlueprintCallable)
+	void Unequip(EItemType Slot);
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE TMap<EItemType, UGearItemDataAsset*> GetEquipmentState() const {
+		return EquipmentComponent->GetEquipmentState();
+	}
 
 	UFUNCTION()
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryComponent->GetInventoryContent(); }
@@ -43,7 +46,7 @@ public:
 	// Adds item, returns how many was added
 	UFUNCTION(BlueprintCallable)
 	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
-	
+
 	UFUNCTION(BlueprintCallable)
 	void AddItems(UInventoryComponent* Inventory);
 
@@ -54,32 +57,27 @@ public:
 	void UseItem(UItemDataAsset* Item);
 
 	UFUNCTION()
-	void InitSubsystem(UInventoryComponent* Inventory, UEquipmentComponent* Equipment)
-	{
+	void InitSubsystem(UInventoryComponent* Inventory, UEquipmentComponent* Equipment) {
 		InventoryComponent = Inventory;
 		EquipmentComponent = Equipment;
 	}
 
 	UFUNCTION()
-	UInventoryPanel* GetContainerInventoryPanel() const
-	{
+	UInventoryPanel* GetContainerInventoryPanel() const {
 		return ContainerInventoryPanel;
 	}
 
 	UFUNCTION()
-	UInventoryComponent* GetInventoryComponent() const
-	{
+	UInventoryComponent* GetInventoryComponent() const {
 		return InventoryComponent;
 	}
 
 	UFUNCTION()
-	UEquipmentComponent* GetEquipmentComponent() const
-	{
+	UEquipmentComponent* GetEquipmentComponent() const {
 		return EquipmentComponent;
 	}
 
-	void SetContainerInventoryPanel(const TObjectPtr<UInventoryPanel> Inventory)
-	{
+	void SetContainerInventoryPanel(const TObjectPtr<UInventoryPanel> Inventory) {
 		ContainerInventoryPanel = Inventory;
 	}
 

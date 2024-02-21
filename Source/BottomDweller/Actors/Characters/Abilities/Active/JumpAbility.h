@@ -10,8 +10,7 @@
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UJumpAbility : public UBaseGameplayAbility
-{
+class BOTTOMDWELLER_API UJumpAbility : public UBaseGameplayAbility {
 	GENERATED_BODY()
 
 public:
@@ -20,5 +19,6 @@ public:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 	                             const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-		const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const override;
+	                                const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
+	                                FGameplayTagContainer* OptionalRelevantTags) const override;
 };

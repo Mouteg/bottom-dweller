@@ -11,8 +11,7 @@
 //------------------------------NOT USED------------------------------\\
 
 UCLASS()
-class BOTTOMDWELLER_API UItemEffectCalculation : public UGameplayEffectExecutionCalculation
-{
+class BOTTOMDWELLER_API UItemEffectCalculation : public UGameplayEffectExecutionCalculation {
 	GENERATED_BODY()
 
 public:
@@ -25,5 +24,4 @@ public:
 
 private:
 	mutable FGameplayEffectCustomExecutionOutput* CurrentOutExecutionOutput;
-	
 };

@@ -4,54 +4,42 @@
 #include "AbilitySet.h"
 #include "BaseGameplayAbility.h"
 
-void FAbilitySet_GrantedHandles::AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle)
-{
-	if (Handle.IsValid())
-	{
+void FAbilitySet_GrantedHandles::AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle) {
+	if (Handle.IsValid()) {
 		AbilitySpecHandles.Add(Handle);
 	}
 }
 
-void FAbilitySet_GrantedHandles::AddGameplayEffectHandle(const FActiveGameplayEffectHandle& Handle)
-{
-	if (Handle.IsValid())
-	{
+void FAbilitySet_GrantedHandles::AddGameplayEffectHandle(const FActiveGameplayEffectHandle& Handle) {
+	if (Handle.IsValid()) {
 		GameplayEffectHandles.Add(Handle);
 	}
 }
 
-void FAbilitySet_GrantedHandles::AddAttributeSet(UAttributeSet* Set)
-{
+void FAbilitySet_GrantedHandles::AddAttributeSet(UAttributeSet* Set) {
 	GrantedAttributeSets.Add(Set);
 }
 
-void FAbilitySet_GrantedHandles::TakeFromAbilitySystem(UBaseAbilitySystemComponent* ASC)
-{
+void FAbilitySet_GrantedHandles::TakeFromAbilitySystem(UBaseAbilitySystemComponent* ASC) {
 	check(ASC);
 
-	if (!ASC->IsOwnerActorAuthoritative())
-	{
+	if (!ASC->IsOwnerActorAuthoritative()) {
 		return;
 	}
 
-	for (const FGameplayAbilitySpecHandle& Handle : AbilitySpecHandles)
-	{
-		if (Handle.IsValid())
-		{
+	for (const FGameplayAbilitySpecHandle& Handle : AbilitySpecHandles) {
+		if (Handle.IsValid()) {
 			ASC->ClearAbility(Handle);
 		}
 	}
 
-	for (const FActiveGameplayEffectHandle& Handle : GameplayEffectHandles)
-	{
-		if (Handle.IsValid())
-		{
+	for (const FActiveGameplayEffectHandle& Handle : GameplayEffectHandles) {
+		if (Handle.IsValid()) {
 			ASC->RemoveActiveGameplayEffect(Handle);
 		}
 	}
 
-	for (UAttributeSet* Set : GrantedAttributeSets)
-	{
+	for (UAttributeSet* Set : GrantedAttributeSets) {
 		ASC->RemoveSpawnedAttribute(Set);
 	}
 
@@ -60,20 +48,16 @@ void FAbilitySet_GrantedHandles::TakeFromAbilitySystem(UBaseAbilitySystemCompone
 	GrantedAttributeSets.Reset();
 }
 
-void UAbilitySet::GiveToAbilitySystem(UBaseAbilitySystemComponent* ASC, FAbilitySet_GrantedHandles* OutGrantedHandles, UObject* SourceObject) const
-{
+void UAbilitySet::GiveToAbilitySystem(UBaseAbilitySystemComponent* ASC, FAbilitySet_GrantedHandles* OutGrantedHandles, UObject* SourceObject) const {
 	check(ASC);
 
-	if (!ASC->IsOwnerActorAuthoritative())
-	{
+	if (!ASC->IsOwnerActorAuthoritative()) {
 		return;
 	}
 
-	for (int32 AbilityIndex = 0; AbilityIndex < GrantedGameplayAbilities.Num(); AbilityIndex++)
-	{
+	for (int32 AbilityIndex = 0; AbilityIndex < GrantedGameplayAbilities.Num(); AbilityIndex++) {
 		const FAbilitySet_GameplayAbility& AbilityToGrant = GrantedGameplayAbilities[AbilityIndex];
-		if (!IsValid(AbilityToGrant.Ability))
-		{
+		if (!IsValid(AbilityToGrant.Ability)) {
 			UE_LOG(LogTemp, Error, TEXT("GrantedGameplayAbilities[%d] on ability set [%s] is not valid."), AbilityIndex, *GetNameSafe(this));
 			continue;
 		}
@@ -84,18 +68,15 @@ void UAbilitySet::GiveToAbilitySystem(UBaseAbilitySystemComponent* ASC, FAbility
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilityToGrant.InputTag);
 		const FGameplayAbilitySpecHandle AbilitySpecHandle = ASC->GiveAbility(AbilitySpec);
 
-		if (OutGrantedHandles)
-		{
+		if (OutGrantedHandles) {
 			OutGrantedHandles->AddAbilitySpecHandle(AbilitySpecHandle);
 		}
 	}
 
-	for (int32 AttributeSetIndex = 0; AttributeSetIndex < GrantedAttributes.Num(); AttributeSetIndex++)
-	{
+	for (int32 AttributeSetIndex = 0; AttributeSetIndex < GrantedAttributes.Num(); AttributeSetIndex++) {
 		const FAbilitySet_AttributeSet& SetToGrant = GrantedAttributes[AttributeSetIndex];
 
-		if (!IsValid(SetToGrant.AttributeSet))
-		{
+		if (!IsValid(SetToGrant.AttributeSet)) {
 			UE_LOG(LogTemp, Error, TEXT("GrantedAttributes[%d] on ability set [%s] is not valid"), AttributeSetIndex, *GetNameSafe(this));
 			continue;
 		}
@@ -103,28 +84,25 @@ void UAbilitySet::GiveToAbilitySystem(UBaseAbilitySystemComponent* ASC, FAbility
 		UAttributeSet* NewSet = NewObject<UAttributeSet>(ASC->GetOwner(), SetToGrant.AttributeSet);
 		ASC->AddAttributeSetSubobject(NewSet);
 
-		if (OutGrantedHandles)
-		{
+		if (OutGrantedHandles) {
 			OutGrantedHandles->AddAttributeSet(NewSet);
 		}
 	}
 
-	for (int32 EffectIndex = 0; EffectIndex < GrantedGameplayEffects.Num(); EffectIndex++)
-	{
+	for (int32 EffectIndex = 0; EffectIndex < GrantedGameplayEffects.Num(); EffectIndex++) {
 		const FAbilitySet_GameplayEffect& EffectToGrant = GrantedGameplayEffects[EffectIndex];
 
-		if (!IsValid(EffectToGrant.GameplayEffect))
-		{
+		if (!IsValid(EffectToGrant.GameplayEffect)) {
 			UE_LOG(LogTemp, Error, TEXT("GrantedGameplayEffects[%d] on ability set [%s] is not valid"), EffectIndex, *GetNameSafe(this));
 			continue;
 		}
 
 		const UGameplayEffect* GameplayEffect = EffectToGrant.GameplayEffect->GetDefaultObject<UGameplayEffect>();
 
-		const FActiveGameplayEffectHandle GameplayEffectHandle = ASC->ApplyGameplayEffectToSelf(GameplayEffect, EffectToGrant.EffectLevel, ASC->MakeEffectContext());
+		const FActiveGameplayEffectHandle GameplayEffectHandle = ASC->ApplyGameplayEffectToSelf(GameplayEffect, EffectToGrant.EffectLevel,
+		                                                                                        ASC->MakeEffectContext());
 
-		if (OutGrantedHandles)
-		{
+		if (OutGrantedHandles) {
 			OutGrantedHandles->AddGameplayEffectHandle(GameplayEffectHandle);
 		}
 	}

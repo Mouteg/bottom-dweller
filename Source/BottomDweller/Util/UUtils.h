@@ -4,8 +4,7 @@
 class ABottomDwellerPlayerController;
 class UInventoryComponent;
 
-class UUtils
-{
+class UUtils {
 public:
 	static UPlayerInventoryController* GetInventorySubsystem(const UWorld* WorldContextObject);
 	static UPlayerInventoryController* GetInventorySubsystem(const AActor* Actor);

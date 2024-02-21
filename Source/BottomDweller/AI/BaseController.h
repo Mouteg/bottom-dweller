@@ -10,10 +10,8 @@
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API ABaseController : public AAIController
-{
+class BOTTOMDWELLER_API ABaseController : public AAIController {
 	GENERATED_BODY()
-	
 
 protected:
 	virtual void BeginPlay() override;
@@ -21,7 +19,7 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UBehaviorTree* AIBehaviourTree = nullptr;
-	
+
 	UPROPERTY(VisibleAnywhere)
 	APawn* PlayerPawn = nullptr;
 };

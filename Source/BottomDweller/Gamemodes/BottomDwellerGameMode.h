@@ -7,8 +7,7 @@
 #include "BottomDwellerGameMode.generated.h"
 
 UCLASS(minimalapi)
-class ABottomDwellerGameMode : public AGameModeBase
-{
+class ABottomDwellerGameMode : public AGameModeBase {
 	GENERATED_BODY()
 
 public:
@@ -18,6 +17,3 @@ public:
 private:
 	void LoadPrimaryAssets();
 };
-
-
-

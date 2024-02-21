@@ -7,13 +7,11 @@
 #include "MeleeAttacker.generated.h"
 
 UINTERFACE()
-class UMeleeAttacker : public UInterface
-{
+class UMeleeAttacker : public UInterface {
 	GENERATED_BODY()
 };
 
-class BOTTOMDWELLER_API IMeleeAttacker
-{
+class BOTTOMDWELLER_API IMeleeAttacker {
 	GENERATED_BODY()
 
 public:

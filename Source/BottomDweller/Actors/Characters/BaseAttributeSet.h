@@ -39,8 +39,7 @@
  */
 
 UCLASS()
-class BOTTOMDWELLER_API UBaseAttributeSet : public UAttributeSet
-{
+class BOTTOMDWELLER_API UBaseAttributeSet : public UAttributeSet {
 	GENERATED_BODY()
 
 public:

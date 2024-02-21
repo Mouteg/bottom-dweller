@@ -14,8 +14,7 @@ class UTextEntry;
 */
 
 USTRUCT()
-struct FCompositeEntryAttributes
-{
+struct FCompositeEntryAttributes {
 	GENERATED_BODY()
 
 	UPROPERTY()
@@ -27,8 +26,7 @@ struct FCompositeEntryAttributes
 };
 
 UCLASS()
-class BOTTOMDWELLER_API USimpleStatsWidget : public UUserWidget
-{
+class BOTTOMDWELLER_API USimpleStatsWidget : public UUserWidget {
 	GENERATED_BODY()
 
 public:

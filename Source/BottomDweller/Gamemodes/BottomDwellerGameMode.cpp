@@ -7,20 +7,18 @@
 #include "Engine/AssetManager.h"
 #include "Kismet/GameplayStatics.h"
 
-void ABottomDwellerGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
-{
+void ABottomDwellerGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) {
 	Super::InitGame(MapName, Options, ErrorMessage);
-	
+
 	LoadPrimaryAssets();
-	
+
 	UBottomDwellerAbilitySystemGlobals::Get().InitGlobalData();
 	// USaveGameManager* SaveGameManager = GetGameInstance()->GetSubsystem<USaveGameManager>();
 	// FString SelectedSaveSlot = UGameplayStatics::ParseOption(Options, "SaveGame");
 	// SaveGameManager->LoadSaveGame("SaveGame01");
 }
 
-ABottomDwellerGameMode::ABottomDwellerGameMode()
-{
+ABottomDwellerGameMode::ABottomDwellerGameMode() {
 	// static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/BottomDweller/Actors/Player/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter"));
 	// if (PlayerPawnBPClass.Class != NULL)
 	// {
@@ -28,8 +26,7 @@ ABottomDwellerGameMode::ABottomDwellerGameMode()
 	// }
 }
 
-void ABottomDwellerGameMode::LoadPrimaryAssets()
-{
+void ABottomDwellerGameMode::LoadPrimaryAssets() {
 	TArray<FPrimaryAssetId> AssetIds;
 	TArray<FName> BundlesToLoad;
 	BundlesToLoad.Add(FName(TEXT("Items")));

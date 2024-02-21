@@ -15,10 +15,9 @@ class UInventoryComponent;
 
 UCLASS(config=Game)
 class ABottomDwellerCharacter :
-public ABaseCharacter,
-public IMeleeAttacker,
-public IPawnMovementComponentProvider
-{
+	public ABaseCharacter,
+	public IMeleeAttacker,
+	public IPawnMovementComponentProvider {
 	GENERATED_BODY()
 
 public:
@@ -37,23 +36,20 @@ public:
 	void RecalculateDamage();
 
 	UFUNCTION(BlueprintCallable, BlueprintSetter)
-	void SetInventoryComponent(UInventoryComponent* NewInventoryComponent)
-	{
+	void SetInventoryComponent(UInventoryComponent* NewInventoryComponent) {
 		InventoryComponent = NewInventoryComponent;
 	}
 
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	UInteractionComponent* GetInteractionComponent() const
-	{
+	UInteractionComponent* GetInteractionComponent() const {
 		return InteractionComponent;
 	}
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	
+
 	UFUNCTION(BlueprintPure, BlueprintCallable, BlueprintGetter)
-	virtual UCharacterMovementComponent* GetPawnMovementComponent_Implementation() const override
-	{
+	virtual UCharacterMovementComponent* GetPawnMovementComponent_Implementation() const override {
 		return GetCharacterMovement();
 	}
 

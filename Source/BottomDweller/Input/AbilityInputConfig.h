@@ -9,8 +9,7 @@
 class UInputAction;
 
 USTRUCT(BlueprintType)
-struct FTaggedInputAction
-{
+struct FTaggedInputAction {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -21,12 +20,10 @@ struct FTaggedInputAction
 };
 
 UCLASS(BlueprintType, Const)
-class BOTTOMDWELLER_API UAbilityInputConfig : public UDataAsset
-{
+class BOTTOMDWELLER_API UAbilityInputConfig : public UDataAsset {
 	GENERATED_BODY()
 
 public:
-
 	// UFUNCTION(BlueprintCallable)
 	// const UInputAction* FindNativeInputActionForTag(const FGameplayTag& InputTag) const;
 	//

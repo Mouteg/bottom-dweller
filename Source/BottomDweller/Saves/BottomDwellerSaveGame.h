@@ -8,9 +8,9 @@
 
 class UInventoryComponent;
 class UBaseAbilitySystemComponent;
+
 USTRUCT()
-struct FActorSaveData
-{
+struct FActorSaveData {
 	GENERATED_BODY()
 
 	/* Identifier for which Actor this belongs to */
@@ -27,8 +27,7 @@ struct FActorSaveData
 };
 
 USTRUCT()
-struct FPlayerSaveData
-{
+struct FPlayerSaveData {
 	GENERATED_BODY()
 
 	UPROPERTY()
@@ -39,8 +38,7 @@ struct FPlayerSaveData
 };
 
 UCLASS()
-class BOTTOMDWELLER_API UBottomDwellerSaveGame : public USaveGame
-{
+class BOTTOMDWELLER_API UBottomDwellerSaveGame : public USaveGame {
 	GENERATED_BODY()
 
 public:

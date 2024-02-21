@@ -12,12 +12,10 @@ class UItemDataAsset;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UUseItemAbility : public UBaseGameplayAbility
-{
+class BOTTOMDWELLER_API UUseItemAbility : public UBaseGameplayAbility {
 	GENERATED_BODY()
 
 public:
-
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
 	TSubclassOf<UGameplayEffect> InstantEffect;
 
@@ -26,7 +24,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay Effects")
 	TSubclassOf<UGameplayEffect> InfiniteEffect;
-	
+
 private:
 	UUseItemAbility();
 	FGameplayEffectSpec* CurrentEffectSpec;
@@ -34,8 +32,8 @@ private:
 	void MakeEffectSpecAndUseItem(UItemDataAsset* Item);
 	void AddSetByCallers(const FItemStatEffect* ItemStatEffect);
 	void AddSetByCaller(FGameplayTag Tag, float Magnitude);
-	
-	
+
+
 	virtual void ActivateAbility(
 		const FGameplayAbilitySpecHandle Handle,
 		const FGameplayAbilityActorInfo* ActorInfo,

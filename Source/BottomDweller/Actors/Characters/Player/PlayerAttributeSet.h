@@ -7,15 +7,14 @@
 #include "PlayerAttributeSet.generated.h"
 
 UCLASS()
-class BOTTOMDWELLER_API UPlayerAttributeSet : public UAttributeSet
-{
+class BOTTOMDWELLER_API UPlayerAttributeSet : public UAttributeSet {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, MaxMana);
-	
+
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, Mana);
@@ -23,8 +22,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData ManaRegen;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, ManaRegen);
-	
-	
+
+
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxStamina;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, MaxStamina);
@@ -32,11 +31,11 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Stamina;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, Stamina);
-	
+
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData StaminaRegen;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, StaminaRegen);
-	
+
 
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Strength;
@@ -53,7 +52,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Luck;
 	ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, Luck);
-	
+
 
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData WeaponSlashingDamage;

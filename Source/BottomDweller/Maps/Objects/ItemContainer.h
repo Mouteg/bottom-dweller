@@ -10,27 +10,25 @@
 
 class UInventoryComponent;
 class UItemDataAsset;
-UCLASS()
-class BOTTOMDWELLER_API AItemContainer : public AActor, public IInteractable, public ISaveable
-{
-	GENERATED_BODY()
-	
-public:
 
+UCLASS()
+class BOTTOMDWELLER_API AItemContainer : public AActor, public IInteractable, public ISaveable {
+	GENERATED_BODY()
+
+public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite)
 	TObjectPtr<UStaticMeshComponent> StaticMeshComponent;
 
 	UFUNCTION(BlueprintGetter)
-	FString GetContainerName() const
-	{
+	FString GetContainerName() const {
 		return ContainerName;
 	}
-	
+
 	UFUNCTION(BlueprintSetter)
-	void SetContainerName(const FString Name)
-	{
+	void SetContainerName(const FString Name) {
 		ContainerName = Name;
 	}
+
 	virtual void OnInteract_Implementation(AActor* Interactor) override;
 	AItemContainer();
 

@@ -6,20 +6,17 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-void ABaseController::BeginPlay()
-{
+void ABaseController::BeginPlay() {
 	Super::BeginPlay();
-	
-	if (AIBehaviourTree)
-	{
+
+	if (AIBehaviourTree) {
 		RunBehaviorTree(AIBehaviourTree);
 	}
-	
+
 	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	UBlackboardComponent* BlackboardComponent = GetBlackboardComponent();
 
-	if (BlackboardComponent && PlayerPawn)
-	{
+	if (BlackboardComponent && PlayerPawn) {
 		// BlackboardComponent->SetValueAsVector(TEXT("CurrentPlayerLocation"), PlayerPawn->GetActorLocation());
 		// BlackboardComponent->SetValueAsVector(TEXT("StartLocation"), GetPawn()->GetActorLocation());
 	}

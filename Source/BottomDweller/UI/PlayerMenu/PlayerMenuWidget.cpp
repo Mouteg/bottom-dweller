@@ -9,8 +9,7 @@
 #include "Inventory/InventoryUI.h"
 #include "Stats/SimpleStatsWidget.h"
 
-void UPlayerMenuWidget::NativeConstruct()
-{
+void UPlayerMenuWidget::NativeConstruct() {
 	Super::NativeConstruct();
 
 	WidgetSwitcher->AddChild(InventoryUI);
@@ -23,26 +22,21 @@ void UPlayerMenuWidget::NativeConstruct()
 	InventoryButton->OnClicked.AddDynamic(this, &ThisClass::SetInventoryActive);
 }
 
-void UPlayerMenuWidget::SetStatsActive()
-{
+void UPlayerMenuWidget::SetStatsActive() {
 	WidgetSwitcher->SetActiveWidget(SimpleStatsWidget);
 }
 
-void UPlayerMenuWidget::SetInventoryActive()
-{
+void UPlayerMenuWidget::SetInventoryActive() {
 	WidgetSwitcher->SetActiveWidget(InventoryUI);
 }
 
-void UPlayerMenuWidget::SetActiveScreen(const EPlayerMenuScreen Screen)
-{
+void UPlayerMenuWidget::SetActiveScreen(const EPlayerMenuScreen Screen) {
 	WidgetSwitcher->SetActiveWidget(WidgetMap.Find(Screen)->Get());
 }
 
-void UPlayerMenuWidget::SetVisibility(ESlateVisibility InVisibility)
-{
+void UPlayerMenuWidget::SetVisibility(ESlateVisibility InVisibility) {
 	Super::SetVisibility(InVisibility);
-	if (InVisibility == ESlateVisibility::Hidden)
-	{
+	if (InVisibility == ESlateVisibility::Hidden) {
 		InventoryUI->ContainerInventoryPanel->SetVisibility(InVisibility);
 	}
 }

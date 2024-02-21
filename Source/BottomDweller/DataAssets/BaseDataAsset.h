@@ -6,16 +6,14 @@
 #include "BaseDataAsset.generated.h"
 
 UENUM(BlueprintType)
-enum class EAssetId : uint8
-{
+enum class EAssetId : uint8 {
 	Stone UMETA(DisplayName = "Stone"),
 	Stick UMETA(DisplayName = "Stick"),
 	Sword UMETA(DisplayName = "Sword"),
 };
 
 UCLASS()
-class BOTTOMDWELLER_API UBaseDataAsset : public UPrimaryDataAsset
-{
+class BOTTOMDWELLER_API UBaseDataAsset : public UPrimaryDataAsset {
 	GENERATED_BODY()
 
 public:

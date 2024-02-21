@@ -11,29 +11,27 @@ class UBoxComponent;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API APressurePlate : public AActor, public IInteractable
-{
+class BOTTOMDWELLER_API APressurePlate : public AActor, public IInteractable {
 	GENERATED_BODY()
 
 protected:
 	virtual void BeginPlay() override;
-	
-public:
 
+public:
 	APressurePlate();
-	
+
 	UPROPERTY(EditAnywhere)
 	bool bOneTimeUse;
 
 	UPROPERTY(EditAnywhere)
 	bool bIsButton;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<AActor*> ObjectsToActivate;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UStaticMeshComponent> MeshComponent;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UBoxComponent> BoxComponent;
 
@@ -42,7 +40,7 @@ public:
 
 	UFUNCTION()
 	void OnOverlap(AActor* ActorOverlapped, AActor* OtherActor);
-	
+
 	virtual void OnInteract_Implementation(AActor* Interactor) override;
 	virtual FString GetInspectorDescription_Implementation() const override;
 };

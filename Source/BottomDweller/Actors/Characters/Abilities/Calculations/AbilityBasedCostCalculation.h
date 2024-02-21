@@ -10,8 +10,7 @@
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UAbilityBasedCostCalculation : public UGameplayModMagnitudeCalculation
-{
+class BOTTOMDWELLER_API UAbilityBasedCostCalculation : public UGameplayModMagnitudeCalculation {
 	GENERATED_BODY()
 
 public:

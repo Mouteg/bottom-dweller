@@ -6,8 +6,7 @@
 class UGameplayEffect;
 
 UENUM(BlueprintType)
-enum class EWeaponType : uint8
-{
+enum class EWeaponType : uint8 {
 	OneHanded_Sword UMETA(DisplayName = "One-Handed Sword"),
 	TwoHanded_Sword UMETA(DisplayName = "Two-Handed Sword"),
 	OneHanded_Axe UMETA(DisplayName = "One-Handed Axe"),
@@ -15,20 +14,17 @@ enum class EWeaponType : uint8
 };
 
 UCLASS()
-class BOTTOMDWELLER_API UWeaponItemDataAsset : public UGearItemDataAsset
-{
+class BOTTOMDWELLER_API UWeaponItemDataAsset : public UGearItemDataAsset {
 	GENERATED_BODY()
 
 public:
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EWeaponType WeaponType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float AttackSpeed;
 
-	virtual FPrimaryAssetId GetPrimaryAssetId() const override
-	{
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override {
 		return FPrimaryAssetId(TEXT("WeaponItem"), GetFName());
 	}
 };

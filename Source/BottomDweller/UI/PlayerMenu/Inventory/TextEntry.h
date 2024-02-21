@@ -11,8 +11,7 @@ class UTextBlock;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API UTextEntry : public UUserWidget
-{
+class BOTTOMDWELLER_API UTextEntry : public UUserWidget {
 	GENERATED_BODY()
 
 public:

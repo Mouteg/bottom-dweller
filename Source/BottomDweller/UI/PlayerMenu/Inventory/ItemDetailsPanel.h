@@ -10,9 +10,9 @@
 
 class UImage;
 class UVerticalBox;
+
 UCLASS()
-class BOTTOMDWELLER_API UItemDetailsPanel : public UUserWidget
-{
+class BOTTOMDWELLER_API UItemDetailsPanel : public UUserWidget {
 	GENERATED_BODY()
 
 public:
@@ -37,7 +37,6 @@ public:
 	virtual bool Initialize() override;
 
 private:
-
 	UFUNCTION()
 	void LoadItemProperties(UItemDataAsset* Item);
 

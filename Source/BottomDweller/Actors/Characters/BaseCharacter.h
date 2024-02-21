@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Abilities/AbilitySet.h"
-#include "..\Components\SupportInterfaces\ASCProviderSupport.h"
+#include "../Components/SupportInterfaces/ASCProviderSupport.h"
 #include "BottomDweller/Saves/Saveable.h"
 #include "BaseCharacter.generated.h"
 
@@ -17,9 +17,7 @@ class BOTTOMDWELLER_API ABaseCharacter :
 	public ACharacter,
 	public IAbilitySystemInterface,
 	public IASCProviderSupport,
-	public ISaveable
-
-{
+	public ISaveable {
 	GENERATED_BODY()
 
 public:
@@ -27,19 +25,16 @@ public:
 
 	virtual void OnActorLoaded_Implementation() override;
 
-	virtual UBaseAbilitySystemComponent* GetAbilitySystemComponent() const override
-	{
+	virtual UBaseAbilitySystemComponent* GetAbilitySystemComponent() const override {
 		return AbilitySystemComponent;
 	}
 
-	virtual UBaseAbilitySystemComponent* GetASCComponent_Implementation() const override
-	{
+	virtual UBaseAbilitySystemComponent* GetASCComponent_Implementation() const override {
 		return AbilitySystemComponent;
 	}
 
 	UFUNCTION(BlueprintCallable, BlueprintSetter)
-	void SetAbilitySystemComponent(UBaseAbilitySystemComponent* NewAbilitySystemComponent)
-	{
+	void SetAbilitySystemComponent(UBaseAbilitySystemComponent* NewAbilitySystemComponent) {
 		AbilitySystemComponent = NewAbilitySystemComponent;
 	}
 

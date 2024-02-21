@@ -11,17 +11,14 @@ class UBaseAbilitySystemComponent;
 class UInventoryComponent;
 
 UINTERFACE()
-class UASCProviderSupport : public UInterface
-{
+class UASCProviderSupport : public UInterface {
 	GENERATED_BODY()
 };
 
-class BOTTOMDWELLER_API IASCProviderSupport
-{
+class BOTTOMDWELLER_API IASCProviderSupport {
 	GENERATED_BODY()
 
 public:
-
 	UFUNCTION(BlueprintNativeEvent)
 	UBaseAbilitySystemComponent* GetASCComponent() const;
 };

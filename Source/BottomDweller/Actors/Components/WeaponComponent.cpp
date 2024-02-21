@@ -7,48 +7,38 @@
 
 
 // Sets default values for this component's properties
-UWeaponComponent::UWeaponComponent()
-{
+UWeaponComponent::UWeaponComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
 	bCanTrace = false;
 	bDrawDebug = false;
 }
 
 
-void UWeaponComponent::SetCanTrace(bool CanTrace)
-{
+void UWeaponComponent::SetCanTrace(bool CanTrace) {
 	bCanTrace = CanTrace;
-	if (bCanTrace)
-	{
+	if (bCanTrace) {
 		HitArray.Empty();
 		ActorsToIgnore.Empty();
 	}
 }
 
-void UWeaponComponent::BeginPlay()
-{
+void UWeaponComponent::BeginPlay() {
 	Super::BeginPlay();
 }
 
 
 // Called every frame
-void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (bCanTrace && !Sockets.IsEmpty())
-	{
+	if (bCanTrace && !Sockets.IsEmpty()) {
 		ActorsToIgnore.Add(GetOwner());
 
-		for (FName Socket : Sockets)
-		{
+		for (FName Socket : Sockets) {
 			FVector Start;
-			if (SocketLocations.Contains(Socket))
-			{
+			if (SocketLocations.Contains(Socket)) {
 				Start = SocketLocations[Socket];
-			}
-			else
-			{
+			} else {
 				break;
 			}
 			const FVector End = GetSocketLocation(Socket);
@@ -72,24 +62,19 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	UpdateLastKnowSocketLocations();
 }
 
-void UWeaponComponent::SetSkeletalMesh(USkeletalMesh* NewMesh, bool bReinitPose)
-{
+void UWeaponComponent::SetSkeletalMesh(USkeletalMesh* NewMesh, bool bReinitPose) {
 	Super::SetSkeletalMesh(NewMesh, bReinitPose);
 	Sockets = GetAllSocketNames();
 }
 
-void UWeaponComponent::UpdateLastKnowSocketLocations()
-{
-	for (FName Socket : Sockets)
-	{
+void UWeaponComponent::UpdateLastKnowSocketLocations() {
+	for (FName Socket : Sockets) {
 		SocketLocations.Add(Socket, GetSocketLocation(Socket));
 	}
 }
 
-void UWeaponComponent::AddToHitArray(TArray<FHitResult> HitArrayToAdd)
-{
-	for (const FHitResult& Hit : HitArrayToAdd)
-	{
+void UWeaponComponent::AddToHitArray(TArray<FHitResult> HitArrayToAdd) {
+	for (const FHitResult& Hit : HitArrayToAdd) {
 		ActorsToIgnore.Add(Hit.GetActor());
 		HitArray.Add(Hit);
 		OnHit.Broadcast(Hit);

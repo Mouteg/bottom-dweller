@@ -15,8 +15,7 @@ class UInventoryComponent;
 class UItemDataAsset;
 
 UCLASS()
-class BOTTOMDWELLER_API UInventoryPanel : public UUserWidget
-{
+class BOTTOMDWELLER_API UInventoryPanel : public UUserWidget {
 	GENERATED_BODY()
 
 public:
@@ -30,8 +29,7 @@ public:
 
 	void SetInventory(UInventoryComponent* NewInventoryComponent, const FString& ContainerName = "Inventory");
 
-	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel)
-	{
+	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel) {
 		ItemDetailsPanel = DetailsPanel;
 	}
 
@@ -41,7 +39,7 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UTextBlock> InventoryDisplayName;
-	
+
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UButton> TakeAllButton;
 

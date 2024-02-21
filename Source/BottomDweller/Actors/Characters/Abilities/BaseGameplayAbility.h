@@ -12,8 +12,7 @@ class ABottomDwellerPlayerController;
 class ABaseCharacter;
 
 UENUM(BlueprintType)
-enum class EAbilityActivationPolicy : uint8
-{
+enum class EAbilityActivationPolicy : uint8 {
 	// Try to activate the ability when the input is triggered.
 	OnInputTriggered,
 
@@ -25,8 +24,7 @@ enum class EAbilityActivationPolicy : uint8
 };
 
 UCLASS()
-class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility
-{
+class BOTTOMDWELLER_API UBaseGameplayAbility : public UGameplayAbility {
 	GENERATED_BODY()
 
 public:
@@ -34,15 +32,15 @@ public:
 	float Cost;
 
 	EAbilityActivationPolicy GetActivationPolicy() const { return ActivationPolicy; }
-	
+
 	UAbilitySystemComponent* GetAbilitySystemComponentFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
-	
+
 	ABottomDwellerPlayerController* GetPlayerControllerFromActorInfo() const;
-	
+
 	ACharacter* GetCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
-	
+
 	ABottomDwellerCharacter* GetBottomDwellerCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
-	
+
 	ABaseCharacter* GetBaseCharacterFromActorInfo(const FGameplayAbilityActorInfo* ActorInfo = nullptr) const;
 
 protected:

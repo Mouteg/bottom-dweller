@@ -9,17 +9,14 @@
 class UGameplayEffect;
 
 UCLASS()
-class BOTTOMDWELLER_API UUsableItemDataAsset : public UItemDataAsset
-{
+class BOTTOMDWELLER_API UUsableItemDataAsset : public UItemDataAsset {
 	GENERATED_BODY()
 
 public:
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bIsInfinite;
 
-	virtual FPrimaryAssetId GetPrimaryAssetId() const override
-	{
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override {
 		return FPrimaryAssetId(TEXT("UsableItem"), GetFName());
 	}
 };

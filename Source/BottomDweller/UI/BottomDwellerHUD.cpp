@@ -5,39 +5,31 @@
 
 #include "Blueprint/UserWidget.h"
 
-ABottomDwellerHUD::ABottomDwellerHUD()
-{
+ABottomDwellerHUD::ABottomDwellerHUD() {
 }
 
-void ABottomDwellerHUD::InitializeHUD()
-{
-	if (IsValid(HUDClass))
-	{
+void ABottomDwellerHUD::InitializeHUD() {
+	if (IsValid(HUDClass)) {
 		UUserWidget* HUD = CreateWidget(GetOwningPlayerController(), HUDClass);
 		HUD->AddToViewport();
 	}
 
 
-	if (IsValid(PlayerMenuWidgetSwitcherClass))
-	{
+	if (IsValid(PlayerMenuWidgetSwitcherClass)) {
 		PlayerMenuWidgetSwitcher = CreateWidget(GetOwningPlayerController(), PlayerMenuWidgetSwitcherClass);
 		PlayerMenuWidgetSwitcher->AddToViewport();
 		PlayerMenuWidgetSwitcher->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
-bool ABottomDwellerHUD::IsMenuVisible() const
-{
+bool ABottomDwellerHUD::IsMenuVisible() const {
 	return PlayerMenuWidgetSwitcher->IsVisible();
 }
 
-void ABottomDwellerHUD::SetGameMenuVisible()
-{
+void ABottomDwellerHUD::SetGameMenuVisible() {
 	PlayerMenuWidgetSwitcher->SetVisibility(ESlateVisibility::Visible);
-	
 }
 
-void ABottomDwellerHUD::SetGameMenuHidden()
-{
+void ABottomDwellerHUD::SetGameMenuHidden() {
 	PlayerMenuWidgetSwitcher->SetVisibility(ESlateVisibility::Hidden);
 }

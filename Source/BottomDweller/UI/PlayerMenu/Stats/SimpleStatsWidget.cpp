@@ -6,39 +6,37 @@
 #include "BottomDweller/UI/PlayerMenu/Inventory/TextEntry.h"
 #include "Components/VerticalBox.h"
 
-void USimpleStatsWidget::NativeConstruct()
-{
+void USimpleStatsWidget::NativeConstruct() {
 	Super::NativeConstruct();
 	InitializeDelegates();
 	InitializeAttributes();
 }
 
-void USimpleStatsWidget::InitializeDelegates()
-{
+void USimpleStatsWidget::InitializeDelegates() {
 	TArray<FGameplayAttribute> OutAttributes;
 	UBaseAbilitySystemComponent* ASC = IASCProviderSupport::Execute_GetASCComponent(GetOwningPlayerPawn());
 
-	if (!ASC) return;
+	if (!ASC) {
+		return;
+	}
 
 	ASC->GetAllAttributes(OutAttributes);
-	for (const FGameplayAttribute Attribute : OutAttributes)
-	{
+	for (const FGameplayAttribute Attribute : OutAttributes) {
 		ASC->GetGameplayAttributeValueChangeDelegate(Attribute).AddUObject(this, &ThisClass::UpdateStats);
 		Attributes.Add(Attribute.AttributeName, ASC->GetNumericAttribute(Attribute));
 	}
 }
 
-void USimpleStatsWidget::InitializeAttributes()
-{
+void USimpleStatsWidget::InitializeAttributes() {
 	DefaultAttributes.Add(UPlayerAttributeSet::GetStrengthAttribute().AttributeName);
 	DefaultAttributes.Add(UPlayerAttributeSet::GetDexterityAttribute().AttributeName);
 	DefaultAttributes.Add(UPlayerAttributeSet::GetIntelligenceAttribute().AttributeName);
 	DefaultAttributes.Add(UPlayerAttributeSet::GetLuckAttribute().AttributeName);
-	
+
 	DefaultAttributes.Add(UBaseAttributeSet::GetBluntDamageAttribute().AttributeName);
 	DefaultAttributes.Add(UBaseAttributeSet::GetSlashingDamageAttribute().AttributeName);
 	DefaultAttributes.Add(UBaseAttributeSet::GetPiercingDamageAttribute().AttributeName);
-	
+
 	DefaultAttributes.Add(UBaseAttributeSet::GetBluntDamageResistanceAttribute().AttributeName);
 	DefaultAttributes.Add(UBaseAttributeSet::GetSlashingDamageResistanceAttribute().AttributeName);
 	DefaultAttributes.Add(UBaseAttributeSet::GetPiercingDamageResistanceAttribute().AttributeName);
@@ -56,17 +54,14 @@ void USimpleStatsWidget::InitializeAttributes()
 	ManaComposite.RegenValueAttribute = UPlayerAttributeSet::GetManaRegenAttribute().AttributeName;
 }
 
-void USimpleStatsWidget::UpdateStats(const FOnAttributeChangeData& Data)
-{
-	if (!Attributes.Contains(Data.Attribute.AttributeName))
-	{
+void USimpleStatsWidget::UpdateStats(const FOnAttributeChangeData& Data) {
+	if (!Attributes.Contains(Data.Attribute.AttributeName)) {
 		return;
 	}
 
 	Attributes[Data.Attribute.AttributeName] = Data.NewValue;
 
-	if (!bIsInitialized)
-	{
+	if (!bIsInitialized) {
 		CreateEntries();
 		bIsInitialized = true;
 		return;
@@ -74,10 +69,8 @@ void USimpleStatsWidget::UpdateStats(const FOnAttributeChangeData& Data)
 	UpdateEntry(Data.Attribute.AttributeName);
 }
 
-void USimpleStatsWidget::CreateEntries()
-{
-	if (!IsValid(EntryWidget))
-	{
+void USimpleStatsWidget::CreateEntries() {
+	if (!IsValid(EntryWidget)) {
 		return;
 	}
 
@@ -90,11 +83,9 @@ void USimpleStatsWidget::CreateEntries()
 
 	CreateOrUpdateCompositeEntry(ManaComposite, Index);
 	Index++;
-	
-	for (TTuple<FString, int32> Attribute : Attributes)
-	{
-		if (!DefaultAttributes.Contains(Attribute.Key))
-		{
+
+	for (TTuple<FString, int32> Attribute : Attributes) {
+		if (!DefaultAttributes.Contains(Attribute.Key)) {
 			continue;
 		}
 
@@ -106,16 +97,13 @@ void USimpleStatsWidget::CreateEntries()
 	}
 }
 
-void USimpleStatsWidget::CreateOrUpdateCompositeEntry(const FCompositeEntryAttributes& CompositeAttributes, const int32 Index)
-{
+void USimpleStatsWidget::CreateOrUpdateCompositeEntry(const FCompositeEntryAttributes& CompositeAttributes, const int32 Index) {
 	UTextEntry* AttributeEntry = nullptr;
-	if (AttributeToChildIndex.Contains(CompositeAttributes.ValueAttribute))
-	{
+	if (AttributeToChildIndex.Contains(CompositeAttributes.ValueAttribute)) {
 		AttributeEntry = Cast<UTextEntry>(StatsContainer->GetChildAt(AttributeToChildIndex[CompositeAttributes.ValueAttribute]));
 	}
 
-	if (!IsValid(AttributeEntry))
-	{
+	if (!IsValid(AttributeEntry)) {
 		AttributeEntry = CreateWidget<UTextEntry>(this, EntryWidget);
 		StatsContainer->AddChildToVerticalBox(AttributeEntry);
 
@@ -135,34 +123,27 @@ void USimpleStatsWidget::CreateOrUpdateCompositeEntry(const FCompositeEntryAttri
 	                            FLinearColor::MakeRandomSeededColor(GetTypeHash(CompositeAttributes.ValueAttribute)));
 }
 
-void USimpleStatsWidget::UpdateEntry(const FString& AttributeName)
-{
-	if (!AttributeToChildIndex.Contains(AttributeName))
-	{
+void USimpleStatsWidget::UpdateEntry(const FString& AttributeName) {
+	if (!AttributeToChildIndex.Contains(AttributeName)) {
 		return;
 	}
-	
+
 	UTextEntry* Entry = Cast<UTextEntry>(StatsContainer->GetChildAt(AttributeToChildIndex[AttributeName]));
-	if (IsValid(Entry))
-	{
-		if (DefaultAttributes.Contains(AttributeName))
-		{
+	if (IsValid(Entry)) {
+		if (DefaultAttributes.Contains(AttributeName)) {
 			Entry->SetValue(FString::FromInt(Attributes[AttributeName]));
 			return;
 		}
 
-		if (AttributeName.Contains(HealthComposite.ValueAttribute))
-		{
+		if (AttributeName.Contains(HealthComposite.ValueAttribute)) {
 			CreateOrUpdateCompositeEntry(HealthComposite);
 		}
 
-		if (AttributeName.Contains(StaminaComposite.ValueAttribute))
-		{
+		if (AttributeName.Contains(StaminaComposite.ValueAttribute)) {
 			CreateOrUpdateCompositeEntry(StaminaComposite);
 		}
 
-		if (AttributeName.Contains(ManaComposite.ValueAttribute))
-		{
+		if (AttributeName.Contains(ManaComposite.ValueAttribute)) {
 			CreateOrUpdateCompositeEntry(ManaComposite);
 		}
 	}

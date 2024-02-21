@@ -11,11 +11,9 @@ void UInteractAbility::ActivateAbility(
 	const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData
-)
-{
+) {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-	if (ABottomDwellerCharacter* Character = GetBottomDwellerCharacterFromActorInfo())
-	{
+	if (ABottomDwellerCharacter* Character = GetBottomDwellerCharacterFromActorInfo()) {
 		Character->GetInteractionComponent()->Interact(Character);
 	}
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);

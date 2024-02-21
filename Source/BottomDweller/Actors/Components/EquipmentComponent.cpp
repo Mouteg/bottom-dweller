@@ -6,68 +6,60 @@
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "BottomDweller/Controllers/PlayerInventoryController.h"
 #include "BottomDweller/DataAssets/Items/GearItemDataAsset.h"
-#include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "BottomDweller/Util/UUtils.h"
 
 
-UEquipmentComponent::UEquipmentComponent()
-{
+UEquipmentComponent::UEquipmentComponent() {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UEquipmentComponent::BeginPlay()
-{
+void UEquipmentComponent::BeginPlay() {
 	Super::BeginPlay();
 }
 
 
-void UEquipmentComponent::Equip(UItemDataAsset* Item)
-{
-	if (!IsValid(Item) || !Cast<UGearItemDataAsset>(Item))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Only gear can be equipped"));
+void UEquipmentComponent::Equip(UGearItemDataAsset* Item) {
+	if (!IsValid(Item)) {
+		UE_LOG(LogTemp, Warning, TEXT("Not valid item equipped"));
 		return;
 	}
-
-	switch (Item->ItemType)
-	{
-	case EItemType::Weapon:
-		{
-			UWeaponItemDataAsset* WeaponItem = Cast<UWeaponItemDataAsset>(Item);
-			ChangeWeapon(WeaponItem);
-			break;
-		}
-
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("Unrecognized item type"));
-		return;
-	}
+	ChangeEquipment(Item);
 
 	UUtils::GetInventorySubsystem(GetWorld())->RemoveItem(Item);
 	OnEquipmentStateChange.Broadcast(Item, Item->ItemType);
 }
 
-void UEquipmentComponent::ChangeWeapon(UWeaponItemDataAsset* Item)
-{
+void UEquipmentComponent::Unequip(const EItemType ItemType) {
+	if (EquipmentState.Contains(ItemType)) {
+		UUtils::GetInventorySubsystem(GetWorld())->AddItem(EquipmentState[ItemType]);
+	}
+	EquipmentState.Remove(ItemType);
+	OnEquipmentStateChange.Broadcast(nullptr, ItemType);
+}
+
+void UEquipmentComponent::ChangeEquipment(UGearItemDataAsset* Item) {
 	const ABottomDwellerCharacter* Character = Cast<ABottomDwellerCharacter>(GetOwner());
-	if (!Item || !Character || !Character->WeaponComponent)
-	{
+	if (!Item || !Character || !Character->WeaponComponent) {
 		return;
 	}
 
-	if (Item->SkeletalMesh.Get())
-	{
-		Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
-		Character->WeaponComponent->SetVisibility(true);
-	}
-	else
-	{
-		Character->WeaponComponent->SetVisibility(false);
+	switch (Item->ItemType) {
+	case EItemType::Weapon:
+		if (Item->SkeletalMesh.Get()) {
+			Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
+			Character->WeaponComponent->SetVisibility(true);
+		} else {
+			Character->WeaponComponent->SetVisibility(false);
+		}
+		break;
+	case EItemType::Armor:
+		break;
+	case EItemType::Consumable:
+		break;
 	}
 
-	if (EquipmentState.Weapon)
-	{
-		UUtils::GetInventorySubsystem(GetWorld())->AddItem(EquipmentState.Weapon);
+	if (EquipmentState.Contains(Item->ItemType)) {
+		UUtils::GetInventorySubsystem(GetWorld())->AddItem(EquipmentState[Item->ItemType]);
 	}
-	EquipmentState.Weapon = Item;
+	EquipmentState.Add(Item->ItemType, Item);
 }

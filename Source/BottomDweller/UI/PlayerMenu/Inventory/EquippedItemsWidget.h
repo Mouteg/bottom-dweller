@@ -15,22 +15,20 @@ class UInventoryComponent;
 class UEquippedItemSlot;
 
 UCLASS()
-class BOTTOMDWELLER_API UEquippedItemsWidget : public UUserWidget
-{
+class BOTTOMDWELLER_API UEquippedItemsWidget : public UUserWidget {
 	GENERATED_BODY()
 
 public:
 	virtual bool Initialize() override;
 
 	UFUNCTION()
-	void Update(UItemDataAsset* Item, EItemType GearSlot);
-	
-	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel)
-	{
+	void Update(UGearItemDataAsset* Item, EItemType ItemType);
+
+	void SetItemDetailsPanel(const TObjectPtr<UItemDetailsPanel> DetailsPanel) {
 		ItemDetailsPanel = DetailsPanel;
 	}
+
 protected:
-	
 	UPROPERTY()
 	TObjectPtr<UEquipmentComponent> EquipmentComponent;
 
@@ -40,7 +38,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UItemDetailsPanel> ItemDetailsPanel;
 	void InitSlots();
-	
+
 	virtual void NativeConstruct() override;
 
 private:

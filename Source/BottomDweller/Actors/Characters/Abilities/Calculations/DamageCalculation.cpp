@@ -4,8 +4,7 @@
 #include "DamageCalculation.h"
 #include "BottomDweller/Actors/Characters/BaseAttributeSet.h"
 
-UDamageCalculation::UDamageCalculation()
-{
+UDamageCalculation::UDamageCalculation() {
 	BluntResistanceDef.AttributeToCapture = UBaseAttributeSet::GetBluntDamageResistanceAttribute();
 	BluntResistanceDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
 
@@ -28,8 +27,7 @@ UDamageCalculation::UDamageCalculation()
 	RelevantAttributesToCapture.Add(SlashingDamageDef);
 }
 
-float UDamageCalculation::CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const
-{
+float UDamageCalculation::CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const {
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
 

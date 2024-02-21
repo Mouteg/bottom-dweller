@@ -6,15 +6,13 @@
 #include "GameFramework/Character.h"
 
 
-UInteractionComponent::UInteractionComponent()
-{
+UInteractionComponent::UInteractionComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickInterval = 0.05;
 	bDrawDebug = false;
 }
 
-bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
-{
+bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const {
 	const ABottomDwellerCharacter* OwnerCharacter = CastChecked<ABottomDwellerCharacter>(GetOwner());
 	const FVector Start = OwnerCharacter->GetFollowCamera()->GetComponentLocation();
 	const FVector CameraRotationVector = OwnerCharacter->GetControlRotation().Vector();
@@ -22,8 +20,7 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(GetOwner());
 
-	if (bDrawDebug)
-	{
+	if (bDrawDebug) {
 		DrawDebugLine(
 			GetWorld(),
 			Start,
@@ -42,43 +39,34 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const
 		End,
 		ECC_GameTraceChannel1,
 		CollisionParams
-	))
-	{
+	)) {
 		return Hit.GetActor()->Implements<UInteractable>();
 	}
 	return false;
 }
 
-void UInteractionComponent::Interact(AActor* Interactor)
-{
+void UInteractionComponent::Interact(AActor* Interactor) {
 	FHitResult Hit;
 
-	if (TraceForInteractable(OUT Hit))
-	{
+	if (TraceForInteractable(OUT Hit)) {
 		IInteractable::Execute_OnInteract(Hit.GetActor(), Interactor);
 		OnInteract.Broadcast(GetOwner());
 	}
 }
 
-void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	FHitResult Hit;
 	// Condition for bIsInspecting needed so that if we already inspect we dont trace again
-	if (TraceForInteractable(OUT Hit) != bIsInspecting)
-	{
-		if (bIsInspecting)
-		{
+	if (TraceForInteractable(OUT Hit) != bIsInspecting) {
+		if (bIsInspecting) {
 			OnStopInspecting.Broadcast();
-			if (LastHitActor)
-			{
+			if (LastHitActor) {
 				SetOutlineStencilOnLastHitActor(false);
 				LastHitActor = nullptr;
 			}
-		}
-		else
-		{
+		} else {
 			LastHitActor = Hit.GetActor();
 			OnInspect.Broadcast(IInteractable::Execute_GetInspectorDescription(Hit.GetActor()));
 			SetOutlineStencilOnLastHitActor(true);
@@ -87,17 +75,12 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	}
 }
 
-void UInteractionComponent::SetOutlineStencilOnLastHitActor(bool Value)
-{
-	if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(LastHitActor->GetComponentByClass(UStaticMeshComponent::StaticClass())))
-	{
-		if (Value)
-		{
+void UInteractionComponent::SetOutlineStencilOnLastHitActor(bool Value) {
+	if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(LastHitActor->GetComponentByClass(UStaticMeshComponent::StaticClass()))) {
+		if (Value) {
 			//TODO Magic numbers -> to config
 			Mesh->SetCustomDepthStencilValue(1);
-		}
-		else
-		{
+		} else {
 			Mesh->SetCustomDepthStencilValue(0);
 		}
 	}

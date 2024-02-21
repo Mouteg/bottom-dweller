@@ -12,8 +12,7 @@ struct FGameplayTag;
 class UBaseAbilitySystemComponent;
 
 UCLASS()
-class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerController
-{
+class BOTTOMDWELLER_API ABottomDwellerPlayerController : public APlayerController {
 	GENERATED_BODY()
 
 public:
@@ -22,8 +21,7 @@ public:
 	ABottomDwellerPlayerController();
 
 	UFUNCTION(BlueprintPure, BlueprintCallable)
-	float GetBodyPitch() const
-	{
+	float GetBodyPitch() const {
 		return BodyPitch;
 	}
 
@@ -92,22 +90,16 @@ void ABottomDwellerPlayerController::BindAbilityActions(
 	PressedFuncType PressedFunc,
 	ReleasedFuncType ReleasedFunc,
 	TArray<uint32>& BindHandles
-)
-{
+) {
 	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent, UInputComponent>(InputComponent);
-	if (InputConfig)
-	{
-		for (FTaggedInputAction Action : InputConfig->AbilityInputActions)
-		{
-			if (Action.InputTag.IsValid() && Action.InputAction)
-			{
-				if (PressedFunc)
-				{
+	if (InputConfig) {
+		for (FTaggedInputAction Action : InputConfig->AbilityInputActions) {
+			if (Action.InputTag.IsValid() && Action.InputAction) {
+				if (PressedFunc) {
 					BindHandles.Add(
 						PlayerEnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Started, Object, PressedFunc, Action.InputTag).GetHandle());
 				}
-				if (ReleasedFunc)
-				{
+				if (ReleasedFunc) {
 					BindHandles.Add(
 						PlayerEnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, Action.InputTag).
 						                              GetHandle());

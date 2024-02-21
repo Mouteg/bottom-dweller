@@ -7,17 +7,16 @@
 #include "PawnMovementComponentProvider.generated.h"
 
 class UCharacterMovementComponent;
+
 UINTERFACE()
-class UPawnMovementComponentProvider : public UInterface
-{
+class UPawnMovementComponentProvider : public UInterface {
 	GENERATED_BODY()
 };
 
 /**
  * 
  */
-class BOTTOMDWELLER_API IPawnMovementComponentProvider
-{
+class BOTTOMDWELLER_API IPawnMovementComponentProvider {
 	GENERATED_BODY()
 
 public:
