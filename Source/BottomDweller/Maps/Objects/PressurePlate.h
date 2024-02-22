@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BottomDweller/Maps/Interactable.h"
+#include "UnlockableActor.h"
 #include "PressurePlate.generated.h"
 
 class UBoxComponent;
@@ -11,7 +11,7 @@ class UBoxComponent;
  * 
  */
 UCLASS()
-class BOTTOMDWELLER_API APressurePlate : public AActor, public IInteractable {
+class BOTTOMDWELLER_API APressurePlate : public AUnlockableActor {
 	GENERATED_BODY()
 
 protected:
@@ -43,4 +43,8 @@ public:
 
 	virtual void OnInteract_Implementation(AActor* Interactor) override;
 	virtual FString GetInspectorDescription_Implementation() const override;
+
+private:
+	UPROPERTY()
+	bool bIsUsed = false;
 };

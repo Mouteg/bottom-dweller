@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseDataAsset.h"
 #include "WeaponAnimations.generated.h"
 
 enum class EWeaponType : uint8;
@@ -17,7 +18,7 @@ struct FWeaponTypeAnimations {
 };
 
 UCLASS(BlueprintType)
-class BOTTOMDWELLER_API UWeaponAnimations : public UPrimaryDataAsset {
+class BOTTOMDWELLER_API UWeaponAnimations : public UBaseDataAsset {
 	GENERATED_BODY()
 
 public:

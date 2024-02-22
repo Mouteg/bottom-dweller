@@ -5,7 +5,6 @@
 
 #include "BottomDweller/Maps/Activatable.h"
 #include "Components/BoxComponent.h"
-#include "Engine/TriggerBox.h"
 
 APressurePlate::APressurePlate() {
 	bOneTimeUse = false;
@@ -25,14 +24,18 @@ void APressurePlate::BeginPlay() {
 }
 
 void APressurePlate::OnOverlap(AActor* ActorOverlapped, AActor* OtherActor) {
+	if (bOneTimeUse && bIsUsed) {
+		return;
+	}
+	
+	if (bOneTimeUse && !bIsUsed) {
+		bIsUsed = true;
+	}
+	
 	for (AActor* Actor : ObjectsToActivate) {
 		if (Actor->Implements<UActivatable>()) {
-			//play sound, maybe animation
-			IActivatable::Execute_Activate(Actor);
+			Execute_Activate(Actor);
 		}
-	}
-	if (bOneTimeUse) {
-		Destroy();
 	}
 }
 

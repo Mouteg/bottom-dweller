@@ -15,5 +15,5 @@ public:
 	ABottomDwellerGameMode();
 
 private:
-	void LoadPrimaryAssets();
+	static void LoadPrimaryAssets();
 };

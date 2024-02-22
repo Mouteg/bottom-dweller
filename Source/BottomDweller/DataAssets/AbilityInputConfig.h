@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseDataAsset.h"
 #include "GameplayTagContainer.h"
 #include "AbilityInputConfig.generated.h"
 
@@ -20,7 +21,7 @@ struct FTaggedInputAction {
 };
 
 UCLASS(BlueprintType, Const)
-class BOTTOMDWELLER_API UAbilityInputConfig : public UDataAsset {
+class BOTTOMDWELLER_API UAbilityInputConfig : public UBaseDataAsset {
 	GENERATED_BODY()
 
 public:

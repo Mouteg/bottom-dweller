@@ -23,4 +23,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	FString GetInspectorDescription() const;
+
+	UFUNCTION(BlueprintNativeEvent)
+    bool CanInteract();
 };

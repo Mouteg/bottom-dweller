@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UnlockableActor.h"
 #include "BottomDweller/Maps/Interactable.h"
 #include "BottomDweller/Saves/Saveable.h"
 #include "GameFramework/Actor.h"
@@ -12,7 +13,7 @@ class UInventoryComponent;
 class UItemDataAsset;
 
 UCLASS()
-class BOTTOMDWELLER_API AItemContainer : public AActor, public IInteractable, public ISaveable {
+class BOTTOMDWELLER_API AItemContainer : public AUnlockableActor, public ISaveable {
 	GENERATED_BODY()
 
 public:

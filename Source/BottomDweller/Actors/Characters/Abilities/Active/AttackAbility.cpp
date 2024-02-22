@@ -4,7 +4,7 @@
 #include "AttackAbility.h"
 
 #include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
-#include "BottomDweller/Animation/WeaponAnimations.h"
+#include "BottomDweller/DataAssets//WeaponAnimations.h"
 #include "BottomDweller/DataAssets/Items/WeaponItemDataAsset.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"

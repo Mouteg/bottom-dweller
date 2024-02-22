@@ -34,7 +34,17 @@ void UEquipmentComponent::Unequip(const EItemType ItemType) {
 		UUtils::GetInventorySubsystem(GetWorld())->AddItem(EquipmentState[ItemType]);
 	}
 	EquipmentState.Remove(ItemType);
+	SwitchWeaponMesh(nullptr, Cast<ABottomDwellerCharacter>(GetOwner()));
 	OnEquipmentStateChange.Broadcast(nullptr, ItemType);
+}
+
+void UEquipmentComponent::SwitchWeaponMesh(UGearItemDataAsset* Item, const ABottomDwellerCharacter* Character) {
+	if (Item && Item->SkeletalMesh.Get()) {
+		Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
+		Character->WeaponComponent->SetVisibility(true);
+	} else {
+		Character->WeaponComponent->SetVisibility(false);
+	}
 }
 
 void UEquipmentComponent::ChangeEquipment(UGearItemDataAsset* Item) {
@@ -45,12 +55,7 @@ void UEquipmentComponent::ChangeEquipment(UGearItemDataAsset* Item) {
 
 	switch (Item->ItemType) {
 	case EItemType::Weapon:
-		if (Item->SkeletalMesh.Get()) {
-			Character->WeaponComponent->SetSkeletalMesh(Item->SkeletalMesh.Get());
-			Character->WeaponComponent->SetVisibility(true);
-		} else {
-			Character->WeaponComponent->SetVisibility(false);
-		}
+		SwitchWeaponMesh(Item, Character);
 		break;
 	case EItemType::Armor:
 		break;

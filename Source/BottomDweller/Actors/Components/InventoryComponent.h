@@ -25,17 +25,20 @@ public:
 	UInventoryComponent();
 	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryContent; }
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void AddItems(UInventoryComponent* Inventory);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spec);
+	
+	UFUNCTION()
+	bool Contains(UItemDataAsset* Item, int Amount = 1, bool bExactAmount = false) const;
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnChange OnChange;

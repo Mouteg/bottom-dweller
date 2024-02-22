@@ -84,6 +84,14 @@ void UInventoryComponent::UseItem(UItemDataAsset* Item, FGameplayEffectSpec& Spe
 	OnChange.Broadcast();
 }
 
+bool UInventoryComponent::Contains(UItemDataAsset* Item, const int Amount, const bool bExactAmount) const {
+	if (InventoryContent.Contains(Item)) {
+		const int AmountFound = *InventoryContent.Find(Item);
+		return bExactAmount ? Amount == AmountFound : Amount <= AmountFound;
+	}
+	return false;
+}
+
 void UInventoryComponent::ApplyGameplayEffectSpec(const FGameplayEffectSpec& Spec, const EItemType Slot) {
 	if (!GetOwner()->Implements<UASCProviderSupport>()) {
 		return;

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
 #include "BottomDweller/Actors/Characters/BaseCharacter.h"
-#include "BottomDweller/Input/AbilityInputConfig.h"
+#include "BottomDweller/DataAssets/AbilityInputConfig.h"
 #include "BottomDwellerPlayerController.generated.h"
 
 struct FGameplayTag;

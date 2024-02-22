@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InventoryComponent.h"
+#include "BottomDweller/Actors/Characters/Player/BottomDwellerCharacter.h"
 #include "Components/ActorComponent.h"
 #include "EquipmentComponent.generated.h"
 
@@ -27,6 +28,7 @@ public:
 	void Equip(UGearItemDataAsset* Item);
 
 	void Unequip(EItemType ItemType);
+	static void SwitchWeaponMesh(UGearItemDataAsset* Item, const ABottomDwellerCharacter* Character);
 
 	UPROPERTY()
 	FOnEquipmentStateChange OnEquipmentStateChange;

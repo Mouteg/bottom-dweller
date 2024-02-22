@@ -48,7 +48,7 @@ bool UInteractionComponent::TraceForInteractable(FHitResult& Hit) const {
 void UInteractionComponent::Interact(AActor* Interactor) {
 	FHitResult Hit;
 
-	if (TraceForInteractable(OUT Hit)) {
+	if (TraceForInteractable(OUT Hit) && IInteractable::Execute_CanInteract(Hit.GetActor())) {
 		IInteractable::Execute_OnInteract(Hit.GetActor(), Interactor);
 		OnInteract.Broadcast(GetOwner());
 	}

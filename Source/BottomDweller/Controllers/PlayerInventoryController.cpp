@@ -46,6 +46,10 @@ void UPlayerInventoryController::UseItem(UItemDataAsset* Item) {
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(UUtils::GetPlayerController(GetWorld())->GetCharacter(), UseItemEventTag, EventData);
 }
 
+bool UPlayerInventoryController::Contains(UItemDataAsset* Item, const int Amount, const bool bExactAmount) const {
+	return InventoryComponent->Contains(Item, Amount, bExactAmount);
+}
+
 
 void UPlayerInventoryController::OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName) {
 	if (IsValid(ContainerInventoryPanel)) {

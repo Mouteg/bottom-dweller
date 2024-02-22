@@ -55,10 +55,11 @@ void UInventorySlotWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 }
 
 FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) {
-	if (Item) {
-		UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
+	if (Item && InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton) {
 		// If we clicked on container slot or player INV slot
-		if (PlayerInventoryController->GetInventoryComponent() == InventoryComponent) {
+		if (UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
+			PlayerInventoryController->GetInventoryComponent() == InventoryComponent
+		) {
 			PlayerInventoryController->UseItem(Item);
 		} else {
 			const int32 ItemsAdded = PlayerInventoryController->AddItem(Item, Quantity);
@@ -66,4 +67,16 @@ FReply UInventorySlotWidget::NativeOnMouseButtonDoubleClick(const FGeometry& InG
 		}
 	}
 	return Super::NativeOnMouseButtonDoubleClick(InGeometry, InMouseEvent);
+}
+
+FReply UInventorySlotWidget::NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) {
+	if (Item && InMouseEvent.GetEffectingButton() == EKeys::RightMouseButton) {
+		if (UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
+			PlayerInventoryController->GetInventoryComponent() != InventoryComponent
+		) {
+			PlayerInventoryController->AddItem(Item, 1);
+			InventoryComponent->RemoveItem(Item, 1);
+		}
+	}
+	return Super::NativeOnMouseButtonUp(InGeometry, InMouseEvent);
 }

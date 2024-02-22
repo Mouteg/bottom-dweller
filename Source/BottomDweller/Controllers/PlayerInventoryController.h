@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
+#include "BottomDweller/Maps/Objects/UnlockableActor.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PlayerInventoryController.generated.h"
 
@@ -24,16 +25,16 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
 
-	virtual void Deinitialize() override;
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	FORCEINLINE virtual void Deinitialize() override;
+	FORCEINLINE virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
-	void OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName);
-
-	UFUNCTION(BlueprintCallable)
-	void Equip(UGearItemDataAsset* Item);
+	FORCEINLINE void OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName);
 
 	UFUNCTION(BlueprintCallable)
-	void Unequip(EItemType Slot);
+	FORCEINLINE void Equip(UGearItemDataAsset* Item);
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE void Unequip(EItemType Slot);
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE TMap<EItemType, UGearItemDataAsset*> GetEquipmentState() const {
@@ -41,45 +42,47 @@ public:
 	}
 
 	UFUNCTION()
-	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryComponent->GetInventoryContent(); }
+	FORCEINLINE TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryComponent->GetInventoryContent(); }
 
 	// Adds item, returns how many was added
 	UFUNCTION(BlueprintCallable)
-	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
+	FORCEINLINE int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
-	void AddItems(UInventoryComponent* Inventory);
+	FORCEINLINE void AddItems(UInventoryComponent* Inventory);
 
 	UFUNCTION(BlueprintCallable)
-	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
+	FORCEINLINE void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
-	void UseItem(UItemDataAsset* Item);
+	FORCEINLINE void UseItem(UItemDataAsset* Item);
 
 	UFUNCTION()
-	void InitSubsystem(UInventoryComponent* Inventory, UEquipmentComponent* Equipment) {
+	FORCEINLINE void InitSubsystem(UInventoryComponent* Inventory, UEquipmentComponent* Equipment) {
 		InventoryComponent = Inventory;
 		EquipmentComponent = Equipment;
 	}
 
 	UFUNCTION()
-	UInventoryPanel* GetContainerInventoryPanel() const {
+	FORCEINLINE UInventoryPanel* GetContainerInventoryPanel() const {
 		return ContainerInventoryPanel;
 	}
 
 	UFUNCTION()
-	UInventoryComponent* GetInventoryComponent() const {
+	FORCEINLINE UInventoryComponent* GetInventoryComponent() const {
 		return InventoryComponent;
 	}
 
 	UFUNCTION()
-	UEquipmentComponent* GetEquipmentComponent() const {
+	FORCEINLINE UEquipmentComponent* GetEquipmentComponent() const {
 		return EquipmentComponent;
 	}
 
-	void SetContainerInventoryPanel(const TObjectPtr<UInventoryPanel> Inventory) {
+	FORCEINLINE void SetContainerInventoryPanel(const TObjectPtr<UInventoryPanel> Inventory) {
 		ContainerInventoryPanel = Inventory;
 	}
+
+	FORCEINLINE bool Contains(UItemDataAsset* Item, const int Amount = 1, const bool bExactAmount = false) const;
 
 private:
 	UPROPERTY()

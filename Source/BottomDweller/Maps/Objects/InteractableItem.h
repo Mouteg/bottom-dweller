@@ -21,6 +21,7 @@ public:
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void OnInteract_Implementation(AActor* Interactor) override;
 	virtual FString GetInspectorDescription_Implementation() const override;
+	FORCEINLINE virtual bool CanInteract_Implementation() override { return true; }
 
 private:
 	UPROPERTY(EditAnywhere)

@@ -30,8 +30,9 @@ void ABottomDwellerGameMode::LoadPrimaryAssets() {
 	TArray<FPrimaryAssetId> AssetIds;
 	TArray<FName> BundlesToLoad;
 	BundlesToLoad.Add(FName(TEXT("Items")));
-	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponItem")), AssetIds);
+	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("GearItem")), AssetIds);
 	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("Usableitem")), AssetIds);
 	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponAnimations")), AssetIds);
+	UAssetManager::Get().GetPrimaryAssetIdList(FPrimaryAssetType(TEXT("WeaponItem")), AssetIds);
 	UAssetManager::Get().LoadPrimaryAssets(AssetIds, BundlesToLoad);
 }
