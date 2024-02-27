@@ -46,7 +46,9 @@ public:
 	UBaseAttributeSet();
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-
+	
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Health);
@@ -82,4 +84,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData PiercingDamageResistance;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, PiercingDamageResistance);
+
+	
 };

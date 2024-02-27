@@ -20,3 +20,8 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		}
 	}
 }
+
+void UBaseAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, const float OldValue, const float NewValue) {
+	Super::PostAttributeChange(Attribute, OldValue, NewValue);
+	
+}

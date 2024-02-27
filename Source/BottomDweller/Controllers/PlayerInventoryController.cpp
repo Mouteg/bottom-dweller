@@ -40,6 +40,10 @@ void UPlayerInventoryController::RemoveItem(const UItemDataAsset* Item, const in
 	InventoryComponent->RemoveItem(Item, Quantity);
 }
 
+// void UPlayerInventoryController::RemoveItems(TMap<TSoftObjectPtr<UItemDataAsset>, int32> Items) {
+// 	InventoryComponent->RemoveItems(Item, Quantity);
+// }
+
 void UPlayerInventoryController::UseItem(UItemDataAsset* Item) {
 	FGameplayEventData EventData;
 	EventData.OptionalObject = Item;

@@ -14,6 +14,7 @@ AUnlockableActor::AUnlockableActor() {
 	
 	// Only refrains to unlocking by IActivatable
 	bIsLocked = true;
+	bConsumesItems = true;
 }
 
 void AUnlockableActor::Activate_Implementation() {
@@ -25,7 +26,7 @@ bool AUnlockableActor::CanInteract_Implementation() {
 		return true;
 	}
 	
-	const UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
+	UPlayerInventoryController* PlayerInventoryController = UUtils::GetInventorySubsystem(GetWorld());
 	for (auto [Item, Amount, ExactAmount] : ItemsToUnlock) {
 		if (!PlayerInventoryController->Contains(
 				Item.Get(),
@@ -34,6 +35,12 @@ bool AUnlockableActor::CanInteract_Implementation() {
 			)
 		) {
 			return false;
+		}
+	}
+
+	if (bConsumesItems) {
+		for (auto [Item, Amount, ExactAmount] : ItemsToUnlock) {
+			PlayerInventoryController->RemoveItem(Item.Get(), Amount);
 		}
 	}
 	return true;

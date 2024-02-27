@@ -24,10 +24,10 @@ bool USprintAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
 		return false;
 	}
 	const UPawnMovementComponent* MovementComponent = IPawnMovementComponentProvider::Execute_GetPawnMovementComponent(ActorInfo->AvatarActor.Get());
-
 	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags)
 		&& !MovementComponent->IsFalling()
-		&& MovementComponent->IsMovingOnGround();
+		&& MovementComponent->IsMovingOnGround()
+		&& !MovementComponent->GetLastInputVector().IsZero();
 }
 
 void USprintAbility::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,

@@ -65,7 +65,7 @@ void ABottomDwellerCharacter::InitActorComponents() {
 	PointLight->SetSourceRadius(100);
 	PointLight->SetSoftSourceRadius(100);
 	PointLight->SetLightColor(FLinearColor::FromSRGBColor(FColor::FromHex(TEXT("FFAD5DFF"))));
-	PointLight->SetupAttachment(FollowCamera);
+	PointLight->SetupAttachment(GetMesh());
 }
 
 void ABottomDwellerCharacter::RecalculateDamage() {

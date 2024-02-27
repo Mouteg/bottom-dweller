@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "BottomDweller/Actors/Components/EquipmentComponent.h"
 #include "BottomDweller/Actors/Components/InventoryComponent.h"
-#include "BottomDweller/Maps/Objects/UnlockableActor.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PlayerInventoryController.generated.h"
 
@@ -25,10 +24,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	TObjectPtr<UInventoryPanel> ContainerInventoryPanel;
 
-	FORCEINLINE virtual void Deinitialize() override;
-	FORCEINLINE virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
-	FORCEINLINE void OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName);
+	void OpenContainer(const TObjectPtr<UInventoryComponent> ContainerInventoryComponent, const FString& ContainerName);
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void Equip(UGearItemDataAsset* Item);
@@ -42,17 +41,20 @@ public:
 	}
 
 	UFUNCTION()
-	FORCEINLINE TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryComponent->GetInventoryContent(); }
+	TMap<TSoftObjectPtr<UItemDataAsset>, int32> GetInventoryContent() const { return InventoryComponent->GetInventoryContent(); }
 
 	// Adds item, returns how many was added
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
+	int32 AddItem(UItemDataAsset* Item, const int32 Quantity = 1);
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE void AddItems(UInventoryComponent* Inventory);
+	void AddItems(UInventoryComponent* Inventory);
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
+	void RemoveItem(const UItemDataAsset* Item, const int32 Quantity = 1);
+	
+	// UFUNCTION(BlueprintCallable)
+	// void RemoveItems(TMap<TSoftObjectPtr<UItemDataAsset>, int32> Items);
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void UseItem(UItemDataAsset* Item);

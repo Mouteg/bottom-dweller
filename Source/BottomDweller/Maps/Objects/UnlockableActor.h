@@ -37,4 +37,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	bool bIsLocked;
+
+	UPROPERTY(EditAnywhere)
+	bool bConsumesItems;
 };
